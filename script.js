@@ -19,6 +19,10 @@ function detectLocation() {
         addr.suburb || addr.neighbourhood || addr.village ||
         addr.town || addr.city_district || addr.county || 'Your Area';
 
+      // Store globally for dispatch use
+      window._userLat = latitude;
+      window._userLon = longitude;
+
       locationEl.textContent = `· ${area}`;
       generateInsight(area, latitude, longitude);
     } catch {
@@ -91,16 +95,127 @@ function getWeatherDescription(code) {
 
 detectLocation();
 
+// ── SOS MODAL ──
+
+function openSOSModal() {
+  document.getElementById('sosModal').classList.add('open');
+  document.getElementById('sosListeningText').textContent = 'Tap mic to speak';
+  document.getElementById('sosResponseText').textContent = '';
+  document.getElementById('sosMicOuter').classList.remove('listening');
+  document.getElementById('sosTranscriptWrap').style.display = 'none';
+  document.getElementById('sosTranscriptBox').innerHTML = '';
+  document.getElementById('dispatchCard').style.display = 'none';
+}
+
+// ── FETCH NEAREST PLACE BASED ON KEYWORD ──
+
+async function fetchNearestPlace(speech) {
+  const card     = document.getElementById('dispatchCard');
+  const nameEl   = document.getElementById('dispatchName');
+  const distEl   = document.getElementById('dispatchDist');
+  const iconEl   = document.getElementById('dispatchIcon');
+  const tagEl    = document.getElementById('dispatchTag');
+
+  // Determine what to search for
+  let amenity = 'hospital';
+  let iconClass = 'fa-solid fa-plus';
+  let iconBg = '#c0200e';
+
+  if (['attack','robbery','threat','gun','knife','police','thief'].some(k => speech.includes(k))) {
+    amenity = 'police'; iconClass = 'fa-solid fa-shield-halved'; iconBg = '#1a3a6e';
+  } else if (['fire','burning','smoke','flames'].some(k => speech.includes(k))) {
+    amenity = 'fire_station'; iconClass = 'fa-solid fa-fire'; iconBg = '#8a3000';
+  } else if (['shelter','flood','earthquake','trapped','collapse'].some(k => speech.includes(k))) {
+    amenity = 'shelter'; iconClass = 'fa-solid fa-house'; iconBg = '#1a5a2e';
+  }
+
+  // Show card loading state
+  card.style.display = 'flex';
+  nameEl.textContent = 'Finding nearest...';
+  distEl.textContent = '--';
+  iconEl.innerHTML = `<i class="${iconClass}"></i>`;
+  iconEl.style.background = iconBg;
+
+  if (!window._userLat || !window._userLon) {
+    nameEl.textContent = 'Enable location for dispatch';
+    distEl.textContent = '--';
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${amenity}&lat=${window._userLat}&lon=${window._userLon}&format=json&limit=1&bounded=0`
+    );
+    const results = await res.json();
+
+    if (results && results.length > 0) {
+      const place = results[0];
+      const dist  = getDistanceKm(window._userLat, window._userLon, place.lat, place.lon);
+      const distText = dist < 1 ? `${Math.round(dist * 1000)}m` : `${dist.toFixed(1)}km`;
+      nameEl.textContent = place.display_name.split(',')[0];
+      distEl.textContent = distText;
+      tagEl.textContent  = 'PRIORITY DISPATCH';
+    } else {
+      nameEl.textContent = 'No nearby location found';
+      distEl.textContent = '--';
+    }
+  } catch {
+    nameEl.textContent = 'Location lookup failed';
+    distEl.textContent = '--';
+  }
+}
+
+// ── HAVERSINE DISTANCE ──
+
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ── KEYWORD HIGHLIGHTER ──
+
+function highlightKeywords(speech) {
+  const allKeywords = [
+    'accident', 'crash', 'injured', 'hurt', 'bleeding', 'ambulance',
+    'fire', 'burning', 'smoke', 'flames',
+    'attack', 'robbery', 'threat', 'gun', 'knife', 'thief',
+    'flood', 'water', 'drowning', 'rising',
+    'earthquake', 'collapse', 'trapped',
+    'help', 'emergency', 'sos'
+  ];
+
+  let result = speech;
+  allKeywords.forEach(kw => {
+    const regex = new RegExp(`(${kw})`, 'gi');
+    result = result.replace(regex, `<span class="keyword">$1</span>`);
+  });
+
+  return `"${result}"`;
+}
+
+function closeSOSModal() {
+  document.getElementById('sosModal').classList.remove('open');
+}
+
 // ── SOS MICROPHONE LOGIC ──
 
 function startMic() {
-  const status = document.getElementById('micStatus');
-  const btn = document.getElementById('sosBtn');
+  const listeningText = document.getElementById('sosListeningText');
+  const responseText  = document.getElementById('sosResponseText');
+  const micOuter      = document.getElementById('sosMicOuter');
 
-  // Check browser support
+  // Also handle old mic status if on main page
+  const oldStatus = document.getElementById('micStatus');
+
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    status.textContent = '⚠ Voice not supported in this browser.';
+    if (listeningText) listeningText.textContent = '⚠ Not supported';
+    if (oldStatus)     oldStatus.textContent = '⚠ Voice not supported in this browser.';
     return;
   }
 
@@ -109,37 +224,48 @@ function startMic() {
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  // UI — listening state
-  status.textContent = '🎙 Listening...';
-  btn.style.boxShadow = '0 0 40px rgba(255, 50, 50, 0.8)';
+  if (listeningText) listeningText.textContent = 'Listening...';
+  if (micOuter)      micOuter.classList.add('listening');
+  if (oldStatus)     oldStatus.textContent = '🎙 Listening...';
 
   recognition.start();
 
   recognition.onresult = function (event) {
-    const speech = event.results[0][0].transcript.toLowerCase();
-    status.textContent = `Heard: "${speech}"`;
-    btn.style.boxShadow = '';
-    analyzeAndRespond(speech);
+    const speech = event.results[0][0].transcript;
+    const speechLower = speech.toLowerCase();
+    if (listeningText) listeningText.textContent = '';
+    if (micOuter)      micOuter.classList.remove('listening');
+
+    // Show transcript box with keyword highlights
+    const transcriptWrap = document.getElementById('sosTranscriptWrap');
+    const transcriptBox  = document.getElementById('sosTranscriptBox');
+    if (transcriptWrap && transcriptBox) {
+      transcriptWrap.style.display = 'flex';
+      transcriptBox.innerHTML = highlightKeywords(speech);
+    }
+
+    const response = analyzeAndRespond(speechLower);
+    if (responseText) responseText.textContent = response;
+    if (oldStatus)    oldStatus.textContent = response;
+
+    // Show nearest place based on keyword
+    fetchNearestPlace(speechLower);
   };
 
-  recognition.onerror = function (event) {
-    status.textContent = '⚠ Could not hear you. Try again.';
-    btn.style.boxShadow = '';
+  recognition.onerror = function () {
+    if (listeningText) listeningText.textContent = '⚠ Could not hear you';
+    if (micOuter)      micOuter.classList.remove('listening');
+    if (oldStatus)     oldStatus.textContent = '⚠ Could not hear you. Try again.';
   };
 
   recognition.onend = function () {
-    if (status.textContent === '🎙 Listening...') {
-      status.textContent = '';
-    }
-    btn.style.boxShadow = '';
+    if (micOuter) micOuter.classList.remove('listening');
   };
 }
 
 // ── AI-LIKE RESPONSE LOGIC ──
 
 function analyzeAndRespond(speech) {
-  const status = document.getElementById('micStatus');
-
   const rules = [
     { keywords: ['accident', 'crash', 'injured', 'hurt', 'bleeding', 'ambulance'], response: '🚑 Calling nearest hospital...' },
     { keywords: ['fire', 'burning', 'smoke', 'flames'],                            response: '🚒 Alerting fire department...' },
@@ -149,16 +275,8 @@ function analyzeAndRespond(speech) {
     { keywords: ['help', 'emergency', 'sos'],                                      response: '📡 Broadcasting SOS signal...' },
   ];
 
-  let matched = false;
   for (const rule of rules) {
-    if (rule.keywords.some(k => speech.includes(k))) {
-      status.textContent = rule.response;
-      matched = true;
-      break;
-    }
+    if (rule.keywords.some(k => speech.includes(k))) return rule.response;
   }
-
-  if (!matched) {
-    status.textContent = '📡 Emergency signal sent. Stay calm.';
-  }
+  return '📡 Emergency signal sent. Stay calm.';
 }
