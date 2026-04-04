@@ -123,7 +123,7 @@
       <i class="fa-solid fa-map"></i>
       <span>Map</span>
     </a>
-    <a href="#" class="nav-item nav-sos" onclick="startMic(); return false;">
+    <a href="#" class="nav-item nav-sos" onclick="openSOSModal(); return false;">
       <i class="fa-solid fa-microphone"></i>
       <span>SOS</span>
     </a>
@@ -138,6 +138,50 @@
   </nav>
 
 </div>
+
+  <!-- SOS Modal -->
+  <div class="sos-modal" id="sosModal">
+    <div class="sos-modal-box">
+      <div class="sos-modal-header">
+        <div class="sos-modal-title">
+          <span class="sos-live-dot"></span>
+          LIVE SOS PROTOCOL
+        </div>
+        <button class="sos-modal-close" onclick="closeSOSModal()">✕</button>
+      </div>
+      <div class="sos-modal-body">
+        <div class="sos-mic-outer" id="sosMicOuter">
+          <button class="sos-mic-btn" id="sosMicBtn" onclick="startMic()">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+        </div>
+        <p class="sos-listening-text" id="sosListeningText">Tap mic to speak</p>
+
+        <!-- Transcript Box -->
+        <div class="sos-transcript-wrap" id="sosTranscriptWrap" style="display:none;">
+          <p class="sos-transcript-label">Detecting emergency keywords and location</p>
+          <div class="sos-transcript-box" id="sosTranscriptBox"></div>
+        </div>
+
+        <p class="sos-response-text" id="sosResponseText"></p>
+
+        <!-- Priority Dispatch Card -->
+        <div class="dispatch-card" id="dispatchCard" style="display:none;">
+          <div class="dispatch-icon" id="dispatchIcon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div class="dispatch-info">
+            <span class="dispatch-tag" id="dispatchTag">PRIORITY DISPATCH</span>
+            <span class="dispatch-name" id="dispatchName">Finding nearest...</span>
+          </div>
+          <div class="dispatch-distance">
+            <span class="dispatch-dist-label">Distance</span>
+            <span class="dispatch-dist-value" id="dispatchDist">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
