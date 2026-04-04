@@ -1,22 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrisisSync</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrisisSync</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="page1">
-        <div class="header">
-            <span class="globe">🌐</span>
-            <h1>CrisisSync</h1>
-            <h2>● LIVE TRACKING</h2>
+  <div class="mobile-wrapper">
+ 
+    <!-- Top Navbar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <i class="fa-solid fa-globe globe-icon"></i>
+        <div class="brand">
+          <span class="brand-name">CrisisSync</span>
+          <span class="live-tracking">
+            <span class="live-dot"></span>
+            Live Tracking
+          </span>
         </div>
+      </div>
+      <div class="avatar">
+        <img src="https://i.pravatar.cc/80?img=12" alt="User Avatar">
+      </div>
+    </nav>
+ 
+    <!-- Alert Banner -->
+    <div class="alert-bar">
+      <div class="alert-left">
+        <div class="alert-icon-wrap">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div class="alert-text">
+          <span class="alert-title">Flood warning in your area</span>
+          <span class="alert-subtitle">Active alert: Seek higher ground immediately.</span>
+        </div>
+      </div>
+      <i class="fa-solid fa-chevron-right alert-arrow"></i>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-    <script src="script.js"></script>
+      <div class="sos-section">
+ 
+      <!-- SOS Button -->
+      <div class="sos-outer">
+        <button class="sos-btn" id="sosBtn" onclick="startMic()">
+          <span class="sos-label">SOS</span>
+          <span class="sos-sub">HOLD TO SIGNAL</span>
+        </button>
+      </div>
+ 
+      <!-- Mic Status Message -->
+      <p class="mic-status" id="micStatus"></p>
+ 
+      <!-- Find Help Near Me Button -->
+      <a href="help.html" class="find-help-btn">
+        <i class="fa-solid fa-location-dot"></i>
+        FIND HELP NEAR ME
+      </a>
+ 
+    </div>
+ 
+  </div>
 </body>
 </html>
