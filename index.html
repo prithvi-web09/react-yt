@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="mobile-wrapper">
- 
+
     <!-- Top Navbar -->
     <nav class="navbar">
       <div class="nav-left">
@@ -19,6 +19,7 @@
           <span class="live-tracking">
             <span class="live-dot"></span>
             Live Tracking
+            <span class="user-location" id="userLocation">Detecting...</span>
           </span>
         </div>
       </div>
@@ -26,7 +27,7 @@
         <img src="https://i.pravatar.cc/80?img=12" alt="User Avatar">
       </div>
     </nav>
- 
+
     <!-- Alert Banner -->
     <div class="alert-bar">
       <div class="alert-left">
@@ -40,8 +41,10 @@
       </div>
       <i class="fa-solid fa-chevron-right alert-arrow"></i>
     </div>
-      <div class="sos-section">
- 
+
+    <!-- SOS + Find Help Section -->
+    <div class="sos-section">
+
       <!-- SOS Button -->
       <div class="sos-outer">
         <button class="sos-btn" id="sosBtn" onclick="startMic()">
@@ -49,18 +52,93 @@
           <span class="sos-sub">HOLD TO SIGNAL</span>
         </button>
       </div>
- 
+
       <!-- Mic Status Message -->
       <p class="mic-status" id="micStatus"></p>
- 
+
       <!-- Find Help Near Me Button -->
       <a href="help.html" class="find-help-btn">
         <i class="fa-solid fa-location-dot"></i>
         FIND HELP NEAR ME
       </a>
- 
+
     </div>
- 
-  </div>
+
+    <!-- Quick Access Grid -->
+    <div class="quick-grid">
+      <a href="hospital.html" class="quick-card">
+        <div class="quick-icon" style="background:#0d2b1a;">
+          <i class="fa-solid fa-briefcase-medical" style="color:#4ade80;"></i>
+        </div>
+        <span class="quick-label">HOSPITAL</span>
+      </a>
+
+      <a href="police.html" class="quick-card">
+        <div class="quick-icon" style="background:#2b1a1a;">
+          <i class="fa-solid fa-shield-halved" style="color:#f87171;"></i>
+        </div>
+        <span class="quick-label">POLICE</span>
+      </a>
+
+      <a href="shelter.html" class="quick-card">
+        <div class="quick-icon" style="background:#2b2200;">
+          <i class="fa-solid fa-location-dot" style="color:#facc15;"></i>
+        </div>
+        <span class="quick-label">SHELTER</span>
+      </a>
+
+      <a href="food.html" class="quick-card">
+        <div class="quick-icon" style="background:#1e1e1e;">
+          <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8;"></i>
+        </div>
+        <span class="quick-label">FOOD/NGO</span>
+      </a>
+    </div>
+
+    <!-- Localized Insight Card -->
+    <div class="insight-card">
+      <div class="insight-map">
+        <img src="https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/72.8777,19.0760,11,0/340x160?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw" 
+             alt="Crisis Map" class="insight-map-img" id="insightMapImg">
+        <div class="insight-map-overlay"></div>
+      </div>
+      <div class="insight-body">
+        <div class="insight-tag">
+          <span class="insight-dot"></span>
+          <span class="insight-tag-text">LOCALIZED INSIGHT</span>
+        </div>
+        <h2 class="insight-title" id="insightTitle">Analyzing your area...</h2>
+        <p class="insight-desc" id="insightDesc">Fetching local conditions based on your location.</p>
+        <a href="report.html" class="insight-link">Full Situation Report →</a>
+      </div>
+    </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="map.html" class="nav-item">
+      <i class="fa-solid fa-map"></i>
+      <span>Map</span>
+    </a>
+    <a href="#" class="nav-item nav-sos" onclick="startMic(); return false;">
+      <i class="fa-solid fa-microphone"></i>
+      <span>SOS</span>
+    </a>
+    <a href="reports.html" class="nav-item">
+      <i class="fa-solid fa-table-cells"></i>
+      <span>Reports</span>
+    </a>
+    <a href="admin.html" class="nav-item">
+      <i class="fa-solid fa-table-cells-large"></i>
+      <span>Admin</span>
+    </a>
+  </nav>
+
+</div>
+
+  <script src="script.js"></script>
 </body>
 </html>
