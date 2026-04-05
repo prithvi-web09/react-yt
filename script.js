@@ -95,6 +95,547 @@ function getWeatherDescription(code) {
 
 detectLocation();
 
+// ── FOOD & NGO MODAL ──
+
+const foodData = [
+  {
+    name: 'Metro Food Bank',
+    dist: '0.8 miles',
+    supply: '500+ Meal Kits Available',
+    stock: 'high',
+    type: ['foodbank'],
+    img: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400&q=60',
+    phone: 'tel:+911234567810'
+  },
+  {
+    name: 'Clean Water Station',
+    dist: '1.2 km',
+    supply: '200L Water Packs · Purification Tablets',
+    stock: 'high',
+    type: ['water'],
+    img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=60',
+    phone: 'tel:+911234567811'
+  },
+  {
+    name: 'UNICEF Relief Hub',
+    dist: '2.0 km',
+    supply: 'Dry Rations · Baby Food · Medical Kits',
+    stock: 'low',
+    type: ['ngo', 'foodbank'],
+    img: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&q=60',
+    phone: 'tel:+911234567812'
+  },
+  {
+    name: 'Community Kitchen',
+    dist: '2.5 km',
+    supply: 'Hot Meals Served 3x Daily',
+    stock: 'high',
+    type: ['foodbank', 'ngo'],
+    img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=60',
+    phone: 'tel:+911234567813'
+  },
+  {
+    name: 'Emergency Water Depot',
+    dist: '3.1 km',
+    supply: 'Currently Out of Stock',
+    stock: 'empty',
+    type: ['water'],
+    img: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=400&q=60',
+    phone: 'tel:+911234567814'
+  },
+];
+
+let activeFoodFilter = 'all';
+
+function openFoodModal() {
+  document.getElementById('foodModal').classList.add('open');
+  document.getElementById('foodSearchInput').value = '';
+  filterFood('all', document.querySelector('#foodModal .filter-tab'));
+}
+
+function closeFoodModal() {
+  document.getElementById('foodModal').classList.remove('open');
+}
+
+function filterFood(type, btn) {
+  document.querySelectorAll('#foodModal .filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  activeFoodFilter = type;
+
+  const list = type === 'all'
+    ? foodData
+    : foodData.filter(f => f.type.includes(type));
+
+  renderFood(list);
+}
+
+function searchFood(query) {
+  const q    = query.toLowerCase();
+  const base = activeFoodFilter === 'all' ? foodData : foodData.filter(f => f.type.includes(activeFoodFilter));
+  const list = q
+    ? base.filter(f => f.name.toLowerCase().includes(q) || f.supply.toLowerCase().includes(q))
+    : base;
+  renderFood(list);
+}
+
+function renderFood(list) {
+  const container  = document.getElementById('foodList');
+  const navigateBase = `https://www.google.com/maps/search/food+bank/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No results found.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(f => {
+    const stockLabel = f.stock === 'high' ? 'HIGH STOCK' : f.stock === 'low' ? 'LOW STOCK' : 'OUT OF STOCK';
+    const tagHtml    = f.type.map(t => `<span class="food-type-tag ${t}">${t.toUpperCase()}</span>`).join('');
+    const isEmpty    = f.stock === 'empty';
+
+    return `
+    <div class="food-card">
+      <div class="food-img-wrap">
+        <img src="${f.img}" alt="${f.name}" class="food-img">
+        <div class="food-stock-badge ${f.stock}">
+          <span class="food-stock-dot"></span>
+          ${stockLabel}
+        </div>
+      </div>
+      <div class="food-body">
+        <div class="food-top-row">
+          <span class="food-name">${f.name}</span>
+          <span class="food-dist">${f.dist}</span>
+        </div>
+        <div class="food-supply">
+          <i class="fa-solid fa-box-open"></i>
+          ${f.supply}
+        </div>
+        <div class="food-tags">${tagHtml}</div>
+        <a href="${isEmpty ? '#' : navigateBase}" target="${isEmpty ? '' : '_blank'}"
+           class="food-navigate-btn ${isEmpty ? 'disabled' : ''}">
+          <i class="fa-solid fa-paper-plane"></i>
+          ${isEmpty ? 'Currently Unavailable' : 'Navigate'}
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SHELTER MODAL ──
+
+const shelterData = [
+  {
+    name: 'Red Cross Metro Hub',
+    address: '1422 Sentinel Ave, Sector 4',
+    dist: '0.8 MILES',
+    capacity: 80,
+    type: ['shelter', 'medical', 'food'],
+    img: 'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=400&q=60',
+    phone: 'tel:+911234567800'
+  },
+  {
+    name: 'City Relief Shelter',
+    address: '88 North Relief Rd, Block B',
+    dist: '1.4 KM',
+    capacity: 45,
+    type: ['shelter', 'food'],
+    img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=60',
+    phone: 'tel:+911234567801'
+  },
+  {
+    name: 'NGO Supply Depot',
+    address: '34 Central Park Lane, Zone 2',
+    dist: '2.1 KM',
+    capacity: 60,
+    type: ['supply', 'food'],
+    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=60',
+    phone: 'tel:+911234567802'
+  },
+  {
+    name: 'District Medical Camp',
+    address: 'Govt School Ground, Sector 9',
+    dist: '3.0 KM',
+    capacity: 30,
+    type: ['medical', 'shelter'],
+    img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=60',
+    phone: 'tel:+911234567803'
+  },
+];
+
+function openShelterModal() {
+  document.getElementById('shelterModal').classList.add('open');
+  filterShelters('all', document.querySelector('#shelterModal .filter-tab'));
+}
+
+function closeShelterModal() {
+  document.getElementById('shelterModal').classList.remove('open');
+}
+
+function filterShelters(type, btn) {
+  document.querySelectorAll('#shelterModal .filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const list = type === 'all'
+    ? shelterData
+    : shelterData.filter(s => s.type.includes(type));
+
+  renderShelters(list);
+}
+
+function renderShelters(list) {
+  const container = document.getElementById('shelterList');
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No centers found in this category.</div>';
+    return;
+  }
+
+  const navigateBase = `https://www.google.com/maps/search/shelter/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+  container.innerHTML = list.map(s => {
+    const capColor = s.capacity > 60 ? '#4ade80' : s.capacity > 30 ? '#facc15' : '#f87171';
+    const tagHtml  = s.type.map(t => `<span class="shelter-tag ${t}">${t.toUpperCase()}</span>`).join('');
+
+    return `
+    <div class="shelter-card">
+      <div class="shelter-img-wrap">
+        <img src="${s.img}" alt="${s.name}" class="shelter-img">
+        <div class="shelter-verified">
+          <i class="fa-solid fa-circle-check"></i> VERIFIED
+        </div>
+        <div class="shelter-dist-badge">${s.dist}</div>
+      </div>
+      <div class="shelter-body">
+        <div class="shelter-name">${s.name}</div>
+        <div class="shelter-address">
+          <i class="fa-solid fa-location-dot" style="color:#facc15; font-size:11px;"></i>
+          ${s.address}
+        </div>
+        <div class="shelter-tags">${tagHtml}</div>
+        <div class="shelter-capacity">
+          <span class="shelter-cap-text">Capacity: ${s.capacity}%</span>
+          <div class="shelter-cap-bar-wrap">
+            <div class="shelter-cap-bar" style="width:${s.capacity}%; background:${capColor};"></div>
+          </div>
+        </div>
+        <div class="shelter-actions">
+          <a href="${navigateBase}" target="_blank" class="shelter-navigate-btn">
+            <i class="fa-solid fa-paper-plane"></i> Navigate
+          </a>
+          <a href="${s.phone}" class="shelter-call-btn">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── POLICE MODAL ──
+
+const policeData = [
+  { name: 'District 7 Precinct',    sub: 'Primary Response Unit • West Sector',  dist: 0.8, units: 5,  status: 'active',  phone: 'tel:100' },
+  { name: 'Metro Security Hub',     sub: 'Central Intelligence & Operations',     dist: 1.5, units: 3,  status: 'alert',   phone: 'tel:100' },
+  { name: 'North Zone Police Post', sub: 'Community Patrol • North Sector',       dist: 2.3, units: 8,  status: 'active',  phone: 'tel:100' },
+  { name: 'East Border Outpost',    sub: 'Traffic & Border Control',              dist: 3.7, units: 0,  status: 'offline', phone: 'tel:100' },
+  { name: 'Central Command Unit',   sub: 'Emergency Response • City Center',      dist: 4.1, units: 12, status: 'active',  phone: 'tel:100' },
+];
+
+function openPoliceModal() {
+  document.getElementById('policeModal').classList.add('open');
+  filterPolice('nearest', document.querySelector('.police-tab'));
+}
+
+function closePoliceModal() {
+  document.getElementById('policeModal').classList.remove('open');
+}
+
+function filterPolice(type, btn) {
+  document.querySelectorAll('.police-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  let list = [...policeData];
+  if (type === 'nearest') list.sort((a, b) => a.dist - b.dist);
+  if (type === 'active')  list = list.filter(p => p.status === 'active').sort((a, b) => b.units - a.units);
+  if (type === 'alert')   list = list.filter(p => p.status === 'alert');
+
+  renderPolice(list);
+}
+
+function renderPolice(list) {
+  const container = document.getElementById('policeList');
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No stations found.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(p => {
+    const badgeLabel = p.status === 'active' ? 'ACTIVE' : p.status === 'alert' ? 'HIGH ALERT' : 'OFFLINE';
+    const badgeClass = p.status === 'active' ? 'active' : p.status === 'alert' ? 'alert' : 'offline';
+    const unitsText  = p.units > 0 ? `${p.units} Active` : 'Unavailable';
+    const navigateUrl = `https://www.google.com/maps/search/police+station/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+    return `
+    <div class="police-card ${p.status === 'alert' ? 'alert-card' : ''}">
+      <div class="police-top">
+        <div class="police-name-block">
+          <div class="police-name">${p.name}</div>
+          <div class="police-sub">${p.sub}</div>
+        </div>
+        <div class="police-badge ${badgeClass}">
+          <span class="police-badge-dot"></span>
+          ${badgeLabel}
+        </div>
+      </div>
+
+      <div class="police-stats">
+        <div class="police-stat">
+          <span class="police-stat-label">DISTANCE</span>
+          <span class="police-stat-value">${p.dist}km</span>
+        </div>
+        <div class="police-stat">
+          <span class="police-stat-label">UNITS AVAILABLE</span>
+          <span class="police-stat-value" style="color:${p.units > 0 ? '#ffffff' : '#f87171'}">${unitsText}</span>
+        </div>
+      </div>
+
+      ${p.status !== 'offline' ? `
+      <div class="police-actions">
+        <button class="police-assist-btn" onclick="window.location.href='${p.phone}'">
+          REQUEST ASSISTANCE
+        </button>
+        <a href="${navigateUrl}" target="_blank" class="police-nav-btn">
+          <i class="fa-solid fa-diamond-turn-right"></i>
+        </a>
+      </div>` : `<div class="hosp-full-msg">This station is currently offline.</div>`}
+    </div>`;
+  }).join('');
+}
+
+// ── HOSPITAL MODAL ──
+
+// Simulated hospital data (will be replaced by Firebase later)
+const hospitalData = [
+  { name: 'City Central Hospital',     dist: 1.2, beds: 14, waitTime: 12, critical: 3,  status: 'available', phone: 'tel:+911234567890' },
+  { name: 'St. Jude Medical',          dist: 2.8, beds: 6,  waitTime: 25, critical: 7,  status: 'busy',      phone: 'tel:+911234567891' },
+  { name: 'Apollo Emergency Care',     dist: 3.1, beds: 3,  waitTime: 40, critical: 12, status: 'busy',      phone: 'tel:+911234567892' },
+  { name: 'Sunrise District Hospital', dist: 4.5, beds: 0,  waitTime: 0,  critical: 0,  status: 'full',      phone: 'tel:+911234567893' },
+  { name: 'National Trauma Center',    dist: 5.0, beds: 31, waitTime: 8,  critical: 2,  status: 'available', phone: 'tel:+911234567894' },
+];
+
+let currentHospitals = [...hospitalData];
+
+function openHospitalModal() {
+  document.getElementById('hospitalModal').classList.add('open');
+  filterHospitals('recommended', document.querySelector('.filter-tab.active') || document.querySelector('.filter-tab'));
+}
+
+function closeHospitalModal() {
+  document.getElementById('hospitalModal').classList.remove('open');
+}
+
+function filterHospitals(type, btn) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  let sorted = [...hospitalData];
+
+  if (type === 'nearest')   sorted.sort((a, b) => a.dist - b.dist);
+  if (type === 'maxbeds')   sorted.sort((a, b) => b.beds - a.beds);
+  if (type === 'available') sorted = sorted.filter(h => h.status === 'available');
+  if (type === 'recommended') {
+    sorted.sort((a, b) => {
+      if (a.status === 'full' && b.status !== 'full') return 1;
+      if (b.status === 'full' && a.status !== 'full') return -1;
+      const scoreA = (a.beds * 2) - (a.dist * 3) - (a.critical * 1.5) - (a.waitTime * 0.5);
+      const scoreB = (b.beds * 2) - (b.dist * 3) - (b.critical * 1.5) - (b.waitTime * 0.5);
+      return scoreB - scoreA;
+    });
+  }
+
+  currentHospitals = sorted;
+  renderHospitals(sorted);
+  updateStatusOverview(sorted);
+}
+
+function updateStatusOverview(list) {
+  const area = document.getElementById('userLocation')?.textContent.replace('· ', '') || 'your area';
+  document.getElementById('statusSubtitle').textContent  = `Emergency response readiness in ${area}`;
+  document.getElementById('totalBeds').textContent       = list.reduce((s, h) => s + h.beds, 0);
+  document.getElementById('criticalWait').textContent    = list.reduce((s, h) => s + h.critical, 0);
+  document.getElementById('totalFacilities').textContent = list.length;
+}
+
+function renderHospitals(list) {
+  const container = document.getElementById('hospitalList');
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No hospitals found.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map((h, i) => {
+    const isBest       = i === 0 && h.status !== 'full';
+    const statusColor  = h.status === 'available' ? '#4ade80' : h.status === 'busy' ? '#facc15' : '#f87171';
+    const bedsColor    = h.beds > 10 ? '#4ade80' : h.beds > 0 ? '#facc15' : '#f87171';
+    const statusLabel  = h.status === 'available' ? 'Available' : h.status === 'busy' ? 'Limited Space' : 'Full';
+    const navigateUrl  = `https://www.google.com/maps/search/hospital/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+    return `
+    <div class="hospital-card ${isBest ? 'best' : ''}">
+      <!-- Top Row -->
+      <div class="hosp-top-row">
+        <div class="hosp-icon-big">
+          <i class="fa-solid fa-star-of-life"></i>
+        </div>
+        <div class="hosp-info">
+          <div class="hosp-name">${h.name}</div>
+          <div class="hosp-status-row">
+            <span class="hosp-status-dot" style="background:${statusColor};"></span>
+            <span class="hosp-status-text" style="color:${statusColor};">${statusLabel}</span>
+          </div>
+          ${isBest ? '<span class="best-badge">★ RECOMMENDED</span>' : ''}
+        </div>
+        <div class="hosp-dist-block">
+          <span class="hosp-dist-num">${h.dist}km</span>
+          <span class="hosp-dist-label">away</span>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      ${h.status !== 'full' ? `
+      <div class="hosp-stats-row">
+        <div class="hosp-stat-box">
+          <span class="hosp-stat-label">ICU CAPACITY</span>
+          <span class="hosp-stat-value" style="color:${bedsColor};">${h.beds} Beds</span>
+        </div>
+        <div class="hosp-stat-box">
+          <span class="hosp-stat-label">WAIT TIME</span>
+          <span class="hosp-stat-value">${h.waitTime} mins</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="hosp-actions">
+        <a href="${navigateUrl}" target="_blank" class="hosp-navigate-btn">
+          <i class="fa-solid fa-paper-plane"></i> Navigate
+        </a>
+        <a href="${h.phone}" class="hosp-call-btn">
+          <i class="fa-solid fa-phone"></i>
+        </a>
+      </div>` : `
+      <div class="hosp-full-msg">This facility is currently at full capacity.</div>`}
+    </div>`;
+  }).join('');
+}
+
+// ── MAP MODAL ──
+
+function openMapModal() {
+  document.getElementById('mapModal').classList.add('open');
+  loadMapZones();
+}
+
+function closeMapModal() {
+  document.getElementById('mapModal').classList.remove('open');
+}
+
+async function loadMapZones() {
+  const zoneList  = document.getElementById('zoneList');
+  const nearbyVal = document.getElementById('nearbyValue');
+  const safeCard  = document.getElementById('safeCard');
+  const safeDesc  = document.getElementById('safeDesc');
+  const weatherStrip = document.getElementById('weatherStrip');
+
+  zoneList.innerHTML = '<div class="zone-loading">Analyzing your location...</div>';
+  safeCard.style.display = 'none';
+  weatherStrip.style.display = 'none';
+
+  if (!window._userLat || !window._userLon) {
+    zoneList.innerHTML = '<div class="zone-loading">Enable location to view zone status.</div>';
+    return;
+  }
+
+  try {
+    const res     = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${window._userLat}&longitude=${window._userLon}&current_weather=true&timezone=auto`);
+    const data    = await res.json();
+    const weather = data.current_weather;
+    const area    = document.getElementById('userLocation').textContent.replace('· ', '') || 'Your Area';
+
+    // Build zones based on weather
+    const zones = [];
+    const code  = weather.weathercode;
+    const wind  = weather.windspeed;
+
+    if (code >= 95)                          zones.push({ type: 'CRITICAL ZONE',     name: `${area} — Thunderstorm Active`,  color: 'red'    });
+    if (code >= 80 && code < 95)             zones.push({ type: 'CRITICAL ZONE',     name: `${area} — Severe Rain/Snow`,     color: 'red'    });
+    if ((code >= 63 && code < 80) || wind > 50) zones.push({ type: 'RESTRICTED ACCESS', name: `${area} — Adverse Conditions`,  color: 'yellow' });
+    if (code >= 51 && code < 63)             zones.push({ type: 'CAUTION ZONE',      name: `${area} — Light Rain/Drizzle`,   color: 'yellow' });
+
+    if (zones.length === 0) {
+      zoneList.innerHTML = `
+        <div class="zone-row">
+          <div class="zone-row-left">
+            <div class="zone-bar green"></div>
+            <div class="zone-info">
+              <span class="zone-type green">SAFE ZONE</span>
+              <span class="zone-name">${area}</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right zone-chevron green"></i>
+        </div>`;
+
+      nearbyVal.textContent = 'No active hazards detected';
+      nearbyVal.style.color = '#00e676';
+      document.querySelector('.nearby-icon').style.background = '#0d2010';
+      document.querySelector('.nearby-icon i').style.color    = '#00e676';
+
+      safeCard.style.display = 'flex';
+      safeDesc.textContent   = `${area} is currently safe. No weather hazards or emergency alerts reported.`;
+    } else {
+      zoneList.innerHTML = zones.map(z => `
+        <div class="zone-row">
+          <div class="zone-row-left">
+            <div class="zone-bar ${z.color}"></div>
+            <div class="zone-info">
+              <span class="zone-type ${z.color}">${z.type}</span>
+              <span class="zone-name">${z.name}</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right zone-chevron ${z.color}"></i>
+        </div>`).join('');
+
+      nearbyVal.textContent = `${zones.length} active hazard${zones.length > 1 ? 's' : ''} identified`;
+      nearbyVal.style.color = '#e05a4e';
+      document.querySelector('.nearby-icon').style.background = '#2a1010';
+      document.querySelector('.nearby-icon i').style.color    = '#e05a4e';
+      safeCard.style.display = 'none';
+    }
+
+    // Weather strip
+    const desc = getWeatherDesc(code);
+    document.getElementById('weatherTemp').innerHTML      = `<span>${weather.temperature}°C</span><span>Temperature</span>`;
+    document.getElementById('weatherWind').innerHTML      = `<span>${wind} km/h</span><span>Wind</span>`;
+    document.getElementById('weatherCondition').innerHTML = `<span style="font-size:12px">${desc}</span><span>Condition</span>`;
+    weatherStrip.style.display = 'flex';
+
+  } catch {
+    zoneList.innerHTML = '<div class="zone-loading">Could not fetch zone data.</div>';
+  }
+}
+
+function getWeatherDesc(code) {
+  if (code === 0)      return 'Clear skies';
+  if (code <= 2)       return 'Partly cloudy';
+  if (code === 3)      return 'Overcast';
+  if (code <= 49)      return 'Foggy';
+  if (code <= 57)      return 'Drizzle';
+  if (code <= 67)      return 'Rainy';
+  if (code <= 77)      return 'Snowfall';
+  if (code <= 82)      return 'Rain showers';
+  if (code <= 86)      return 'Heavy snow';
+  if (code <= 99)      return 'Thunderstorm';
+  return 'Unknown';
+}
+
 // ── SOS MODAL ──
 
 function openSOSModal() {
