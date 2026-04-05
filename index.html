@@ -66,28 +66,28 @@
 
     <!-- Quick Access Grid -->
     <div class="quick-grid">
-      <a href="hospital.html" class="quick-card">
+      <a href="#" class="quick-card" onclick="openHospitalModal(); return false;">
         <div class="quick-icon" style="background:#0d2b1a;">
           <i class="fa-solid fa-briefcase-medical" style="color:#4ade80;"></i>
         </div>
         <span class="quick-label">HOSPITAL</span>
       </a>
 
-      <a href="police.html" class="quick-card">
+      <a href="#" class="quick-card" onclick="openPoliceModal(); return false;">
         <div class="quick-icon" style="background:#2b1a1a;">
           <i class="fa-solid fa-shield-halved" style="color:#f87171;"></i>
         </div>
         <span class="quick-label">POLICE</span>
       </a>
 
-      <a href="shelter.html" class="quick-card">
+      <a href="#" class="quick-card" onclick="openShelterModal(); return false;">
         <div class="quick-icon" style="background:#2b2200;">
           <i class="fa-solid fa-location-dot" style="color:#facc15;"></i>
         </div>
         <span class="quick-label">SHELTER</span>
       </a>
 
-      <a href="food.html" class="quick-card">
+      <a href="#" class="quick-card" onclick="openFoodModal(); return false;">
         <div class="quick-icon" style="background:#1e1e1e;">
           <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8;"></i>
         </div>
@@ -119,7 +119,7 @@
       <i class="fa-solid fa-house"></i>
       <span>Home</span>
     </a>
-    <a href="map.html" class="nav-item">
+    <a href="#" class="nav-item" onclick="openMapModal(); return false;">
       <i class="fa-solid fa-map"></i>
       <span>Map</span>
     </a>
@@ -180,6 +180,217 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Map Modal -->
+  <div class="map-modal" id="mapModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <span class="map-live-dot"></span>
+          ZONE STATUS
+        </div>
+        <button class="map-modal-close" onclick="closeMapModal()">✕</button>
+      </div>
+
+      <!-- Zone Status Card -->
+      <div class="zone-card">
+        <div class="zone-card-header">
+          <span class="zone-title">Zone Status</span>
+          <span class="zone-live">
+            <span class="zone-live-dot"></span>
+            LIVE UPDATE
+          </span>
+        </div>
+        <div class="zone-list" id="zoneList">
+          <div class="zone-loading">Analyzing your location...</div>
+        </div>
+      </div>
+
+      <!-- Nearby Alerts Bar -->
+      <div class="nearby-bar" id="nearbyBar">
+        <div class="nearby-icon">
+          <i class="fa-solid fa-wifi"></i>
+        </div>
+        <div class="nearby-text">
+          <span class="nearby-label">Nearby Alerts</span>
+          <span class="nearby-value" id="nearbyValue">Scanning area...</span>
+        </div>
+      </div>
+
+      <!-- Safe Card -->
+      <div class="safe-card" id="safeCard" style="display:none;">
+        <div class="safe-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="safe-text">
+          <span class="safe-title">All Clear</span>
+          <span class="safe-desc" id="safeDesc">No active hazards in your area.</span>
+        </div>
+      </div>
+
+      <!-- Weather Strip -->
+      <div class="weather-strip" id="weatherStrip" style="display:none;">
+        <div class="weather-item" id="weatherTemp"></div>
+        <div class="weather-divider"></div>
+        <div class="weather-item" id="weatherWind"></div>
+        <div class="weather-divider"></div>
+        <div class="weather-item" id="weatherCondition"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Food & NGO Modal -->
+  <div class="map-modal" id="foodModal">
+    <div class="map-modal-box">
+
+      <!-- Header -->
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8; font-size:16px;"></i>
+          FOOD & NGO
+        </div>
+        <button class="map-modal-close" onclick="closeFoodModal()">✕</button>
+      </div>
+
+      <h2 class="shelter-heading">Food & NGO</h2>
+
+      <!-- Search Bar -->
+      <div class="food-search-wrap">
+        <i class="fa-solid fa-magnifying-glass food-search-icon"></i>
+        <input type="text" class="food-search-input" id="foodSearchInput"
+          placeholder="Search water, meal kits, supplies..."
+          oninput="searchFood(this.value)">
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterFood('all', this)">All</button>
+        <button class="filter-tab" onclick="filterFood('foodbank', this)">Food Banks</button>
+        <button class="filter-tab" onclick="filterFood('water', this)">Water Points</button>
+        <button class="filter-tab" onclick="filterFood('ngo', this)">NGOs</button>
+      </div>
+
+      <!-- Food List -->
+      <div class="food-list" id="foodList"></div>
+
+    </div>
+  </div>
+
+  <!-- Shelter Modal -->
+  <div class="map-modal" id="shelterModal">
+    <div class="map-modal-box">
+
+      <!-- Header -->
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-location-dot" style="color:#facc15; font-size:16px;"></i>
+          RELIEF CENTERS
+        </div>
+        <button class="map-modal-close" onclick="closeShelterModal()">✕</button>
+      </div>
+
+      <!-- Live Status Tag -->
+      <div class="shelter-live-tag">
+        <span class="shelter-live-dot"></span>
+        LIVE NETWORK STATUS
+      </div>
+
+      <h2 class="shelter-heading">Relief Centers</h2>
+      <p class="shelter-subtext">Verified emergency shelters and NGO hubs currently operating in your sector.</p>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" style="margin-top:16px;">
+        <button class="filter-tab active" onclick="filterShelters('all', this)">All Centers</button>
+        <button class="filter-tab" onclick="filterShelters('shelter', this)">Shelters</button>
+        <button class="filter-tab" onclick="filterShelters('medical', this)">Medical</button>
+        <button class="filter-tab" onclick="filterShelters('food', this)">Supply</button>
+      </div>
+
+      <!-- Shelter List -->
+      <div class="shelter-list" id="shelterList"></div>
+
+    </div>
+  </div>
+
+  <!-- Police Modal -->
+  <div class="map-modal" id="policeModal">
+    <div class="map-modal-box">
+
+      <!-- Header -->
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-shield-halved" style="color:#f87171; font-size:16px;"></i>
+          POLICE STATIONS
+        </div>
+        <button class="map-modal-close" onclick="closePoliceModal()">✕</button>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="policeFilterTabs">
+        <button class="police-tab active" onclick="filterPolice('nearest', this)">
+          <i class="fa-solid fa-location-arrow"></i> NEAREST
+        </button>
+        <button class="police-tab" onclick="filterPolice('active', this)">
+          <i class="fa-solid fa-shield-halved"></i> ACTIVE UNITS
+        </button>
+        <button class="police-tab" onclick="filterPolice('alert', this)">
+          <i class="fa-solid fa-shield-halved"></i> ON ALERT
+        </button>
+      </div>
+
+      <!-- Police List -->
+      <div class="police-list" id="policeList"></div>
+
+    </div>
+  </div>
+
+  <!-- Hospital Modal -->
+  <div class="map-modal" id="hospitalModal">
+    <div class="map-modal-box">
+
+      <!-- Header -->
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-briefcase-medical" style="color:#4ade80; font-size:16px;"></i>
+          HOSPITALS
+        </div>
+        <button class="map-modal-close" onclick="closeHospitalModal()">✕</button>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterHospitals('recommended', this)">Recommended</button>
+        <button class="filter-tab" onclick="filterHospitals('nearest', this)">Nearest</button>
+        <button class="filter-tab" onclick="filterHospitals('maxbeds', this)">Max Beds</button>
+        <button class="filter-tab" onclick="filterHospitals('available', this)">Available</button>
+      </div>
+
+      <!-- Status Overview -->
+      <div class="status-overview">
+        <h2 class="status-title">Status Overview</h2>
+        <p class="status-subtitle" id="statusSubtitle">Emergency response readiness in your area</p>
+        <div class="status-stats">
+          <div class="stat-item">
+            <span class="stat-value green" id="totalBeds">--</span>
+            <span class="stat-label">BEDS AVAILABLE</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value red" id="criticalWait">--</span>
+            <span class="stat-label">CRITICAL WAIT</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value amber" id="totalFacilities">--</span>
+            <span class="stat-label">FACILITIES</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hospital List -->
+      <div class="hospital-list" id="hospitalList"></div>
+
     </div>
   </div>
 
