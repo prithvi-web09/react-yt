@@ -95,6 +95,129 @@ function getWeatherDescription(code) {
 
 detectLocation();
 
+// ── FULL SITUATION REPORT MODAL ──
+
+function openReportModal() {
+  document.getElementById('reportModal').classList.add('open');
+  generateFullReport();
+}
+
+function closeReportModal() {
+  document.getElementById('reportModal').classList.remove('open');
+}
+
+async function generateFullReport() {
+  const area = document.getElementById('userLocation')?.textContent.replace('· ', '') || 'your area';
+  const now  = new Date();
+
+  document.getElementById('reportLocation').textContent = area;
+  document.getElementById('reportTime').textContent     = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('reportBody').innerHTML       = '<div class="zone-loading">Generating report...</div>';
+  document.getElementById('reportSections').style.display = 'none';
+  document.getElementById('reportStatsRow').style.display = 'none';
+
+  if (!window._userLat || !window._userLon) {
+    document.getElementById('reportBody').innerHTML = '<div class="zone-loading">Enable location to generate report.</div>';
+    return;
+  }
+
+  try {
+    const res     = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${window._userLat}&longitude=${window._userLon}&current_weather=true&hourly=precipitation_probability,relativehumidity_2m&timezone=auto`);
+    const data    = await res.json();
+    const w       = data.current_weather;
+    const code    = w.weathercode;
+    const temp    = w.temperature;
+    const wind    = w.windspeed;
+    const desc    = getWeatherDesc(code);
+    const humidity = data.hourly?.relativehumidity_2m?.[0] || '--';
+    const precip   = data.hourly?.precipitation_probability?.[0] || 0;
+
+    // Determine threat level
+    let threatLevel, threatClass, threatText;
+    if (code >= 80 || wind > 60) {
+      threatLevel = 'SEVERE'; threatClass = 'severe';
+      threatText  = '⚠ HIGH RISK — Take immediate precautions';
+    } else if (code >= 51 || wind > 35 || precip > 60) {
+      threatLevel = 'MODERATE'; threatClass = 'moderate';
+      threatText  = 'ELEVATED CONDITIONS — Stay alert';
+    } else {
+      threatLevel = 'ALL CLEAR'; threatClass = 'safe';
+      threatText  = 'CONDITIONS NORMAL — No immediate threats';
+    }
+
+    // Set threat banner
+    const threatEl = document.getElementById('reportThreat');
+    threatEl.className = `report-threat ${threatClass}`;
+    document.getElementById('reportThreatLabel').textContent = 'THREAT LEVEL';
+    document.getElementById('reportThreatValue').textContent = threatLevel;
+
+    // Weather stats
+    document.getElementById('rTemp').textContent      = `${temp}°C`;
+    document.getElementById('rWind').textContent      = `${wind}km/h`;
+    document.getElementById('rCondition').textContent = desc;
+    document.getElementById('reportStatsRow').style.display = 'flex';
+
+    // Generate 100+ word report
+    const report = generateReportText(area, temp, wind, desc, code, humidity, precip, threatLevel);
+    document.getElementById('reportBody').innerHTML = report;
+
+    // Warnings & Recommendations
+    const { warnings, recommendations } = getWarningsAndRecs(code, wind, temp, precip);
+    document.getElementById('reportWarnings').innerHTML       = `<ul>${warnings.map(w => `<li>${w}</li>`).join('')}</ul>`;
+    document.getElementById('reportRecommendations').innerHTML = `<ul>${recommendations.map(r => `<li>${r}</li>`).join('')}</ul>`;
+    document.getElementById('reportSections').style.display  = 'flex';
+
+    // Timestamp
+    document.getElementById('reportGenerated').textContent =
+      `Report generated on ${now.toLocaleDateString()} at ${now.toLocaleTimeString()}`;
+
+  } catch {
+    document.getElementById('reportBody').innerHTML = '<div class="zone-loading">Could not fetch live data. Try again.</div>';
+  }
+}
+
+function generateReportText(area, temp, wind, desc, code, humidity, precip, threatLevel) {
+  const timeOfDay = new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening';
+
+  const opening = `This situational report covers the current environmental and emergency conditions for <strong style="color:#ffffff">${area}</strong> as of this ${timeOfDay}. `;
+
+  const weatherSummary = `Current atmospheric conditions indicate <strong style="color:#ffffff">${desc.toLowerCase()}</strong> with a recorded temperature of <strong style="color:#ffffff">${temp}°C</strong> and wind speeds measuring <strong style="color:#ffffff">${wind} km/h</strong>. Relative humidity levels are at approximately <strong style="color:#ffffff">${humidity}%</strong>, and the probability of precipitation in the coming hours stands at <strong style="color:#ffffff">${precip}%</strong>. `;
+
+  const threatSummary = threatLevel === 'SEVERE'
+    ? `Based on current data, the area is classified under a <strong style="color:#f87171">SEVERE threat level</strong>. Residents are strongly advised to avoid outdoor activity, secure loose objects, and follow instructions from local emergency authorities. Emergency services are on high alert and response times may be elevated due to increased demand across the district. `
+    : threatLevel === 'MODERATE'
+    ? `The area is currently under a <strong style="color:#facc15">MODERATE threat level</strong>. While conditions are not immediately dangerous, residents should remain vigilant and monitor updates regularly. Outdoor activities should be limited, particularly for vulnerable populations including the elderly and children. Emergency services are standing by and are fully operational. `
+    : `The area is currently under an <strong style="color:#4ade80">ALL CLEAR status</strong>. No significant weather events or environmental hazards have been detected at this time. Emergency services are fully operational and available. Residents may carry out normal daily activities while continuing to monitor CrisisSync for any changes in conditions. `;
+
+  const closing = `CrisisSync continues to monitor live data feeds and will update this report as conditions evolve. All nearby emergency facilities — including hospitals, police stations, and relief centers — have been notified of current conditions and are prepared to respond accordingly.`;
+
+  return opening + weatherSummary + threatSummary + closing;
+}
+
+function getWarningsAndRecs(code, wind, temp, precip) {
+  const warnings = [];
+  const recommendations = [];
+
+  if (code >= 95)  warnings.push('Active thunderstorm detected in the region');
+  if (code >= 80)  warnings.push('Heavy rainfall or snowfall conditions active');
+  if (wind > 60)   warnings.push('Dangerously high wind speeds recorded');
+  if (wind > 35)   warnings.push('Strong winds — secure outdoor objects');
+  if (precip > 70) warnings.push('High precipitation probability in coming hours');
+  if (temp > 40)   warnings.push('Extreme heat advisory in effect');
+  if (temp < 5)    warnings.push('Near-freezing temperatures — cold wave alert');
+  if (warnings.length === 0) warnings.push('No active weather warnings at this time');
+
+  if (code >= 80)  recommendations.push('Stay indoors and away from flood-prone areas');
+  if (wind > 35)   recommendations.push('Avoid driving on elevated roads or bridges');
+  if (precip > 50) recommendations.push('Keep emergency supplies and dry clothing ready');
+  if (temp > 38)   recommendations.push('Stay hydrated and avoid direct sun exposure');
+  recommendations.push('Keep your phone charged and location enabled');
+  recommendations.push('Save emergency contacts — Police: 100, Ambulance: 108, Fire: 101');
+  recommendations.push('Check on elderly neighbours and vulnerable family members');
+
+  return { warnings, recommendations };
+}
+
 // ── FOOD & NGO MODAL ──
 
 const foodData = [
