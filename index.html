@@ -56,12 +56,6 @@
       <!-- Mic Status Message -->
       <p class="mic-status" id="micStatus"></p>
 
-      <!-- Find Help Near Me Button -->
-      <a href="help.html" class="find-help-btn">
-        <i class="fa-solid fa-location-dot"></i>
-        FIND HELP NEAR ME
-      </a>
-
     </div>
 
     <!-- Quick Access Grid -->
@@ -109,7 +103,7 @@
         </div>
         <h2 class="insight-title" id="insightTitle">Analyzing your area...</h2>
         <p class="insight-desc" id="insightDesc">Fetching local conditions based on your location.</p>
-        <a href="report.html" class="insight-link">Full Situation Report →</a>
+        <a href="#" class="insight-link" onclick="openReportModal(); return false;">Full Situation Report →</a>
       </div>
     </div>
 
@@ -126,10 +120,6 @@
     <a href="#" class="nav-item nav-sos" onclick="openSOSModal(); return false;">
       <i class="fa-solid fa-microphone"></i>
       <span>SOS</span>
-    </a>
-    <a href="reports.html" class="nav-item">
-      <i class="fa-solid fa-table-cells"></i>
-      <span>Reports</span>
     </a>
     <a href="admin.html" class="nav-item">
       <i class="fa-solid fa-table-cells-large"></i>
@@ -236,6 +226,88 @@
         <div class="weather-divider"></div>
         <div class="weather-item" id="weatherCondition"></div>
       </div>
+
+    </div>
+  </div>
+
+  <!-- Full Situation Report Modal -->
+  <div class="map-modal" id="reportModal">
+    <div class="map-modal-box">
+
+      <!-- Header -->
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-file-lines" style="color:#facc15; font-size:16px;"></i>
+          SITUATION REPORT
+        </div>
+        <button class="map-modal-close" onclick="closeReportModal()">✕</button>
+      </div>
+
+      <!-- Report Meta -->
+      <div class="report-meta">
+        <div class="report-meta-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="reportLocation">Detecting...</span>
+        </div>
+        <div class="report-meta-item">
+          <i class="fa-solid fa-clock"></i>
+          <span id="reportTime">--</span>
+        </div>
+      </div>
+
+      <!-- Threat Level Banner -->
+      <div class="report-threat" id="reportThreat">
+        <span class="report-threat-label" id="reportThreatLabel">ANALYZING...</span>
+        <span class="report-threat-value" id="reportThreatValue">--</span>
+      </div>
+
+      <!-- Weather Stats Row -->
+      <div class="report-stats-row" id="reportStatsRow" style="display:none;">
+        <div class="report-stat">
+          <i class="fa-solid fa-temperature-half"></i>
+          <span class="report-stat-value" id="rTemp">--</span>
+          <span class="report-stat-label">Temp</span>
+        </div>
+        <div class="report-stat">
+          <i class="fa-solid fa-wind"></i>
+          <span class="report-stat-value" id="rWind">--</span>
+          <span class="report-stat-label">Wind</span>
+        </div>
+        <div class="report-stat">
+          <i class="fa-solid fa-cloud"></i>
+          <span class="report-stat-value" id="rCondition">--</span>
+          <span class="report-stat-label">Condition</span>
+        </div>
+      </div>
+
+      <!-- Full Report Text -->
+      <div class="report-body" id="reportBody">
+        <div class="zone-loading">Generating report...</div>
+      </div>
+
+      <!-- Sections -->
+      <div class="report-sections" id="reportSections" style="display:none;">
+
+        <div class="report-section">
+          <div class="report-section-title">
+            <i class="fa-solid fa-triangle-exclamation" style="color:#facc15;"></i>
+            Active Warnings
+          </div>
+          <div class="report-section-body" id="reportWarnings"></div>
+        </div>
+
+        <div class="report-section">
+          <div class="report-section-title">
+            <i class="fa-solid fa-shield-halved" style="color:#4ade80;"></i>
+            Safety Recommendations
+          </div>
+          <div class="report-section-body" id="reportRecommendations"></div>
+        </div>
+
+      </div>
+
+      <!-- Generated timestamp -->
+      <p class="report-generated" id="reportGenerated"></p>
 
     </div>
   </div>
