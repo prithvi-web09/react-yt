@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CrisisSync</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,18 +45,13 @@
 
     <!-- SOS + Find Help Section -->
     <div class="sos-section">
-
-      <!-- SOS Button -->
       <div class="sos-outer">
         <button class="sos-btn" id="sosBtn" onclick="startMic()">
           <span class="sos-label">SOS</span>
           <span class="sos-sub">HOLD TO SIGNAL</span>
         </button>
       </div>
-
-      <!-- Mic Status Message -->
       <p class="mic-status" id="micStatus"></p>
-
     </div>
 
     <!-- Quick Access Grid -->
@@ -66,21 +62,18 @@
         </div>
         <span class="quick-label">HOSPITAL</span>
       </a>
-
       <a href="#" class="quick-card" onclick="openPoliceModal(); return false;">
         <div class="quick-icon" style="background:#2b1a1a;">
           <i class="fa-solid fa-shield-halved" style="color:#f87171;"></i>
         </div>
         <span class="quick-label">POLICE</span>
       </a>
-
       <a href="#" class="quick-card" onclick="openShelterModal(); return false;">
         <div class="quick-icon" style="background:#2b2200;">
           <i class="fa-solid fa-location-dot" style="color:#facc15;"></i>
         </div>
         <span class="quick-label">SHELTER</span>
       </a>
-
       <a href="#" class="quick-card" onclick="openFoodModal(); return false;">
         <div class="quick-icon" style="background:#1e1e1e;">
           <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8;"></i>
@@ -92,7 +85,7 @@
     <!-- Localized Insight Card -->
     <div class="insight-card">
       <div class="insight-map">
-        <img src="https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/72.8777,19.0760,11,0/340x160?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw" 
+        <img src="https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/72.8777,19.0760,11,0/340x160?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
              alt="Crisis Map" class="insight-map-img" id="insightMapImg">
         <div class="insight-map-overlay"></div>
       </div>
@@ -106,6 +99,8 @@
         <a href="#" class="insight-link" onclick="openReportModal(); return false;">Full Situation Report →</a>
       </div>
     </div>
+
+  </div><!-- /.mobile-wrapper -->
 
   <!-- Bottom Navigation -->
   <nav class="bottom-nav">
@@ -121,13 +116,15 @@
       <i class="fa-solid fa-microphone"></i>
       <span>SOS</span>
     </a>
-    <a href="admin.html" class="nav-item">
+    <a href="#" class="nav-item" onclick="openAdminPortal(); return false;">
       <i class="fa-solid fa-table-cells-large"></i>
       <span>Admin</span>
     </a>
   </nav>
 
-</div>
+  <!-- ─────────────────────────────────────────── -->
+  <!--  EXISTING MODALS (unchanged)                -->
+  <!-- ─────────────────────────────────────────── -->
 
   <!-- SOS Modal -->
   <div class="sos-modal" id="sosModal">
@@ -146,16 +143,11 @@
           </button>
         </div>
         <p class="sos-listening-text" id="sosListeningText">Tap mic to speak</p>
-
-        <!-- Transcript Box -->
         <div class="sos-transcript-wrap" id="sosTranscriptWrap" style="display:none;">
           <p class="sos-transcript-label">Detecting emergency keywords and location</p>
           <div class="sos-transcript-box" id="sosTranscriptBox"></div>
         </div>
-
         <p class="sos-response-text" id="sosResponseText"></p>
-
-        <!-- Priority Dispatch Card -->
         <div class="dispatch-card" id="dispatchCard" style="display:none;">
           <div class="dispatch-icon" id="dispatchIcon">
             <i class="fa-solid fa-plus"></i>
@@ -183,33 +175,22 @@
         </div>
         <button class="map-modal-close" onclick="closeMapModal()">✕</button>
       </div>
-
-      <!-- Zone Status Card -->
       <div class="zone-card">
         <div class="zone-card-header">
           <span class="zone-title">Zone Status</span>
-          <span class="zone-live">
-            <span class="zone-live-dot"></span>
-            LIVE UPDATE
-          </span>
+          <span class="zone-live"><span class="zone-live-dot"></span>LIVE UPDATE</span>
         </div>
         <div class="zone-list" id="zoneList">
           <div class="zone-loading">Analyzing your location...</div>
         </div>
       </div>
-
-      <!-- Nearby Alerts Bar -->
       <div class="nearby-bar" id="nearbyBar">
-        <div class="nearby-icon">
-          <i class="fa-solid fa-wifi"></i>
-        </div>
+        <div class="nearby-icon"><i class="fa-solid fa-wifi"></i></div>
         <div class="nearby-text">
           <span class="nearby-label">Nearby Alerts</span>
           <span class="nearby-value" id="nearbyValue">Scanning area...</span>
         </div>
       </div>
-
-      <!-- Safe Card -->
       <div class="safe-card" id="safeCard" style="display:none;">
         <div class="safe-icon"><i class="fa-solid fa-circle-check"></i></div>
         <div class="safe-text">
@@ -217,8 +198,6 @@
           <span class="safe-desc" id="safeDesc">No active hazards in your area.</span>
         </div>
       </div>
-
-      <!-- Weather Strip -->
       <div class="weather-strip" id="weatherStrip" style="display:none;">
         <div class="weather-item" id="weatherTemp"></div>
         <div class="weather-divider"></div>
@@ -226,15 +205,12 @@
         <div class="weather-divider"></div>
         <div class="weather-item" id="weatherCondition"></div>
       </div>
-
     </div>
   </div>
 
   <!-- Full Situation Report Modal -->
   <div class="map-modal" id="reportModal">
     <div class="map-modal-box">
-
-      <!-- Header -->
       <div class="map-modal-header">
         <div class="map-modal-title">
           <i class="fa-solid fa-file-lines" style="color:#facc15; font-size:16px;"></i>
@@ -242,81 +218,37 @@
         </div>
         <button class="map-modal-close" onclick="closeReportModal()">✕</button>
       </div>
-
-      <!-- Report Meta -->
       <div class="report-meta">
-        <div class="report-meta-item">
-          <i class="fa-solid fa-location-dot"></i>
-          <span id="reportLocation">Detecting...</span>
-        </div>
-        <div class="report-meta-item">
-          <i class="fa-solid fa-clock"></i>
-          <span id="reportTime">--</span>
-        </div>
+        <div class="report-meta-item"><i class="fa-solid fa-location-dot"></i><span id="reportLocation">Detecting...</span></div>
+        <div class="report-meta-item"><i class="fa-solid fa-clock"></i><span id="reportTime">--</span></div>
       </div>
-
-      <!-- Threat Level Banner -->
       <div class="report-threat" id="reportThreat">
         <span class="report-threat-label" id="reportThreatLabel">ANALYZING...</span>
         <span class="report-threat-value" id="reportThreatValue">--</span>
       </div>
-
-      <!-- Weather Stats Row -->
       <div class="report-stats-row" id="reportStatsRow" style="display:none;">
-        <div class="report-stat">
-          <i class="fa-solid fa-temperature-half"></i>
-          <span class="report-stat-value" id="rTemp">--</span>
-          <span class="report-stat-label">Temp</span>
-        </div>
-        <div class="report-stat">
-          <i class="fa-solid fa-wind"></i>
-          <span class="report-stat-value" id="rWind">--</span>
-          <span class="report-stat-label">Wind</span>
-        </div>
-        <div class="report-stat">
-          <i class="fa-solid fa-cloud"></i>
-          <span class="report-stat-value" id="rCondition">--</span>
-          <span class="report-stat-label">Condition</span>
-        </div>
+        <div class="report-stat"><i class="fa-solid fa-temperature-half"></i><span class="report-stat-value" id="rTemp">--</span><span class="report-stat-label">Temp</span></div>
+        <div class="report-stat"><i class="fa-solid fa-wind"></i><span class="report-stat-value" id="rWind">--</span><span class="report-stat-label">Wind</span></div>
+        <div class="report-stat"><i class="fa-solid fa-cloud"></i><span class="report-stat-value" id="rCondition">--</span><span class="report-stat-label">Condition</span></div>
       </div>
-
-      <!-- Full Report Text -->
-      <div class="report-body" id="reportBody">
-        <div class="zone-loading">Generating report...</div>
-      </div>
-
-      <!-- Sections -->
+      <div class="report-body" id="reportBody"><div class="zone-loading">Generating report...</div></div>
       <div class="report-sections" id="reportSections" style="display:none;">
-
         <div class="report-section">
-          <div class="report-section-title">
-            <i class="fa-solid fa-triangle-exclamation" style="color:#facc15;"></i>
-            Active Warnings
-          </div>
+          <div class="report-section-title"><i class="fa-solid fa-triangle-exclamation" style="color:#facc15;"></i>Active Warnings</div>
           <div class="report-section-body" id="reportWarnings"></div>
         </div>
-
         <div class="report-section">
-          <div class="report-section-title">
-            <i class="fa-solid fa-shield-halved" style="color:#4ade80;"></i>
-            Safety Recommendations
-          </div>
+          <div class="report-section-title"><i class="fa-solid fa-shield-halved" style="color:#4ade80;"></i>Safety Recommendations</div>
           <div class="report-section-body" id="reportRecommendations"></div>
         </div>
-
       </div>
-
-      <!-- Generated timestamp -->
       <p class="report-generated" id="reportGenerated"></p>
-
     </div>
   </div>
 
   <!-- Food & NGO Modal -->
   <div class="map-modal" id="foodModal">
     <div class="map-modal-box">
-
-      <!-- Header -->
       <div class="map-modal-header">
         <div class="map-modal-title">
           <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8; font-size:16px;"></i>
@@ -324,36 +256,26 @@
         </div>
         <button class="map-modal-close" onclick="closeFoodModal()">✕</button>
       </div>
-
       <h2 class="shelter-heading">Food & NGO</h2>
-
-      <!-- Search Bar -->
       <div class="food-search-wrap">
         <i class="fa-solid fa-magnifying-glass food-search-icon"></i>
         <input type="text" class="food-search-input" id="foodSearchInput"
           placeholder="Search water, meal kits, supplies..."
           oninput="searchFood(this.value)">
       </div>
-
-      <!-- Filter Tabs -->
       <div class="filter-tabs">
         <button class="filter-tab active" onclick="filterFood('all', this)">All</button>
         <button class="filter-tab" onclick="filterFood('foodbank', this)">Food Banks</button>
         <button class="filter-tab" onclick="filterFood('water', this)">Water Points</button>
         <button class="filter-tab" onclick="filterFood('ngo', this)">NGOs</button>
       </div>
-
-      <!-- Food List -->
       <div class="food-list" id="foodList"></div>
-
     </div>
   </div>
 
   <!-- Shelter Modal -->
   <div class="map-modal" id="shelterModal">
     <div class="map-modal-box">
-
-      <!-- Header -->
       <div class="map-modal-header">
         <div class="map-modal-title">
           <i class="fa-solid fa-location-dot" style="color:#facc15; font-size:16px;"></i>
@@ -361,35 +283,22 @@
         </div>
         <button class="map-modal-close" onclick="closeShelterModal()">✕</button>
       </div>
-
-      <!-- Live Status Tag -->
-      <div class="shelter-live-tag">
-        <span class="shelter-live-dot"></span>
-        LIVE NETWORK STATUS
-      </div>
-
+      <div class="shelter-live-tag"><span class="shelter-live-dot"></span>LIVE NETWORK STATUS</div>
       <h2 class="shelter-heading">Relief Centers</h2>
       <p class="shelter-subtext">Verified emergency shelters and NGO hubs currently operating in your sector.</p>
-
-      <!-- Filter Tabs -->
       <div class="filter-tabs" style="margin-top:16px;">
         <button class="filter-tab active" onclick="filterShelters('all', this)">All Centers</button>
         <button class="filter-tab" onclick="filterShelters('shelter', this)">Shelters</button>
         <button class="filter-tab" onclick="filterShelters('medical', this)">Medical</button>
         <button class="filter-tab" onclick="filterShelters('food', this)">Supply</button>
       </div>
-
-      <!-- Shelter List -->
       <div class="shelter-list" id="shelterList"></div>
-
     </div>
   </div>
 
   <!-- Police Modal -->
   <div class="map-modal" id="policeModal">
     <div class="map-modal-box">
-
-      <!-- Header -->
       <div class="map-modal-header">
         <div class="map-modal-title">
           <i class="fa-solid fa-shield-halved" style="color:#f87171; font-size:16px;"></i>
@@ -397,31 +306,18 @@
         </div>
         <button class="map-modal-close" onclick="closePoliceModal()">✕</button>
       </div>
-
-      <!-- Filter Tabs -->
       <div class="filter-tabs" id="policeFilterTabs">
-        <button class="police-tab active" onclick="filterPolice('nearest', this)">
-          <i class="fa-solid fa-location-arrow"></i> NEAREST
-        </button>
-        <button class="police-tab" onclick="filterPolice('active', this)">
-          <i class="fa-solid fa-shield-halved"></i> ACTIVE UNITS
-        </button>
-        <button class="police-tab" onclick="filterPolice('alert', this)">
-          <i class="fa-solid fa-shield-halved"></i> ON ALERT
-        </button>
+        <button class="police-tab active" onclick="filterPolice('nearest', this)"><i class="fa-solid fa-location-arrow"></i> NEAREST</button>
+        <button class="police-tab" onclick="filterPolice('active', this)"><i class="fa-solid fa-shield-halved"></i> ACTIVE UNITS</button>
+        <button class="police-tab" onclick="filterPolice('alert', this)"><i class="fa-solid fa-shield-halved"></i> ON ALERT</button>
       </div>
-
-      <!-- Police List -->
       <div class="police-list" id="policeList"></div>
-
     </div>
   </div>
 
   <!-- Hospital Modal -->
   <div class="map-modal" id="hospitalModal">
     <div class="map-modal-box">
-
-      <!-- Header -->
       <div class="map-modal-header">
         <div class="map-modal-title">
           <i class="fa-solid fa-briefcase-medical" style="color:#4ade80; font-size:16px;"></i>
@@ -429,42 +325,149 @@
         </div>
         <button class="map-modal-close" onclick="closeHospitalModal()">✕</button>
       </div>
-
-      <!-- Filter Tabs -->
       <div class="filter-tabs">
         <button class="filter-tab active" onclick="filterHospitals('recommended', this)">Recommended</button>
         <button class="filter-tab" onclick="filterHospitals('nearest', this)">Nearest</button>
         <button class="filter-tab" onclick="filterHospitals('maxbeds', this)">Max Beds</button>
         <button class="filter-tab" onclick="filterHospitals('available', this)">Available</button>
       </div>
-
-      <!-- Status Overview -->
       <div class="status-overview">
         <h2 class="status-title">Status Overview</h2>
         <p class="status-subtitle" id="statusSubtitle">Emergency response readiness in your area</p>
         <div class="status-stats">
-          <div class="stat-item">
-            <span class="stat-value green" id="totalBeds">--</span>
-            <span class="stat-label">BEDS AVAILABLE</span>
-          </div>
+          <div class="stat-item"><span class="stat-value green" id="totalBeds">--</span><span class="stat-label">BEDS AVAILABLE</span></div>
           <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value red" id="criticalWait">--</span>
-            <span class="stat-label">CRITICAL WAIT</span>
-          </div>
+          <div class="stat-item"><span class="stat-value red" id="criticalWait">--</span><span class="stat-label">CRITICAL WAIT</span></div>
           <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value amber" id="totalFacilities">--</span>
-            <span class="stat-label">FACILITIES</span>
+          <div class="stat-item"><span class="stat-value amber" id="totalFacilities">--</span><span class="stat-label">FACILITIES</span></div>
+        </div>
+      </div>
+      <div class="hospital-list" id="hospitalList"></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!--  ADMIN NEXUS PORTAL MODAL  (NEW)            -->
+  <!-- ─────────────────────────────────────────── -->
+  <div class="admin-overlay" id="adminOverlay">
+
+    <!-- Animated scan line -->
+    <div class="admin-scanline"></div>
+
+    <!-- Grid background -->
+    <div class="admin-grid"></div>
+
+    <div class="admin-box">
+
+      <!-- Top bar -->
+      <div class="admin-topbar">
+        <div class="admin-brand-block">
+          <div class="admin-brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="admin-brand-text">
+            <span class="admin-brand-name">CRISIS SYNC</span>
+            <span class="admin-brand-sub">AUTHORIZED PERSONNEL ONLY</span>
           </div>
+        </div>
+        <div class="admin-status-pill">
+          <span class="admin-status-dot"></span>
+          <div class="admin-status-text">
+            SYSTEM<span>ONLINE</span>
+          </div>
+        </div>
+        <button onclick="closeAdminPortal()" style="background:#1a1a1a;border:1px solid #2a2a2a;color:#666;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
+      </div>
+
+      <!-- Main content -->
+      <div class="admin-main" id="adminMain">
+
+        <!-- Encrypted tag -->
+        <div class="admin-enc-tag">
+          <div class="admin-enc-bar"></div>
+          <span class="admin-enc-label">ENCRYPTED LINK ESTABLISHED</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="admin-portal-title">ACCESS<br>NEXUS<br>PORTAL</h1>
+        <p class="admin-portal-desc">Please provide your credentials to verify clearance for the tactical environment.</p>
+
+        <!-- Form -->
+        <div class="admin-field-group" id="adminLoginForm">
+
+          <!-- Role -->
+          <div>
+            <div class="admin-field-label">AUTHENTICATION ROLE</div>
+            <div class="admin-select-wrap">
+              <i class="fa-solid fa-lock admin-select-icon"></i>
+              <select class="admin-role-select" id="adminRole" onchange="updateAdminPlaceholder()">
+                <option value="hospital">Hospital</option>
+                <option value="food">Food / NGO</option>
+                <option value="police">Police</option>
+                <option value="shelter">Shelter</option>
+              </select>
+              <i class="fa-solid fa-chevron-down admin-chevron"></i>
+            </div>
+          </div>
+
+          <!-- User ID -->
+          <div>
+            <div class="admin-field-label">USER IDENTIFIER</div>
+            <div class="admin-input-wrap">
+              <i class="fa-solid fa-fingerprint admin-input-icon"></i>
+              <input type="text" class="admin-input" id="adminUser"
+                placeholder="admin.crisis.sync" autocomplete="off">
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <div class="admin-field-label">SECURITY KEY</div>
+            <div class="admin-input-wrap">
+              <i class="fa-solid fa-lock admin-input-icon"></i>
+              <input type="password" class="admin-input" id="adminPass"
+                placeholder="••••••••••••" autocomplete="off">
+              <button class="admin-eye-btn" onclick="toggleAdminPass(this)" tabindex="-1">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Error msg -->
+          <p class="admin-error" id="adminError"></p>
+
+          <!-- Login btn -->
+          <button class="admin-login-btn" onclick="handleAdminLogin()">
+            <span id="adminBtnText">SECURE LOGIN</span>
+            <i class="fa-solid fa-arrow-right" id="adminBtnIcon"></i>
+            <span class="admin-btn-loader" id="adminBtnLoader" style="display:none;">
+              <i class="fa-solid fa-circle-notch fa-spin"></i>
+            </span>
+          </button>
+
+        </div>
+
+        <!-- Footer links -->
+        <div class="admin-footer-links">
+          <span class="admin-footer-link">FORGOT CLEARANCE?</span>
+          <span class="admin-footer-link">REQUEST ACCESS</span>
+        </div>
+
+        <!-- Version -->
+        <div class="admin-version">V4.2</div>
+
+        <!-- Protocol strip -->
+        <div class="admin-proto-strip">
+          <span>SECURITY PROTOCOLS</span>
+          <span>· · ·</span>
+          <span>SYSTEM_STATUS</span>
+          <span>SUPPORT</span>
+        </div>
+        <div class="admin-proto-strip" style="margin-top:3px;">
+          <span>SECURE PROTOCOL LENS V4.0.2 // ENCRYPTED</span>
         </div>
       </div>
 
-      <!-- Hospital List -->
-      <div class="hospital-list" id="hospitalList"></div>
-
     </div>
-  </div>
+  </div><!-- /#adminOverlay -->
 
   <script src="script.js"></script>
 </body>
