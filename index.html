@@ -1,2443 +1,474 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #0a0e14;
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-}
-
-/* Mobile wrapper — centered on desktop, full width on mobile */
-.mobile-wrapper {
-  width: 100%;
-  max-width: 480px;
-  min-height: 100vh;
-  background-color: #0a0e14;
-  overflow-x: hidden;
-  padding-bottom: 80px;
-}
-
-/* ── TOP NAV ── */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 16px 14px;
-  border-bottom: 1px solid #1a2233;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.globe-icon {
-  font-size: 22px;
-  color: #e05a4e;
-}
-
-.brand {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-name {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.3px;
-  line-height: 1.2;
-}
-
-.live-tracking {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #00e676;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.live-dot {
-  width: 7px;
-  height: 7px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.8); }
-}
-
-.user-location {
-  color: #8a9bb0;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  text-transform: none;
-}
-
-/* Avatar */
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #1e2d40;
-  flex-shrink: 0;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ── ALERT BANNER ── */
-.alert-bar {
-  margin: 14px 14px 0;
-  background-color: #111822;
-  border: 1px solid #1e2d40;
-  border-radius: 12px;
-  padding: 13px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.alert-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
-}
-
-.alert-icon-wrap {
-  width: 38px;
-  height: 38px;
-  background-color: #2a1f00;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.alert-icon-wrap i {
-  font-size: 18px;
-  color: #FFB300;
-}
-
-.alert-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.alert-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #FFB300;
-  letter-spacing: 0.1px;
-}
-
-.alert-subtitle {
-  font-size: 11px;
-  color: #8a9bb0;
-  line-height: 1.4;
-}
-
-.alert-arrow {
-  color: #4a6080;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-/* ── SOS SECTION ── */
-.sos-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 24px 30px;
-  gap: 28px;
-}
-
-.sos-outer {
-  width: 210px;
-  height: 210px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 30, 30, 0.25) 0%, transparent 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: sos-glow 2.5s ease-in-out infinite;
-}
-
-@keyframes sos-glow {
-  0%, 100% { box-shadow: 0 0 30px rgba(200, 30, 30, 0.3); }
-  50%       { box-shadow: 0 0 60px rgba(200, 30, 30, 0.55); }
-}
-
-.sos-btn {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #e83030, #b01010);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 8px 30px rgba(180, 0, 0, 0.5);
-}
-
-.sos-btn:hover  { transform: scale(1.04); box-shadow: 0 12px 40px rgba(200,0,0,0.65); }
-.sos-btn:active { transform: scale(0.96); box-shadow: 0 4px 20px rgba(200,0,0,0.4); }
-
-.sos-label {
-  font-size: 46px;
-  font-weight: 900;
-  color: rgba(0, 0, 0, 0.45);
-  letter-spacing: 4px;
-  line-height: 1;
-}
-
-.sos-sub {
-  font-size: 10px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.4);
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-}
-
-.mic-status {
-  font-size: 13px;
-  color: #00e676;
-  letter-spacing: 0.5px;
-  min-height: 18px;
-  text-align: center;
-}
-
-/* ── FIND HELP BUTTON ── */
-.find-help-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 320px;
-  padding: 16px 24px;
-  background-color: #141c28;
-  border: 1px solid #1e2d40;
-  border-radius: 50px;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, transform 0.15s ease;
-}
-
-.find-help-btn i { font-size: 16px; color: #e05a4e; }
-.find-help-btn:hover  { background-color: #1c2840; transform: scale(1.02); }
-.find-help-btn:active { transform: scale(0.97); }
-
-/* ── QUICK ACCESS GRID ── */
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 0 14px 20px;
-}
-
-.quick-card {
-  background-color: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 14px;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.15s ease;
-}
-
-.quick-card:hover  { background-color: #17202e; transform: scale(1.02); }
-.quick-card:active { transform: scale(0.97); }
-
-.quick-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.quick-icon i { font-size: 24px; }
-
-.quick-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #cbd5e1;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-}
-
-/* ── LOCALIZED INSIGHT CARD ── */
-.insight-card {
-  margin: 6px 14px 20px;
-  background-color: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.insight-map {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  background: #0a0e14;
-  overflow: hidden;
-}
-
-.insight-map-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: hue-rotate(320deg) saturate(2) brightness(0.6);
-}
-
-.insight-map-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, #111822 100%);
-}
-
-.insight-body {
-  padding: 18px 18px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.insight-tag {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.insight-dot {
-  width: 8px;
-  height: 8px;
-  background: #facc15;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.insight-tag-text {
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #facc15;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-}
-
-.insight-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.3;
-}
-
-.insight-desc {
-  font-size: 12.5px;
-  color: #8a9bb0;
-  line-height: 1.6;
-}
-
-.insight-link {
-  font-size: 13px;
-  font-weight: 600;
-  color: #e05a4e;
-  text-decoration: none;
-  margin-top: 4px;
-}
-
-.insight-link:hover { text-decoration: underline; }
-
-/* ── MAP MODAL ── */
-.map-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 200;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.map-modal.open {
-  display: flex;
-}
-
-.map-modal-box {
-  width: 100%;
-  max-width: 480px;
-  background: #0d1117;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 20px 80px;
-  animation: slideUp 0.3s ease;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.map-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.map-modal-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.map-live-dot {
-  width: 9px;
-  height: 9px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.2s infinite;
-  flex-shrink: 0;
-}
-
-.map-modal-close {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1e2535;
-  border: none;
-  color: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── ZONE STATUS CARD ── */
-.zone-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 18px 16px;
-  margin-bottom: 12px;
-}
-
-.zone-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-
-.zone-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.zone-live {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #00e676;
-  letter-spacing: 1.2px;
-  background: #0d2010;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
-.zone-live-dot {
-  width: 7px;
-  height: 7px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-}
-
-.zone-loading {
-  font-size: 13px;
-  color: #4a6080;
-  text-align: center;
-  padding: 16px 0;
-}
-
-.zone-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid #1a2535;
-  gap: 12px;
-  animation: fadeIn 0.4s ease;
-}
-
-.zone-row:last-child { border-bottom: none; }
-
-.zone-row-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex: 1;
-}
-
-.zone-bar {
-  width: 4px;
-  height: 44px;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.zone-bar.red    { background: #e05a4e; }
-.zone-bar.yellow { background: #facc15; }
-.zone-bar.green  { background: #00e676; }
-
-.zone-info { display: flex; flex-direction: column; gap: 4px; }
-
-.zone-type {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.zone-type.red    { color: #e05a4e; }
-.zone-type.yellow { color: #facc15; }
-.zone-type.green  { color: #00e676; }
-
-.zone-name { font-size: 15px; font-weight: 600; color: #ffffff; }
-
-.zone-chevron { font-size: 14px; }
-.zone-chevron.red    { color: #e05a4e; }
-.zone-chevron.yellow { color: #facc15; }
-.zone-chevron.green  { color: #00e676; }
-
-/* ── NEARBY ALERTS BAR ── */
-.nearby-bar {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-
-.nearby-icon {
-  width: 42px;
-  height: 42px;
-  background: #0d2010;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.nearby-icon i { font-size: 18px; color: #00e676; }
-
-.nearby-text { display: flex; flex-direction: column; gap: 3px; }
-.nearby-label { font-size: 11px; color: #4a6080; font-weight: 500; letter-spacing: 0.5px; }
-.nearby-value { font-size: 15px; font-weight: 700; color: #ffffff; }
-
-/* ── SAFE CARD ── */
-.safe-card {
-  background: #0d2010;
-  border: 1px solid #1a4a2a;
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-
-.safe-icon {
-  width: 44px;
-  height: 44px;
-  background: #1a4a2a;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.safe-icon i { font-size: 20px; color: #00e676; }
-.safe-text   { display: flex; flex-direction: column; gap: 4px; }
-.safe-title  { font-size: 16px; font-weight: 700; color: #00e676; }
-.safe-desc   { font-size: 12px; color: #4a8a5a; line-height: 1.4; }
-
-/* ── WEATHER STRIP ── */
-.weather-strip {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.weather-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: #8a9bb0;
-  font-weight: 500;
-  text-align: center;
-}
-
-.weather-item span:first-child {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.weather-divider {
-  width: 1px;
-  height: 30px;
-  background: #1a2535;
-}
-
-/* ── FILTER TABS ── */
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  margin-bottom: 16px;
-  scrollbar-width: none;
-}
-
-.filter-tabs::-webkit-scrollbar { display: none; }
-
-.filter-tab {
-  padding: 8px 18px;
-  border-radius: 50px;
-  border: none;
-  background: #1a2535;
-  color: #8a9bb0;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.filter-tab.active {
-  background: #e05a4e;
-  color: #ffffff;
-}
-
-/* ── STATUS OVERVIEW ── */
-.status-overview {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 20px 18px;
-  margin-bottom: 14px;
-}
-
-.status-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 6px;
-}
-
-.status-subtitle {
-  font-size: 13px;
-  color: #8a9bb0;
-  margin-bottom: 18px;
-  line-height: 1.4;
-}
-
-.status-stats {
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.stat-value.green { color: #4ade80; }
-.stat-value.red   { color: #f87171; }
-.stat-value.amber { color: #facc15; }
-
-.stat-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4a6080;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 40px;
-  background: #1a2535;
-  margin: 0 16px;
-}
-
-/* ── HOSPITAL CARDS ── */
-.hospital-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.hospital-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  animation: fadeIn 0.3s ease;
-}
-
-.hospital-card.best {
-  border-color: #4ade8055;
-  background: #0d1f14;
-}
-
-.hosp-top-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.hosp-icon-big {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #7a1010;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.hosp-icon-big i { font-size: 20px; color: #ffffff; }
-
-.hosp-info { flex: 1; min-width: 0; }
-
-.hosp-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 5px;
-  line-height: 1.3;
-}
-
-.hosp-status-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 5px;
-}
-
-.hosp-status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.hosp-status-text {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.hosp-dist-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-shrink: 0;
-}
-
-.hosp-dist-num {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.hosp-dist-label {
-  font-size: 10px;
-  color: #4a6080;
-}
-
-.hosp-stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.hosp-stat-box {
-  background: #0d1117;
-  border-radius: 10px;
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.hosp-stat-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4a6080;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.hosp-stat-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.hosp-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.hosp-navigate-btn {
-  flex: 1;
-  background: #e05a4e;
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 13px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s ease;
-}
-
-.hosp-navigate-btn:hover { background: #c04030; }
-
-.hosp-call-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #1a2535;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 16px;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.hosp-call-btn:hover { background: #2a3a50; }
-
-.hosp-full-msg {
-  font-size: 12px;
-  color: #f87171;
-  text-align: center;
-  padding: 6px 0;
-}
-
-.best-badge {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4ade80;
-  background: #0d2b1a;
-  border: 1px solid #4ade8044;
-  padding: 2px 8px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-  display: inline-block;
-}
-
-/* ── POLICE TABS ── */
-.police-tab {
-  padding: 8px 16px;
-  border-radius: 50px;
-  border: 1px solid #1a2535;
-  background: #111822;
-  color: #8a9bb0;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-}
-
-.police-tab.active {
-  background: #1a2535;
-  color: #ffffff;
-  border-color: #f87171;
-}
-
-/* ── POLICE CARDS ── */
-.police-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.police-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  animation: fadeIn 0.3s ease;
-}
-
-.police-card.alert-card {
-  border-color: #facc1555;
-  background: #1a1600;
-}
-
-.police-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.police-name-block { flex: 1; }
-
-.police-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 5px;
-  line-height: 1.2;
-}
-
-.police-sub {
-  font-size: 12px;
-  color: #4a6080;
-}
-
-.police-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-shrink: 0;
-}
-
-.police-badge.active  { background: #0d2010; color: #4ade80; border: 1px solid #4ade8044; }
-.police-badge.alert   { background: #2a1f00; color: #facc15; border: 1px solid #facc1544; }
-.police-badge.offline { background: #1a1a1a; color: #4a6080; border: 1px solid #2a2a2a; }
-
-.police-badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: pulse 1.5s infinite;
-}
-
-.police-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.police-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.police-stat-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4a6080;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.police-stat-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.police-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.police-assist-btn {
-  flex: 1;
-  background: #e05a4e;
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 13px 20px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.police-assist-btn:hover { background: #c04030; }
-
-.police-nav-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #1a2535;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.police-nav-btn:hover { background: #2a3a50; }
-
-/* ── SHELTER MODAL ── */
-.shelter-live-tag {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #00e676;
-  letter-spacing: 1.5px;
-  margin-bottom: 10px;
-}
-
-.shelter-live-dot {
-  width: 8px;
-  height: 8px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  flex-shrink: 0;
-}
-
-.shelter-heading {
-  font-size: 28px;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 8px;
-}
-
-.shelter-subtext {
-  font-size: 13px;
-  color: #4a6080;
-  line-height: 1.5;
-}
-
-.shelter-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 4px;
-}
-
-.shelter-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  overflow: hidden;
-  animation: fadeIn 0.3s ease;
-}
-
-.shelter-img-wrap {
-  position: relative;
-  width: 100%;
-  height: 150px;
-  background: #0d1117;
-  overflow: hidden;
-}
-
-.shelter-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7);
-}
-
-.shelter-verified {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: rgba(0,0,0,0.7);
-  border: 1px solid #4ade8055;
-  color: #4ade80;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  letter-spacing: 1px;
-}
-
-.shelter-dist-badge {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: rgba(0,0,0,0.75);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-}
-
-.shelter-body {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.shelter-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.shelter-address {
-  font-size: 12px;
-  color: #4a6080;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.shelter-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.shelter-tag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-}
-
-.shelter-tag.food    { background: #2a1f00; color: #facc15; }
-.shelter-tag.medical { background: #0d2b1a; color: #4ade80; }
-.shelter-tag.shelter { background: #1a1f2e; color: #93c5fd; }
-.shelter-tag.supply  { background: #1a1a2e; color: #c4b5fd; }
-
-.shelter-capacity {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.shelter-cap-text {
-  font-size: 12px;
-  color: #8a9bb0;
-}
-
-.shelter-cap-bar-wrap {
-  width: 100px;
-  height: 5px;
-  background: #1a2535;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.shelter-cap-bar {
-  height: 100%;
-  border-radius: 10px;
-  background: #4ade80;
-  transition: width 0.4s ease;
-}
-
-.shelter-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.shelter-navigate-btn {
-  flex: 1;
-  background: #e05a4e;
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s ease;
-}
-
-.shelter-navigate-btn:hover { background: #c04030; }
-
-.shelter-call-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: #1a2535;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 16px;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.shelter-call-btn:hover { background: #2a3a50; }
-
-/* ── FOOD & NGO MODAL ── */
-.food-search-wrap {
-  position: relative;
-  margin-bottom: 14px;
-}
-
-.food-search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #4a6080;
-  font-size: 14px;
-}
-
-.food-search-input {
-  width: 100%;
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 13px 16px 13px 40px;
-  color: #ffffff;
-  font-size: 13px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.food-search-input::placeholder { color: #4a6080; }
-.food-search-input:focus { border-color: #2a3a50; }
-
-.food-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.food-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  overflow: hidden;
-  animation: fadeIn 0.3s ease;
-}
-
-.food-img-wrap {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  background: #0d1117;
-}
-
-.food-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.food-stock-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  letter-spacing: 1px;
-}
-
-.food-stock-badge.high  { background: rgba(0,0,0,0.7); color: #4ade80; border: 1px solid #4ade8055; }
-.food-stock-badge.low   { background: rgba(0,0,0,0.7); color: #facc15; border: 1px solid #facc1555; }
-.food-stock-badge.empty { background: rgba(0,0,0,0.7); color: #f87171; border: 1px solid #f8717155; }
-
-.food-stock-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: pulse 1.5s infinite;
-}
-
-.food-body {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.food-top-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.food-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.food-dist {
-  font-size: 12px;
-  color: #4a6080;
-  flex-shrink: 0;
-}
-
-.food-supply {
-  font-size: 12px;
-  color: #8a9bb0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.food-supply i { color: #4a6080; font-size: 11px; }
-
-.food-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.food-type-tag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-}
-
-.food-type-tag.foodbank { background: #2a1f00; color: #facc15; }
-.food-type-tag.water    { background: #0d1f2e; color: #93c5fd; }
-.food-type-tag.ngo      { background: #1a1a2e; color: #c4b5fd; }
-
-.food-navigate-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #e05a4e, #ff7b6b);
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 14px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: opacity 0.2s ease;
-}
-
-.food-navigate-btn:hover { opacity: 0.9; }
-.food-navigate-btn.disabled {
-  background: #1a2535;
-  color: #4a6080;
-  pointer-events: none;
-}
-
-/* ── FULL SITUATION REPORT MODAL ── */
-.report-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.report-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #4a6080;
-}
-
-.report-meta-item i { color: #e05a4e; font-size: 11px; }
-
-.report-threat {
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.report-threat.safe     { background: #0d2010; border: 1px solid #1a4a2a; }
-.report-threat.moderate { background: #2a1f00; border: 1px solid #4a3500; }
-.report-threat.severe   { background: #2a1010; border: 1px solid #4a2020; }
-
-.report-threat-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #8a9bb0;
-}
-
-.report-threat-value {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.report-threat.safe     .report-threat-value { color: #4ade80; }
-.report-threat.moderate .report-threat-value { color: #facc15; }
-.report-threat.severe   .report-threat-value { color: #f87171; }
-
-.report-stats-row {
-  display: flex;
-  gap: 0;
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 14px 0;
-  margin-bottom: 16px;
-  justify-content: space-around;
-}
-
-.report-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.report-stat i { font-size: 16px; color: #4a6080; }
-
-.report-stat-value {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.report-stat-label {
-  font-size: 10px;
-  color: #4a6080;
-  letter-spacing: 0.5px;
-}
-
-.report-body {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 13.5px;
-  color: #94a3b8;
-  line-height: 1.8;
-  margin-bottom: 16px;
-}
-
-.report-sections {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.report-section {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 14px 16px;
-}
-
-.report-section-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.report-section-body {
-  font-size: 12.5px;
-  color: #8a9bb0;
-  line-height: 1.7;
-}
-
-.report-section-body ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.report-section-body ul li::before {
-  content: '→ ';
-  color: #e05a4e;
-  font-weight: 700;
-}
-
-.report-generated {
-  font-size: 10px;
-  color: #2a3a50;
-  text-align: center;
-  letter-spacing: 0.5px;
-}
-
-/* ── SOS MODAL ── */
-.sos-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 200;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.sos-modal.open {
-  display: flex;
-}
-
-.sos-modal-box {
-  width: 100%;
-  max-width: 480px;
-  background: #0d1117;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 24px 50px;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
-}
-
-.sos-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 36px;
-}
-
-.sos-modal-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.sos-live-dot {
-  width: 9px;
-  height: 9px;
-  background: #e05a4e;
-  border-radius: 50%;
-  animation: pulse 1.2s infinite;
-  flex-shrink: 0;
-}
-
-.sos-modal-close {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1e2535;
-  border: none;
-  color: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sos-modal-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-}
-
-.sos-mic-outer {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(220, 60, 50, 0.3) 0%, transparent 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: sos-glow 2s ease-in-out infinite;
-}
-
-.sos-mic-outer.listening {
-  animation: mic-pulse 0.8s ease-in-out infinite;
-}
-
-@keyframes mic-pulse {
-  0%, 100% { box-shadow: 0 0 30px rgba(220, 60, 50, 0.4); transform: scale(1); }
-  50%       { box-shadow: 0 0 70px rgba(220, 60, 50, 0.75); transform: scale(1.04); }
-}
-
-.sos-mic-btn {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #e85040, #c02020);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 30px rgba(180, 0, 0, 0.5);
-  transition: transform 0.15s ease;
-}
-
-.sos-mic-btn i {
-  font-size: 52px;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.sos-mic-btn:active { transform: scale(0.95); }
-
-.sos-listening-text {
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-}
-
-.sos-response-text {
-  font-size: 14px;
-  color: #00e676;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  min-height: 20px;
-  text-align: center;
-}
-
-.sos-transcript-wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.sos-transcript-label {
-  font-size: 13px;
-  color: #8a9bb0;
-  text-align: center;
-  line-height: 1.5;
-}
-
-.sos-transcript-box {
-  width: 100%;
-  background: #1a2030;
-  border-radius: 14px;
-  padding: 20px;
-  font-size: 22px;
-  color: #cccccc;
-  text-align: center;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-.sos-transcript-box .keyword {
-  background: #7a1010;
-  color: #ff4444;
-  font-weight: 700;
-  border-radius: 6px;
-  padding: 2px 8px;
-}
-
-.dispatch-card {
-  width: 100%;
-  background: #111822;
-  border: 1px solid #2a3a50;
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.dispatch-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #c0200e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.dispatch-icon i {
-  font-size: 22px;
-  color: #ffffff;
-}
-
-.dispatch-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-}
-
-.dispatch-tag {
-  font-size: 10px;
-  font-weight: 700;
-  color: #e05a4e;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.dispatch-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.3;
-}
-
-.dispatch-distance {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  flex-shrink: 0;
-}
-
-.dispatch-dist-label {
-  font-size: 10px;
-  color: #4a6080;
-  font-weight: 500;
-}
-
-.dispatch-dist-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-/* ── BOTTOM NAVIGATION ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: #0d1117;
-  border-top: 1px solid #1a2535;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0 16px;
-  z-index: 100;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: #4a5568;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 6px 10px;
-  border: 1px dashed transparent;
-  border-radius: 8px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.nav-item i { font-size: 18px; }
-.nav-item:hover  { color: #94a3b8; border-color: #2a3a50; }
-.nav-item.active { color: #e05a4e; border-color: #e05a4e55; }
-.nav-sos:hover   { color: #e05a4e; border-color: #e05a4e55; }
-
-
-/* ═══════════════════════════════════════════════ */
-/*  ADMIN NEXUS PORTAL  — NEW STYLES               */
-/* ═══════════════════════════════════════════════ */
-
-@keyframes adminScan {
-  0%   { top: -2px; }
-  100% { top: 100%; }
-}
-
-@keyframes adminFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes adminShake {
-  0%, 100% { transform: translateX(0); }
-  20%       { transform: translateX(-8px); }
-  40%       { transform: translateX(8px); }
-  60%       { transform: translateX(-5px); }
-  80%       { transform: translateX(5px); }
-}
-
-@keyframes adminBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
-}
-
-@keyframes adminPulseGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(224,48,48,0); }
-  50%       { box-shadow: 0 0 0 6px rgba(224,48,48,0.15); }
-}
-
-/* Full-screen overlay */
-.admin-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: #0a0a0a;
-  align-items: flex-start;
-  justify-content: center;
-  overflow-y: auto;
-}
-
-.admin-overlay.open {
-  display: flex;
-}
-
-/* Scan line */
-.admin-scanline {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(224,48,48,0.5), transparent);
-  animation: adminScan 5s linear infinite;
-  z-index: 501;
-  pointer-events: none;
-  top: -2px;
-}
-
-/* Grid bg */
-.admin-grid {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(224,48,48,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(224,48,48,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 501;
-}
-
-/* Main box */
-.admin-box {
-  position: relative;
-  z-index: 502;
-  width: 100%;
-  max-width: 420px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #0a0a0a;
-  animation: adminFadeIn 0.4s ease;
-}
-
-/* ── Top bar ── */
-.admin-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid #1e1e1e;
-}
-
-.admin-brand-block {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.admin-brand-icon {
-  width: 34px;
-  height: 34px;
-  background: #e03030;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.admin-brand-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-brand-name {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #e03030;
-  letter-spacing: 2.5px;
-  line-height: 1.1;
-}
-
-.admin-brand-sub {
-  font-size: 9px;
-  color: #555;
-  letter-spacing: 1.5px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.admin-status-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  background: rgba(0,200,81,0.06);
-  border: 1px solid rgba(0,200,81,0.2);
-  border-radius: 20px;
-}
-
-.admin-status-dot {
-  width: 7px;
-  height: 7px;
-  background: #00c851;
-  border-radius: 50%;
-  animation: adminBlink 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.admin-status-text {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: #00c851;
-  letter-spacing: 1.5px;
-  line-height: 1;
-}
-
-.admin-status-text span {
-  display: block;
-  font-size: 9px;
-  letter-spacing: 1px;
-  opacity: 0.75;
-}
-
-/* ── Main content ── */
-.admin-main {
-  flex: 1;
-  padding: 28px 20px 40px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Encrypted tag */
-.admin-enc-tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.admin-enc-bar {
-  width: 3px;
-  height: 14px;
-  background: #e03030;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.admin-enc-label {
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: 10px;
-  color: #e03030;
-  letter-spacing: 2px;
-}
-
-/* Portal title */
-.admin-portal-title {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 54px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 0.9;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-}
-
-.admin-portal-desc {
-  font-size: 13.5px;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 32px;
-  max-width: 290px;
-}
-
-/* ── Form ── */
-.admin-field-group {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.admin-field-label {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  color: #555;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-/* Role select */
-.admin-select-wrap {
-  position: relative;
-}
-
-.admin-select-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #444;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.admin-role-select {
-  width: 100%;
-  background: #111111;
-  border: 1px solid #222;
-  border-radius: 10px;
-  padding: 15px 46px 15px 46px;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 500;
-  font-family: 'Barlow', 'Segoe UI', sans-serif;
-  appearance: none;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-  outline: none;
-}
-
-.admin-role-select:focus { border-color: #e03030; }
-.admin-role-select option { background: #111111; }
-
-.admin-chevron {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #444;
-  font-size: 13px;
-  pointer-events: none;
-}
-
-/* Text inputs */
-.admin-input-wrap {
-  position: relative;
-}
-
-.admin-input-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #444;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.admin-input {
-  width: 100%;
-  background: #111111;
-  border: 1px solid #222;
-  border-radius: 10px;
-  padding: 15px 46px 15px 46px;
-  color: #ffffff;
-  font-size: 15px;
-  font-family: 'Barlow', 'Segoe UI', sans-serif;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.admin-input::placeholder { color: #333; }
-.admin-input:focus { border-color: #e03030; }
-
-.admin-eye-btn {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #444;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s ease;
-}
-
-.admin-eye-btn:hover { color: #888; }
-
-/* Error */
-.admin-error {
-  font-size: 12px;
-  color: #e05a4e;
-  letter-spacing: 0.5px;
-  min-height: 16px;
-  font-family: 'Share Tech Mono', monospace;
-}
-
-/* Login button */
-.admin-login-btn {
-  width: 100%;
-  background: #e03030;
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 17px 24px;
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: background 0.2s ease, transform 0.15s ease;
-  animation: adminPulseGlow 2.5s ease-in-out infinite;
-}
-
-.admin-login-btn:hover  { background: #c02020; transform: scale(1.01); }
-.admin-login-btn:active { transform: scale(0.98); }
-.admin-login-btn:disabled { background: #3a1010; color: #6a3030; cursor: not-allowed; transform: none; }
-
-.admin-login-btn.shake {
-  animation: adminShake 0.4s ease;
-}
-
-/* Footer links */
-.admin-footer-links {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.admin-footer-link {
-  font-size: 10px;
-  color: #444;
-  letter-spacing: 1.2px;
-  cursor: pointer;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-.admin-footer-link:hover { color: #888; }
-
-/* Version */
-.admin-version {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e1e1e;
-  text-align: right;
-  letter-spacing: 2px;
-  margin-bottom: 16px;
-}
-
-/* Protocol strip */
-.admin-proto-strip {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
-  color: #2a2a2a;
-  letter-spacing: 1px;
-  overflow: hidden;
-}
-
-/* ── ADMIN DASHBOARD (post-login) ── */
-.admin-dashboard {
-  display: none;
-  flex-direction: column;
-  gap: 0;
-}
-
-.admin-dashboard.open {
-  display: flex;
-}
-
-.admin-dash-header {
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid #1e1e1e;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.admin-dash-role-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.admin-dash-role-badge.hospital { background: #0d2b1a; color: #4ade80; border: 1px solid #4ade8044; }
-.admin-dash-role-badge.food     { background: #2a1f00; color: #facc15; border: 1px solid #facc1544; }
-.admin-dash-role-badge.police   { background: #2b1a1a; color: #f87171; border: 1px solid #f8717144; }
-.admin-dash-role-badge.shelter  { background: #1a1f2e; color: #93c5fd; border: 1px solid #93c5fd44; }
-
-.admin-logout-btn {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #666;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  cursor: pointer;
-  font-family: 'Rajdhani', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.admin-logout-btn:hover { border-color: #e03030; color: #e03030; }
-
-.admin-dash-body {
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.admin-dash-welcome {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.1;
-  margin-bottom: 4px;
-}
-
-.admin-dash-sub {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-/* Stats row */
-.admin-stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.admin-stat-card {
-  background: #111111;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.admin-stat-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-
-.admin-stat-value {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-}
-
-.admin-stat-label {
-  font-size: 10px;
-  color: #444;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-/* Action cards */
-.admin-action-card {
-  background: #111111;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.admin-action-card:hover {
-  background: #161616;
-  border-color: #2e2e2e;
-}
-
-.admin-action-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.admin-action-text { flex: 1; }
-
-.admin-action-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 3px;
-}
-
-.admin-action-sub {
-  font-size: 12px;
-  color: #444;
-}
-
-.admin-action-arrow {
-  color: #333;
-  font-size: 14px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrisisSync</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="mobile-wrapper">
+
+    <!-- Top Navbar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <i class="fa-solid fa-globe globe-icon"></i>
+        <div class="brand">
+          <span class="brand-name">CrisisSync</span>
+          <span class="live-tracking">
+            <span class="live-dot"></span>
+            Live Tracking
+            <span class="user-location" id="userLocation">Detecting...</span>
+          </span>
+        </div>
+      </div>
+      <div class="avatar">
+        <img src="https://i.pravatar.cc/80?img=12" alt="User Avatar">
+      </div>
+    </nav>
+
+    <!-- Alert Banner -->
+    <div class="alert-bar">
+      <div class="alert-left">
+        <div class="alert-icon-wrap">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div class="alert-text">
+          <span class="alert-title">Flood warning in your area</span>
+          <span class="alert-subtitle">Active alert: Seek higher ground immediately.</span>
+        </div>
+      </div>
+      <i class="fa-solid fa-chevron-right alert-arrow"></i>
+    </div>
+
+    <!-- SOS + Find Help Section -->
+    <div class="sos-section">
+      <div class="sos-outer">
+        <button class="sos-btn" id="sosBtn" onclick="startMic()">
+          <span class="sos-label">SOS</span>
+          <span class="sos-sub">HOLD TO SIGNAL</span>
+        </button>
+      </div>
+      <p class="mic-status" id="micStatus"></p>
+    </div>
+
+    <!-- Quick Access Grid -->
+    <div class="quick-grid">
+      <a href="#" class="quick-card" onclick="openHospitalModal(); return false;">
+        <div class="quick-icon" style="background:#0d2b1a;">
+          <i class="fa-solid fa-briefcase-medical" style="color:#4ade80;"></i>
+        </div>
+        <span class="quick-label">HOSPITAL</span>
+      </a>
+      <a href="#" class="quick-card" onclick="openPoliceModal(); return false;">
+        <div class="quick-icon" style="background:#2b1a1a;">
+          <i class="fa-solid fa-shield-halved" style="color:#f87171;"></i>
+        </div>
+        <span class="quick-label">POLICE</span>
+      </a>
+      <a href="#" class="quick-card" onclick="openShelterModal(); return false;">
+        <div class="quick-icon" style="background:#2b2200;">
+          <i class="fa-solid fa-location-dot" style="color:#facc15;"></i>
+        </div>
+        <span class="quick-label">SHELTER</span>
+      </a>
+      <a href="#" class="quick-card" onclick="openFoodModal(); return false;">
+        <div class="quick-icon" style="background:#1e1e1e;">
+          <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8;"></i>
+        </div>
+        <span class="quick-label">FOOD/NGO</span>
+      </a>
+    </div>
+
+    <!-- Localized Insight Card -->
+    <div class="insight-card">
+      <div class="insight-map">
+        <img src="https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/72.8777,19.0760,11,0/340x160?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
+             alt="Crisis Map" class="insight-map-img" id="insightMapImg">
+        <div class="insight-map-overlay"></div>
+      </div>
+      <div class="insight-body">
+        <div class="insight-tag">
+          <span class="insight-dot"></span>
+          <span class="insight-tag-text">LOCALIZED INSIGHT</span>
+        </div>
+        <h2 class="insight-title" id="insightTitle">Analyzing your area...</h2>
+        <p class="insight-desc" id="insightDesc">Fetching local conditions based on your location.</p>
+        <a href="#" class="insight-link" onclick="openReportModal(); return false;">Full Situation Report →</a>
+      </div>
+    </div>
+
+  </div><!-- /.mobile-wrapper -->
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item" onclick="openMapModal(); return false;">
+      <i class="fa-solid fa-map"></i>
+      <span>Map</span>
+    </a>
+    <a href="#" class="nav-item nav-sos" onclick="openSOSModal(); return false;">
+      <i class="fa-solid fa-microphone"></i>
+      <span>SOS</span>
+    </a>
+    <a href="#" class="nav-item" onclick="openAdminPortal(); return false;">
+      <i class="fa-solid fa-table-cells-large"></i>
+      <span>Admin</span>
+    </a>
+  </nav>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!--  EXISTING MODALS (unchanged)                -->
+  <!-- ─────────────────────────────────────────── -->
+
+  <!-- SOS Modal -->
+  <div class="sos-modal" id="sosModal">
+    <div class="sos-modal-box">
+      <div class="sos-modal-header">
+        <div class="sos-modal-title">
+          <span class="sos-live-dot"></span>
+          LIVE SOS PROTOCOL
+        </div>
+        <button class="sos-modal-close" onclick="closeSOSModal()">✕</button>
+      </div>
+      <div class="sos-modal-body">
+        <div class="sos-mic-outer" id="sosMicOuter">
+          <button class="sos-mic-btn" id="sosMicBtn" onclick="startMic()">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+        </div>
+        <p class="sos-listening-text" id="sosListeningText">Tap mic to speak</p>
+        <div class="sos-transcript-wrap" id="sosTranscriptWrap" style="display:none;">
+          <p class="sos-transcript-label">Detecting emergency keywords and location</p>
+          <div class="sos-transcript-box" id="sosTranscriptBox"></div>
+        </div>
+        <p class="sos-response-text" id="sosResponseText"></p>
+        <div class="dispatch-card" id="dispatchCard" style="display:none;">
+          <div class="dispatch-icon" id="dispatchIcon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div class="dispatch-info">
+            <span class="dispatch-tag" id="dispatchTag">PRIORITY DISPATCH</span>
+            <span class="dispatch-name" id="dispatchName">Finding nearest...</span>
+          </div>
+          <div class="dispatch-distance">
+            <span class="dispatch-dist-label">Distance</span>
+            <span class="dispatch-dist-value" id="dispatchDist">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Modal -->
+  <div class="map-modal" id="mapModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <span class="map-live-dot"></span>
+          ZONE STATUS
+        </div>
+        <button class="map-modal-close" onclick="closeMapModal()">✕</button>
+      </div>
+      <div class="zone-card">
+        <div class="zone-card-header">
+          <span class="zone-title">Zone Status</span>
+          <span class="zone-live"><span class="zone-live-dot"></span>LIVE UPDATE</span>
+        </div>
+        <div class="zone-list" id="zoneList">
+          <div class="zone-loading">Analyzing your location...</div>
+        </div>
+      </div>
+      <div class="nearby-bar" id="nearbyBar">
+        <div class="nearby-icon"><i class="fa-solid fa-wifi"></i></div>
+        <div class="nearby-text">
+          <span class="nearby-label">Nearby Alerts</span>
+          <span class="nearby-value" id="nearbyValue">Scanning area...</span>
+        </div>
+      </div>
+      <div class="safe-card" id="safeCard" style="display:none;">
+        <div class="safe-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="safe-text">
+          <span class="safe-title">All Clear</span>
+          <span class="safe-desc" id="safeDesc">No active hazards in your area.</span>
+        </div>
+      </div>
+      <div class="weather-strip" id="weatherStrip" style="display:none;">
+        <div class="weather-item" id="weatherTemp"></div>
+        <div class="weather-divider"></div>
+        <div class="weather-item" id="weatherWind"></div>
+        <div class="weather-divider"></div>
+        <div class="weather-item" id="weatherCondition"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Situation Report Modal -->
+  <div class="map-modal" id="reportModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-file-lines" style="color:#facc15; font-size:16px;"></i>
+          SITUATION REPORT
+        </div>
+        <button class="map-modal-close" onclick="closeReportModal()">✕</button>
+      </div>
+      <div class="report-meta">
+        <div class="report-meta-item"><i class="fa-solid fa-location-dot"></i><span id="reportLocation">Detecting...</span></div>
+        <div class="report-meta-item"><i class="fa-solid fa-clock"></i><span id="reportTime">--</span></div>
+      </div>
+      <div class="report-threat" id="reportThreat">
+        <span class="report-threat-label" id="reportThreatLabel">ANALYZING...</span>
+        <span class="report-threat-value" id="reportThreatValue">--</span>
+      </div>
+      <div class="report-stats-row" id="reportStatsRow" style="display:none;">
+        <div class="report-stat"><i class="fa-solid fa-temperature-half"></i><span class="report-stat-value" id="rTemp">--</span><span class="report-stat-label">Temp</span></div>
+        <div class="report-stat"><i class="fa-solid fa-wind"></i><span class="report-stat-value" id="rWind">--</span><span class="report-stat-label">Wind</span></div>
+        <div class="report-stat"><i class="fa-solid fa-cloud"></i><span class="report-stat-value" id="rCondition">--</span><span class="report-stat-label">Condition</span></div>
+      </div>
+      <div class="report-body" id="reportBody"><div class="zone-loading">Generating report...</div></div>
+      <div class="report-sections" id="reportSections" style="display:none;">
+        <div class="report-section">
+          <div class="report-section-title"><i class="fa-solid fa-triangle-exclamation" style="color:#facc15;"></i>Active Warnings</div>
+          <div class="report-section-body" id="reportWarnings"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section-title"><i class="fa-solid fa-shield-halved" style="color:#4ade80;"></i>Safety Recommendations</div>
+          <div class="report-section-body" id="reportRecommendations"></div>
+        </div>
+      </div>
+      <p class="report-generated" id="reportGenerated"></p>
+    </div>
+  </div>
+
+  <!-- Food & NGO Modal -->
+  <div class="map-modal" id="foodModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-hand-holding-heart" style="color:#94a3b8; font-size:16px;"></i>
+          FOOD & NGO
+        </div>
+        <button class="map-modal-close" onclick="closeFoodModal()">✕</button>
+      </div>
+      <h2 class="shelter-heading">Food & NGO</h2>
+      <div class="food-search-wrap">
+        <i class="fa-solid fa-magnifying-glass food-search-icon"></i>
+        <input type="text" class="food-search-input" id="foodSearchInput"
+          placeholder="Search water, meal kits, supplies..."
+          oninput="searchFood(this.value)">
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterFood('all', this)">All</button>
+        <button class="filter-tab" onclick="filterFood('foodbank', this)">Food Banks</button>
+        <button class="filter-tab" onclick="filterFood('water', this)">Water Points</button>
+        <button class="filter-tab" onclick="filterFood('ngo', this)">NGOs</button>
+      </div>
+      <div class="food-list" id="foodList"></div>
+    </div>
+  </div>
+
+  <!-- Shelter Modal -->
+  <div class="map-modal" id="shelterModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-location-dot" style="color:#facc15; font-size:16px;"></i>
+          RELIEF CENTERS
+        </div>
+        <button class="map-modal-close" onclick="closeShelterModal()">✕</button>
+      </div>
+      <div class="shelter-live-tag"><span class="shelter-live-dot"></span>LIVE NETWORK STATUS</div>
+      <h2 class="shelter-heading">Relief Centers</h2>
+      <p class="shelter-subtext">Verified emergency shelters and NGO hubs currently operating in your sector.</p>
+      <div class="filter-tabs" style="margin-top:16px;">
+        <button class="filter-tab active" onclick="filterShelters('all', this)">All Centers</button>
+        <button class="filter-tab" onclick="filterShelters('shelter', this)">Shelters</button>
+        <button class="filter-tab" onclick="filterShelters('medical', this)">Medical</button>
+        <button class="filter-tab" onclick="filterShelters('food', this)">Supply</button>
+      </div>
+      <div class="shelter-list" id="shelterList"></div>
+    </div>
+  </div>
+
+  <!-- Police Modal -->
+  <div class="map-modal" id="policeModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-shield-halved" style="color:#f87171; font-size:16px;"></i>
+          POLICE STATIONS
+        </div>
+        <button class="map-modal-close" onclick="closePoliceModal()">✕</button>
+      </div>
+      <div class="filter-tabs" id="policeFilterTabs">
+        <button class="police-tab active" onclick="filterPolice('nearest', this)"><i class="fa-solid fa-location-arrow"></i> NEAREST</button>
+        <button class="police-tab" onclick="filterPolice('active', this)"><i class="fa-solid fa-shield-halved"></i> ACTIVE UNITS</button>
+        <button class="police-tab" onclick="filterPolice('alert', this)"><i class="fa-solid fa-shield-halved"></i> ON ALERT</button>
+      </div>
+      <div class="police-list" id="policeList"></div>
+    </div>
+  </div>
+
+  <!-- Hospital Modal -->
+  <div class="map-modal" id="hospitalModal">
+    <div class="map-modal-box">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <i class="fa-solid fa-briefcase-medical" style="color:#4ade80; font-size:16px;"></i>
+          HOSPITALS
+        </div>
+        <button class="map-modal-close" onclick="closeHospitalModal()">✕</button>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterHospitals('recommended', this)">Recommended</button>
+        <button class="filter-tab" onclick="filterHospitals('nearest', this)">Nearest</button>
+        <button class="filter-tab" onclick="filterHospitals('maxbeds', this)">Max Beds</button>
+        <button class="filter-tab" onclick="filterHospitals('available', this)">Available</button>
+      </div>
+      <div class="status-overview">
+        <h2 class="status-title">Status Overview</h2>
+        <p class="status-subtitle" id="statusSubtitle">Emergency response readiness in your area</p>
+        <div class="status-stats">
+          <div class="stat-item"><span class="stat-value green" id="totalBeds">--</span><span class="stat-label">BEDS AVAILABLE</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><span class="stat-value red" id="criticalWait">--</span><span class="stat-label">CRITICAL WAIT</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><span class="stat-value amber" id="totalFacilities">--</span><span class="stat-label">FACILITIES</span></div>
+        </div>
+      </div>
+      <div class="hospital-list" id="hospitalList"></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!--  ADMIN NEXUS PORTAL MODAL  (NEW)            -->
+  <!-- ─────────────────────────────────────────── -->
+  <div class="admin-overlay" id="adminOverlay">
+
+    <!-- Animated scan line -->
+    <div class="admin-scanline"></div>
+
+    <!-- Grid background -->
+    <div class="admin-grid"></div>
+
+    <div class="admin-box">
+
+      <!-- Top bar -->
+      <div class="admin-topbar">
+        <div class="admin-brand-block">
+          <div class="admin-brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="admin-brand-text">
+            <span class="admin-brand-name">CRISIS SYNC</span>
+            <span class="admin-brand-sub">AUTHORIZED PERSONNEL ONLY</span>
+          </div>
+        </div>
+        <div class="admin-status-pill">
+          <span class="admin-status-dot"></span>
+          <div class="admin-status-text">
+            SYSTEM<span>ONLINE</span>
+          </div>
+        </div>
+        <button onclick="closeAdminPortal()" style="background:#1a1a1a;border:1px solid #2a2a2a;color:#666;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
+      </div>
+
+      <!-- Main content -->
+      <div class="admin-main" id="adminMain">
+
+        <!-- Encrypted tag -->
+        <div class="admin-enc-tag">
+          <div class="admin-enc-bar"></div>
+          <span class="admin-enc-label">ENCRYPTED LINK ESTABLISHED</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="admin-portal-title">ACCESS<br>NEXUS<br>PORTAL</h1>
+        <p class="admin-portal-desc">Please provide your credentials to verify clearance for the tactical environment.</p>
+
+        <!-- Form -->
+        <div class="admin-field-group" id="adminLoginForm">
+
+          <!-- Role -->
+          <div>
+            <div class="admin-field-label">AUTHENTICATION ROLE</div>
+            <div class="admin-select-wrap">
+              <i class="fa-solid fa-lock admin-select-icon"></i>
+              <select class="admin-role-select" id="adminRole" onchange="updateAdminPlaceholder()">
+                <option value="hospital">Hospital</option>
+                <option value="food">Food / NGO</option>
+                <option value="police">Police</option>
+                <option value="shelter">Shelter</option>
+              </select>
+              <i class="fa-solid fa-chevron-down admin-chevron"></i>
+            </div>
+          </div>
+
+          <!-- User ID -->
+          <div>
+            <div class="admin-field-label">USER IDENTIFIER</div>
+            <div class="admin-input-wrap">
+              <i class="fa-solid fa-fingerprint admin-input-icon"></i>
+              <input type="text" class="admin-input" id="adminUser"
+                placeholder="admin.crisis.sync" autocomplete="off">
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <div class="admin-field-label">SECURITY KEY</div>
+            <div class="admin-input-wrap">
+              <i class="fa-solid fa-lock admin-input-icon"></i>
+              <input type="password" class="admin-input" id="adminPass"
+                placeholder="••••••••••••" autocomplete="off">
+              <button class="admin-eye-btn" onclick="toggleAdminPass(this)" tabindex="-1">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Error msg -->
+          <p class="admin-error" id="adminError"></p>
+
+          <!-- Login btn -->
+          <button class="admin-login-btn" onclick="handleAdminLogin()">
+            <span id="adminBtnText">SECURE LOGIN</span>
+            <i class="fa-solid fa-arrow-right" id="adminBtnIcon"></i>
+            <span class="admin-btn-loader" id="adminBtnLoader" style="display:none;">
+              <i class="fa-solid fa-circle-notch fa-spin"></i>
+            </span>
+          </button>
+
+        </div>
+
+        <!-- Footer links -->
+        <div class="admin-footer-links">
+          <span class="admin-footer-link">FORGOT CLEARANCE?</span>
+          <span class="admin-footer-link">REQUEST ACCESS</span>
+        </div>
+
+        <!-- Version -->
+        <div class="admin-version">V4.2</div>
+
+        <!-- Protocol strip -->
+        <div class="admin-proto-strip">
+          <span>SECURITY PROTOCOLS</span>
+          <span>· · ·</span>
+          <span>SYSTEM_STATUS</span>
+          <span>SUPPORT</span>
+        </div>
+        <div class="admin-proto-strip" style="margin-top:3px;">
+          <span>SECURE PROTOCOL LENS V4.0.2 // ENCRYPTED</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /#adminOverlay -->
+
+  <script src="script.js"></script>
+</body>
+</html>
