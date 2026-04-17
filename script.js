@@ -19,7 +19,6 @@ function detectLocation() {
         addr.suburb || addr.neighbourhood || addr.village ||
         addr.town || addr.city_district || addr.county || 'Your Area';
 
-      // Store globally for dispatch use
       window._userLat = latitude;
       window._userLon = longitude;
 
@@ -41,13 +40,11 @@ async function generateInsight(area, lat, lon) {
   const descEl  = document.getElementById('insightDesc');
   const mapImg  = document.getElementById('insightMapImg');
 
-  // Update map to user's actual coordinates
   if (mapImg) {
     mapImg.src = `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${lon},${lat},12,0/340x160?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw`;
   }
 
   try {
-    // Fetch real weather using Open-Meteo (free, no API key)
     const weatherRes = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=precipitation_probability&timezone=auto`
     );
@@ -57,10 +54,7 @@ async function generateInsight(area, lat, lon) {
     const windspeed   = current.windspeed;
     const code        = current.weathercode;
 
-    // Weather code to description
     const weatherDesc = getWeatherDescription(code);
-
-    // Check for severe conditions
     const isSevere = code >= 55 || windspeed > 60;
 
     if (isSevere) {
@@ -132,7 +126,6 @@ async function generateFullReport() {
     const humidity = data.hourly?.relativehumidity_2m?.[0] || '--';
     const precip   = data.hourly?.precipitation_probability?.[0] || 0;
 
-    // Determine threat level
     let threatLevel, threatClass, threatText;
     if (code >= 80 || wind > 60) {
       threatLevel = 'SEVERE'; threatClass = 'severe';
@@ -145,29 +138,24 @@ async function generateFullReport() {
       threatText  = 'CONDITIONS NORMAL — No immediate threats';
     }
 
-    // Set threat banner
     const threatEl = document.getElementById('reportThreat');
     threatEl.className = `report-threat ${threatClass}`;
     document.getElementById('reportThreatLabel').textContent = 'THREAT LEVEL';
     document.getElementById('reportThreatValue').textContent = threatLevel;
 
-    // Weather stats
     document.getElementById('rTemp').textContent      = `${temp}°C`;
     document.getElementById('rWind').textContent      = `${wind}km/h`;
     document.getElementById('rCondition').textContent = desc;
     document.getElementById('reportStatsRow').style.display = 'flex';
 
-    // Generate 100+ word report
     const report = generateReportText(area, temp, wind, desc, code, humidity, precip, threatLevel);
     document.getElementById('reportBody').innerHTML = report;
 
-    // Warnings & Recommendations
     const { warnings, recommendations } = getWarningsAndRecs(code, wind, temp, precip);
     document.getElementById('reportWarnings').innerHTML       = `<ul>${warnings.map(w => `<li>${w}</li>`).join('')}</ul>`;
     document.getElementById('reportRecommendations').innerHTML = `<ul>${recommendations.map(r => `<li>${r}</li>`).join('')}</ul>`;
     document.getElementById('reportSections').style.display  = 'flex';
 
-    // Timestamp
     document.getElementById('reportGenerated').textContent =
       `Report generated on ${now.toLocaleDateString()} at ${now.toLocaleTimeString()}`;
 
@@ -509,7 +497,6 @@ function renderPolice(list) {
           ${badgeLabel}
         </div>
       </div>
-
       <div class="police-stats">
         <div class="police-stat">
           <span class="police-stat-label">DISTANCE</span>
@@ -520,7 +507,6 @@ function renderPolice(list) {
           <span class="police-stat-value" style="color:${p.units > 0 ? '#ffffff' : '#f87171'}">${unitsText}</span>
         </div>
       </div>
-
       ${p.status !== 'offline' ? `
       <div class="police-actions">
         <button class="police-assist-btn" onclick="window.location.href='${p.phone}'">
@@ -536,7 +522,6 @@ function renderPolice(list) {
 
 // ── HOSPITAL MODAL ──
 
-// Simulated hospital data (will be replaced by Firebase later)
 const hospitalData = [
   { name: 'City Central Hospital',     dist: 1.2, beds: 14, waitTime: 12, critical: 3,  status: 'available', phone: 'tel:+911234567890' },
   { name: 'St. Jude Medical',          dist: 2.8, beds: 6,  waitTime: 25, critical: 7,  status: 'busy',      phone: 'tel:+911234567891' },
@@ -604,7 +589,6 @@ function renderHospitals(list) {
 
     return `
     <div class="hospital-card ${isBest ? 'best' : ''}">
-      <!-- Top Row -->
       <div class="hosp-top-row">
         <div class="hosp-icon-big">
           <i class="fa-solid fa-star-of-life"></i>
@@ -622,8 +606,6 @@ function renderHospitals(list) {
           <span class="hosp-dist-label">away</span>
         </div>
       </div>
-
-      <!-- Stats Row -->
       ${h.status !== 'full' ? `
       <div class="hosp-stats-row">
         <div class="hosp-stat-box">
@@ -635,8 +617,6 @@ function renderHospitals(list) {
           <span class="hosp-stat-value">${h.waitTime} mins</span>
         </div>
       </div>
-
-      <!-- Action Buttons -->
       <div class="hosp-actions">
         <a href="${navigateUrl}" target="_blank" class="hosp-navigate-btn">
           <i class="fa-solid fa-paper-plane"></i> Navigate
@@ -683,7 +663,6 @@ async function loadMapZones() {
     const weather = data.current_weather;
     const area    = document.getElementById('userLocation').textContent.replace('· ', '') || 'Your Area';
 
-    // Build zones based on weather
     const zones = [];
     const code  = weather.weathercode;
     const wind  = weather.windspeed;
@@ -733,7 +712,6 @@ async function loadMapZones() {
       safeCard.style.display = 'none';
     }
 
-    // Weather strip
     const desc = getWeatherDesc(code);
     document.getElementById('weatherTemp').innerHTML      = `<span>${weather.temperature}°C</span><span>Temperature</span>`;
     document.getElementById('weatherWind').innerHTML      = `<span>${wind} km/h</span><span>Wind</span>`;
@@ -780,7 +758,6 @@ async function fetchNearestPlace(speech) {
   const iconEl   = document.getElementById('dispatchIcon');
   const tagEl    = document.getElementById('dispatchTag');
 
-  // Determine what to search for
   let amenity = 'hospital';
   let iconClass = 'fa-solid fa-plus';
   let iconBg = '#c0200e';
@@ -793,7 +770,6 @@ async function fetchNearestPlace(speech) {
     amenity = 'shelter'; iconClass = 'fa-solid fa-house'; iconBg = '#1a5a2e';
   }
 
-  // Show card loading state
   card.style.display = 'flex';
   nameEl.textContent = 'Finding nearest...';
   distEl.textContent = '--';
@@ -872,9 +848,7 @@ function startMic() {
   const listeningText = document.getElementById('sosListeningText');
   const responseText  = document.getElementById('sosResponseText');
   const micOuter      = document.getElementById('sosMicOuter');
-
-  // Also handle old mic status if on main page
-  const oldStatus = document.getElementById('micStatus');
+  const oldStatus     = document.getElementById('micStatus');
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -900,7 +874,6 @@ function startMic() {
     if (listeningText) listeningText.textContent = '';
     if (micOuter)      micOuter.classList.remove('listening');
 
-    // Show transcript box with keyword highlights
     const transcriptWrap = document.getElementById('sosTranscriptWrap');
     const transcriptBox  = document.getElementById('sosTranscriptBox');
     if (transcriptWrap && transcriptBox) {
@@ -912,7 +885,6 @@ function startMic() {
     if (responseText) responseText.textContent = response;
     if (oldStatus)    oldStatus.textContent = response;
 
-    // Show nearest place based on keyword
     fetchNearestPlace(speechLower);
   };
 
@@ -943,4 +915,234 @@ function analyzeAndRespond(speech) {
     if (rule.keywords.some(k => speech.includes(k))) return rule.response;
   }
   return '📡 Emergency signal sent. Stay calm.';
+}
+
+
+// ═══════════════════════════════════════════════════════
+//  ADMIN NEXUS PORTAL  — NEW CODE
+// ═══════════════════════════════════════════════════════
+
+// ── Credentials (simple hardcoded for now) ──
+const ADMIN_CREDENTIALS = {
+  hospital: { user: 'admin.hospital',  pass: 'hosp@2024' },
+  food:     { user: 'admin.food',      pass: 'food@2024' },
+  police:   { user: 'admin.police',    pass: 'police@2024' },
+  shelter:  { user: 'admin.shelter',   pass: 'shelter@2024' },
+};
+
+// Role display config
+const ROLE_CONFIG = {
+  hospital: { label: 'Hospital Admin',  icon: 'fa-briefcase-medical', color: '#4ade80', stats: [{ val: '14', lbl: 'BEDS FREE', icon: 'fa-bed', bg: '#0d2b1a' }, { val: '3',  lbl: 'CRITICAL', icon: 'fa-heart-pulse', bg: '#2b1a1a' }, { val: '12', lbl: 'WAIT (MIN)', icon: 'fa-clock', bg: '#2b2200' }, { val: '5',  lbl: 'DOCTORS ON', icon: 'fa-user-doctor', bg: '#1a1f2e' }] },
+  food:     { label: 'Food/NGO Admin',  icon: 'fa-hand-holding-heart', color: '#facc15', stats: [{ val: '500+', lbl: 'MEAL KITS', icon: 'fa-box-open', bg: '#2a1f00' }, { val: '3',  lbl: 'STATIONS', icon: 'fa-location-dot', bg: '#0d2b1a' }, { val: '200L', lbl: 'WATER AVAIL', icon: 'fa-droplet', bg: '#1a1f2e' }, { val: '2',  lbl: 'LOW STOCK', icon: 'fa-triangle-exclamation', bg: '#2b1a1a' }] },
+  police:   { label: 'Police Admin',    icon: 'fa-shield-halved', color: '#f87171', stats: [{ val: '5',  lbl: 'STATIONS', icon: 'fa-building', bg: '#2b1a1a' }, { val: '28', lbl: 'UNITS OUT', icon: 'fa-car', bg: '#1a1f2e' }, { val: '1',  lbl: 'ON ALERT', icon: 'fa-bell', bg: '#2a1f00' }, { val: '4',  lbl: 'OFFLINE', icon: 'fa-circle-xmark', bg: '#0d2010' }] },
+  shelter:  { label: 'Shelter Admin',   icon: 'fa-location-dot', color: '#93c5fd', stats: [{ val: '4',  lbl: 'SHELTERS', icon: 'fa-house', bg: '#1a1f2e' }, { val: '215', lbl: 'CAPACITY', icon: 'fa-people-group', bg: '#0d2b1a' }, { val: '60%', lbl: 'AVG FILL', icon: 'fa-chart-bar', bg: '#2a1f00' }, { val: '2',  lbl: 'MEDICAL', icon: 'fa-kit-medical', bg: '#2b1a1a' }] },
+};
+
+// ── Open portal ──
+function openAdminPortal() {
+  const overlay = document.getElementById('adminOverlay');
+  overlay.classList.add('open');
+
+  // Reset to login view
+  const loginForm = document.getElementById('adminLoginForm');
+  const dashboard = document.getElementById('adminDashboard');
+  if (loginForm)   loginForm.style.display = 'flex';
+  if (dashboard)   dashboard.classList.remove('open');
+
+  document.getElementById('adminUser').value  = '';
+  document.getElementById('adminPass').value  = '';
+  document.getElementById('adminError').textContent = '';
+  document.getElementById('adminBtnText').textContent = 'SECURE LOGIN';
+  document.getElementById('adminBtnIcon').style.display = '';
+  document.getElementById('adminBtnLoader').style.display = 'none';
+  document.querySelector('.admin-login-btn').disabled = false;
+
+  // Update placeholder on load
+  updateAdminPlaceholder();
+}
+
+function closeAdminPortal() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+
+// ── Update placeholder based on selected role ──
+function updateAdminPlaceholder() {
+  const role = document.getElementById('adminRole').value;
+  const cred = ADMIN_CREDENTIALS[role];
+  if (cred) {
+    document.getElementById('adminUser').placeholder = cred.user;
+  }
+}
+
+// ── Toggle password visibility ──
+function toggleAdminPass(btn) {
+  const input = document.getElementById('adminPass');
+  const icon  = btn.querySelector('i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'fa-solid fa-eye-slash';
+  } else {
+    input.type = 'password';
+    icon.className = 'fa-solid fa-eye';
+  }
+}
+
+// ── Handle login ──
+function handleAdminLogin() {
+  const role = document.getElementById('adminRole').value;
+  const user = document.getElementById('adminUser').value.trim();
+  const pass = document.getElementById('adminPass').value.trim();
+  const errEl = document.getElementById('adminError');
+  const btn   = document.querySelector('.admin-login-btn');
+  const btnTxt  = document.getElementById('adminBtnText');
+  const btnIcon = document.getElementById('adminBtnIcon');
+  const btnLoader = document.getElementById('adminBtnLoader');
+
+  errEl.textContent = '';
+
+  if (!user || !pass) {
+    errEl.textContent = '⚠ CREDENTIALS REQUIRED';
+    shakeLoginBtn();
+    return;
+  }
+
+  const cred = ADMIN_CREDENTIALS[role];
+  if (user !== cred.user || pass !== cred.pass) {
+    errEl.textContent = '✕ ACCESS DENIED — INVALID CREDENTIALS';
+    shakeLoginBtn();
+    document.getElementById('adminPass').value = '';
+    return;
+  }
+
+  // Show loading state
+  btn.disabled = true;
+  btnTxt.textContent = 'AUTHENTICATING';
+  btnIcon.style.display = 'none';
+  btnLoader.style.display = '';
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btnTxt.textContent = 'SECURE LOGIN';
+    btnIcon.style.display = '';
+    btnLoader.style.display = 'none';
+    showAdminDashboard(role);
+  }, 1200);
+}
+
+function shakeLoginBtn() {
+  const btn = document.querySelector('.admin-login-btn');
+  btn.classList.remove('shake');
+  void btn.offsetWidth; // reflow to restart animation
+  btn.classList.add('shake');
+  setTimeout(() => btn.classList.remove('shake'), 400);
+}
+
+// ── Render dashboard ──
+function showAdminDashboard(role) {
+  const cfg = ROLE_CONFIG[role];
+
+  // Hide login form
+  document.getElementById('adminLoginForm').style.display = 'none';
+
+  // Hide portal title & desc & enc tag
+  document.querySelector('.admin-enc-tag').style.display = 'none';
+  document.querySelector('.admin-portal-title').style.display = 'none';
+  document.querySelector('.admin-portal-desc').style.display = 'none';
+  document.querySelector('.admin-footer-links').style.display = 'none';
+  document.querySelector('.admin-version').style.display = 'none';
+  document.querySelectorAll('.admin-proto-strip').forEach(el => el.style.display = 'none');
+
+  // Build dashboard HTML
+  const statsHtml = cfg.stats.map(s => `
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon" style="background:${s.bg};">
+        <i class="fa-solid ${s.icon}" style="color:${cfg.color};"></i>
+      </div>
+      <div class="admin-stat-value">${s.val}</div>
+      <div class="admin-stat-label">${s.lbl}</div>
+    </div>`).join('');
+
+  const actionsHtml = getAdminActions(role, cfg);
+
+  const dashHtml = `
+    <div id="adminDashboard" class="admin-dashboard open">
+      <div class="admin-dash-header">
+        <div class="admin-dash-role-badge ${role}">
+          <i class="fa-solid ${cfg.icon}"></i>
+          ${cfg.label}
+        </div>
+        <button class="admin-logout-btn" onclick="adminLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> LOGOUT
+        </button>
+      </div>
+      <div class="admin-dash-body">
+        <div class="admin-dash-welcome">WELCOME,<br>ADMIN</div>
+        <div class="admin-dash-sub">You are logged in as <strong>${cfg.label}</strong>. Manage your sector below.</div>
+        <div class="admin-stats-row">${statsHtml}</div>
+        ${actionsHtml}
+      </div>
+    </div>`;
+
+  document.getElementById('adminMain').insertAdjacentHTML('beforeend', dashHtml);
+}
+
+function getAdminActions(role, cfg) {
+  const actions = {
+    hospital: [
+      { icon: 'fa-bed',           bg: '#0d2b1a', color: '#4ade80', title: 'Bed Management',     sub: 'Update ICU & ward availability' },
+      { icon: 'fa-user-doctor',   bg: '#1a1f2e', color: '#93c5fd', title: 'Staff On Duty',       sub: 'View and manage active staff' },
+      { icon: 'fa-ambulance',     bg: '#2b1a1a', color: '#f87171', title: 'Emergency Intake',    sub: 'Log incoming emergency cases' },
+      { icon: 'fa-file-medical',  bg: '#2a1f00', color: '#facc15', title: 'Incident Reports',    sub: 'Submit and review reports' },
+    ],
+    food: [
+      { icon: 'fa-box-open',      bg: '#2a1f00', color: '#facc15', title: 'Stock Update',        sub: 'Update food & water inventory' },
+      { icon: 'fa-location-dot',  bg: '#0d2b1a', color: '#4ade80', title: 'Distribution Points', sub: 'Manage active stations' },
+      { icon: 'fa-truck',         bg: '#1a1f2e', color: '#93c5fd', title: 'Incoming Supply',     sub: 'Log incoming deliveries' },
+      { icon: 'fa-clipboard-list',bg: '#2b1a1a', color: '#f87171', title: 'NGO Coordination',    sub: 'Coordinate with partner NGOs' },
+    ],
+    police: [
+      { icon: 'fa-car',           bg: '#2b1a1a', color: '#f87171', title: 'Unit Deployment',     sub: 'Manage active field units' },
+      { icon: 'fa-bell',          bg: '#2a1f00', color: '#facc15', title: 'Alert Broadcast',      sub: 'Send area-wide alerts' },
+      { icon: 'fa-map-location',  bg: '#0d2b1a', color: '#4ade80', title: 'Patrol Zones',        sub: 'View and assign patrol areas' },
+      { icon: 'fa-file-shield',   bg: '#1a1f2e', color: '#93c5fd', title: 'Incident Log',        sub: 'Review filed incidents' },
+    ],
+    shelter: [
+      { icon: 'fa-people-group',  bg: '#1a1f2e', color: '#93c5fd', title: 'Capacity Status',     sub: 'Update shelter occupancy' },
+      { icon: 'fa-kit-medical',   bg: '#2b1a1a', color: '#f87171', title: 'Medical Services',    sub: 'Track on-site medical support' },
+      { icon: 'fa-boxes-stacked', bg: '#2a1f00', color: '#facc15', title: 'Supply Inventory',    sub: 'Manage food, water, blankets' },
+      { icon: 'fa-bullhorn',      bg: '#0d2b1a', color: '#4ade80', title: 'Announcements',       sub: 'Post updates to residents' },
+    ],
+  };
+
+  return actions[role].map(a => `
+    <div class="admin-action-card">
+      <div class="admin-action-icon" style="background:${a.bg};">
+        <i class="fa-solid ${a.icon}" style="color:${a.color}; font-size:18px;"></i>
+      </div>
+      <div class="admin-action-text">
+        <div class="admin-action-title">${a.title}</div>
+        <div class="admin-action-sub">${a.sub}</div>
+      </div>
+      <i class="fa-solid fa-chevron-right admin-action-arrow"></i>
+    </div>`).join('');
+}
+
+// ── Logout ──
+function adminLogout() {
+  // Remove injected dashboard
+  const dash = document.getElementById('adminDashboard');
+  if (dash) dash.remove();
+
+  // Re-show login elements
+  document.getElementById('adminLoginForm').style.display = 'flex';
+  document.querySelector('.admin-enc-tag').style.display = '';
+  document.querySelector('.admin-portal-title').style.display = '';
+  document.querySelector('.admin-portal-desc').style.display = '';
+  document.querySelector('.admin-footer-links').style.display = '';
+  document.querySelector('.admin-version').style.display = '';
+  document.querySelectorAll('.admin-proto-strip').forEach(el => el.style.display = '');
+
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminError').textContent = '';
 }
