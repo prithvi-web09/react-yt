@@ -1,3365 +1,1204 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #0a0e14;
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-}
-
-/* Mobile wrapper — centered on desktop, full width on mobile */
-.mobile-wrapper {
-  width: 100%;
-  max-width: 480px;
-  min-height: 100vh;
-  background-color: #0a0e14;
-  overflow-x: hidden;
-  padding-bottom: 80px;
-}
-
-/* ── TOP NAV ── */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 16px 14px;
-  border-bottom: 1px solid #1a2233;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.globe-icon {
-  font-size: 22px;
-  color: #e05a4e;
-}
-
-.brand {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-name {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.3px;
-  line-height: 1.2;
-}
-
-.live-tracking {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #00e676;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.live-dot {
-  width: 7px;
-  height: 7px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.8); }
-}
-
-.user-location {
-  color: #8a9bb0;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  text-transform: none;
-}
-
-/* Avatar */
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #1e2d40;
-  flex-shrink: 0;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ── ALERT BANNER ── */
-.alert-bar {
-  margin: 14px 14px 0;
-  background-color: #111822;
-  border: 1px solid #1e2d40;
-  border-radius: 12px;
-  padding: 13px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.alert-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
-}
-
-.alert-icon-wrap {
-  width: 38px;
-  height: 38px;
-  background-color: #2a1f00;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.alert-icon-wrap i {
-  font-size: 18px;
-  color: #FFB300;
-}
-
-.alert-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.alert-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #FFB300;
-  letter-spacing: 0.1px;
-}
-
-.alert-subtitle {
-  font-size: 11px;
-  color: #8a9bb0;
-  line-height: 1.4;
-}
-
-.alert-arrow {
-  color: #4a6080;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-/* ── SOS SECTION ── */
-.sos-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 24px 30px;
-  gap: 28px;
-}
-
-.sos-outer {
-  width: 210px;
-  height: 210px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 30, 30, 0.25) 0%, transparent 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: sos-glow 2.5s ease-in-out infinite;
-}
-
-@keyframes sos-glow {
-  0%, 100% { box-shadow: 0 0 30px rgba(200, 30, 30, 0.3); }
-  50%       { box-shadow: 0 0 60px rgba(200, 30, 30, 0.55); }
-}
-
-.sos-btn {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #e83030, #b01010);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 8px 30px rgba(180, 0, 0, 0.5);
-}
-
-.sos-btn:hover  { transform: scale(1.04); box-shadow: 0 12px 40px rgba(200,0,0,0.65); }
-.sos-btn:active { transform: scale(0.96); box-shadow: 0 4px 20px rgba(200,0,0,0.4); }
-
-.sos-label {
-  font-size: 46px;
-  font-weight: 900;
-  color: rgba(0, 0, 0, 0.45);
-  letter-spacing: 4px;
-  line-height: 1;
-}
-
-.sos-sub {
-  font-size: 10px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.4);
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-}
-
-.mic-status {
-  font-size: 13px;
-  color: #00e676;
-  letter-spacing: 0.5px;
-  min-height: 18px;
-  text-align: center;
-}
-
-/* ── FIND HELP BUTTON ── */
-.find-help-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 320px;
-  padding: 16px 24px;
-  background-color: #141c28;
-  border: 1px solid #1e2d40;
-  border-radius: 50px;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, transform 0.15s ease;
-}
-
-.find-help-btn i { font-size: 16px; color: #e05a4e; }
-.find-help-btn:hover  { background-color: #1c2840; transform: scale(1.02); }
-.find-help-btn:active { transform: scale(0.97); }
-
-/* ── QUICK ACCESS GRID ── */
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 0 14px 20px;
-}
-
-.quick-card {
-  background-color: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 14px;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.15s ease;
-}
-
-.quick-card:hover  { background-color: #17202e; transform: scale(1.02); }
-.quick-card:active { transform: scale(0.97); }
-
-.quick-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.quick-icon i { font-size: 24px; }
-
-.quick-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #cbd5e1;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-}
-
-/* ── LOCALIZED INSIGHT CARD ── */
-.insight-card {
-  margin: 6px 14px 20px;
-  background-color: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.insight-map {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  background: #0a0e14;
-  overflow: hidden;
-}
-
-.insight-map-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: hue-rotate(320deg) saturate(2) brightness(0.6);
-}
-
-.insight-map-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, #111822 100%);
-}
-
-.insight-body {
-  padding: 18px 18px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.insight-tag {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.insight-dot {
-  width: 8px;
-  height: 8px;
-  background: #facc15;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.insight-tag-text {
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #facc15;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-}
-
-.insight-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.3;
-}
-
-.insight-desc {
-  font-size: 12.5px;
-  color: #8a9bb0;
-  line-height: 1.6;
-}
-
-.insight-link {
-  font-size: 13px;
-  font-weight: 600;
-  color: #e05a4e;
-  text-decoration: none;
-  margin-top: 4px;
-}
-
-.insight-link:hover { text-decoration: underline; }
-
-/* ── MAP MODAL ── */
-.map-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 200;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.map-modal.open {
-  display: flex;
-}
-
-.map-modal-box {
-  width: 100%;
-  max-width: 480px;
-  background: #0d1117;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 20px 80px;
-  animation: slideUp 0.3s ease;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.map-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.map-modal-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.map-live-dot {
-  width: 9px;
-  height: 9px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.2s infinite;
-  flex-shrink: 0;
-}
-
-.map-modal-close {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1e2535;
-  border: none;
-  color: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── ZONE STATUS CARD ── */
-.zone-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 18px 16px;
-  margin-bottom: 12px;
-}
-
-.zone-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-
-.zone-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.zone-live {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #00e676;
-  letter-spacing: 1.2px;
-  background: #0d2010;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
-.zone-live-dot {
-  width: 7px;
-  height: 7px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-}
-
-.zone-loading {
-  font-size: 13px;
-  color: #4a6080;
-  text-align: center;
-  padding: 16px 0;
-}
-
-.zone-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid #1a2535;
-  gap: 12px;
-  animation: fadeIn 0.4s ease;
-}
-
-.zone-row:last-child { border-bottom: none; }
-
-.zone-row-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex: 1;
-}
-
-.zone-bar {
-  width: 4px;
-  height: 44px;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.zone-bar.red    { background: #e05a4e; }
-.zone-bar.yellow { background: #facc15; }
-.zone-bar.green  { background: #00e676; }
-
-.zone-info { display: flex; flex-direction: column; gap: 4px; }
-
-.zone-type {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.zone-type.red    { color: #e05a4e; }
-.zone-type.yellow { color: #facc15; }
-.zone-type.green  { color: #00e676; }
-
-.zone-name { font-size: 15px; font-weight: 600; color: #ffffff; }
-
-.zone-chevron { font-size: 14px; }
-.zone-chevron.red    { color: #e05a4e; }
-.zone-chevron.yellow { color: #facc15; }
-.zone-chevron.green  { color: #00e676; }
-
-/* ── NEARBY ALERTS BAR ── */
-.nearby-bar {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-
-.nearby-icon {
-  width: 42px;
-  height: 42px;
-  background: #0d2010;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.nearby-icon i { font-size: 18px; color: #00e676; }
-
-.nearby-text { display: flex; flex-direction: column; gap: 3px; }
-.nearby-label { font-size: 11px; color: #4a6080; font-weight: 500; letter-spacing: 0.5px; }
-.nearby-value { font-size: 15px; font-weight: 700; color: #ffffff; }
-
-/* ── SAFE CARD ── */
-.safe-card {
-  background: #0d2010;
-  border: 1px solid #1a4a2a;
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-
-.safe-icon {
-  width: 44px;
-  height: 44px;
-  background: #1a4a2a;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.safe-icon i { font-size: 20px; color: #00e676; }
-.safe-text   { display: flex; flex-direction: column; gap: 4px; }
-.safe-title  { font-size: 16px; font-weight: 700; color: #00e676; }
-.safe-desc   { font-size: 12px; color: #4a8a5a; line-height: 1.4; }
-
-/* ── WEATHER STRIP ── */
-.weather-strip {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.weather-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: #8a9bb0;
-  font-weight: 500;
-  text-align: center;
-}
-
-.weather-item span:first-child {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.weather-divider {
-  width: 1px;
-  height: 30px;
-  background: #1a2535;
-}
-
-/* ── FILTER TABS ── */
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  margin-bottom: 16px;
-  scrollbar-width: none;
-}
-
-.filter-tabs::-webkit-scrollbar { display: none; }
-
-.filter-tab {
-  padding: 8px 18px;
-  border-radius: 50px;
-  border: none;
-  background: #1a2535;
-  color: #8a9bb0;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.filter-tab.active {
-  background: #e05a4e;
-  color: #ffffff;
-}
-
-/* ── STATUS OVERVIEW ── */
-.status-overview {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 20px 18px;
-  margin-bottom: 14px;
-}
-
-.status-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 6px;
-}
-
-.status-subtitle {
-  font-size: 13px;
-  color: #8a9bb0;
-  margin-bottom: 18px;
-  line-height: 1.4;
-}
-
-.status-stats {
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.stat-value.green { color: #4ade80; }
-.stat-value.red   { color: #f87171; }
-.stat-value.amber { color: #facc15; }
-
-.stat-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4a6080;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 40px;
-  background: #1a2535;
-  margin: 0 16px;
-}
-
-/* ── HOSPITAL CARDS ── */
-.hospital-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.hospital-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  animation: fadeIn 0.3s ease;
-}
-
-.hospital-card.best {
-  border-color: #4ade8055;
-  background: #0d1f14;
-}
-
-.hosp-top-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.hosp-icon-big {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #7a1010;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.hosp-icon-big i { font-size: 20px; color: #ffffff; }
-
-.hosp-info { flex: 1; min-width: 0; }
-
-.hosp-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 5px;
-  line-height: 1.3;
-}
-
-.hosp-status-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 5px;
-}
-
-.hosp-status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.hosp-status-text {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.hosp-dist-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-shrink: 0;
-}
-
-.hosp-dist-num {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.hosp-dist-label {
-  font-size: 10px;
-  color: #4a6080;
-}
-
-.hosp-stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.hosp-stat-box {
-  background: #0d1117;
-  border-radius: 10px;
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.hosp-progress-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.hosp-progress-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #8a9bb0;
-  min-width: 60px;
-}
-
-.hosp-progress-bar {
-  flex: 1;
-  height: 8px;
-  border-radius: 999px;
-  background: #11161f;
-  overflow: hidden;
-}
-
-.hosp-progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.3s ease;
-}
-
-.hosp-stat-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4a6080;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.hosp-stat-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.hosp-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.hosp-navigate-btn {
-  flex: 1;
-  background: #e05a4e;
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 13px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s ease;
-}
-
-.hosp-navigate-btn:hover { background: #c04030; }
-
-.hosp-call-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #1a2535;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 16px;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.hosp-call-btn:hover { background: #2a3a50; }
-
-.hosp-full-msg {
-  font-size: 12px;
-  color: #f87171;
-  text-align: center;
-  padding: 6px 0;
-}
-
-.hosp-full-sub {
-  font-size: 11px;
-  color: #94a3b8;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.best-badge {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4ade80;
-  background: #0d2b1a;
-  border: 1px solid #4ade8044;
-  padding: 2px 8px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-  display: inline-block;
-}
-
-/* ── POLICE TABS ── */
-.police-tab {
-  padding: 8px 16px;
-  border-radius: 50px;
-  border: 1px solid #1a2535;
-  background: #111822;
-  color: #8a9bb0;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-}
-
-.police-tab.active {
-  background: #1a2535;
-  color: #ffffff;
-  border-color: #f87171;
-}
-
-/* ── POLICE CARDS ── */
-.police-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.police-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  animation: fadeIn 0.3s ease;
-}
-
-.police-card.alert-card {
-  border-color: #facc1555;
-  background: #1a1600;
-}
-
-.police-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.police-name-block { flex: 1; }
-
-.police-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 5px;
-  line-height: 1.2;
-}
-
-.police-sub {
-  font-size: 12px;
-  color: #4a6080;
-}
-
-.police-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-shrink: 0;
-}
-
-.police-badge.active  { background: #0d2010; color: #4ade80; border: 1px solid #4ade8044; }
-.police-badge.alert   { background: #2a1f00; color: #facc15; border: 1px solid #facc1544; }
-.police-badge.offline { background: #1a1a1a; color: #4a6080; border: 1px solid #2a2a2a; }
-
-.police-badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: pulse 1.5s infinite;
-}
-
-.police-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.police-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.police-stat-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #4a6080;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.police-stat-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.police-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.police-assist-btn {
-  flex: 1;
-  background: #e05a4e;
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 13px 20px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.police-assist-btn:hover { background: #c04030; }
-
-.police-nav-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #1a2535;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.police-nav-btn:hover { background: #2a3a50; }
-
-/* ── SHELTER MODAL ── */
-.shelter-live-tag {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #00e676;
-  letter-spacing: 1.5px;
-  margin-bottom: 10px;
-}
-
-.shelter-live-dot {
-  width: 8px;
-  height: 8px;
-  background: #00e676;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  flex-shrink: 0;
-}
-
-.shelter-heading {
-  font-size: 28px;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 8px;
-}
-
-.shelter-subtext {
-  font-size: 13px;
-  color: #4a6080;
-  line-height: 1.5;
-}
-
-.shelter-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 4px;
-}
-
-.shelter-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  overflow: hidden;
-  animation: fadeIn 0.3s ease;
-}
-
-.shelter-img-wrap {
-  position: relative;
-  width: 100%;
-  height: 150px;
-  background: #0d1117;
-  overflow: hidden;
-}
-
-.shelter-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7);
-}
-
-.shelter-verified {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: rgba(0,0,0,0.7);
-  border: 1px solid #4ade8055;
-  color: #4ade80;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  letter-spacing: 1px;
-}
-
-.shelter-dist-badge {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: rgba(0,0,0,0.75);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-}
-
-.shelter-body {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.shelter-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.shelter-address {
-  font-size: 12px;
-  color: #4a6080;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.shelter-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.shelter-tag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-}
-
-.shelter-tag.food    { background: #2a1f00; color: #facc15; }
-.shelter-tag.medical { background: #0d2b1a; color: #4ade80; }
-.shelter-tag.shelter { background: #1a1f2e; color: #93c5fd; }
-.shelter-tag.supply  { background: #1a1a2e; color: #c4b5fd; }
-
-.shelter-capacity {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.shelter-cap-text {
-  font-size: 12px;
-  color: #8a9bb0;
-}
-
-.shelter-cap-bar-wrap {
-  width: 100px;
-  height: 5px;
-  background: #1a2535;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.shelter-cap-bar {
-  height: 100%;
-  border-radius: 10px;
-  background: #4ade80;
-  transition: width 0.4s ease;
-}
-
-.shelter-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.shelter-navigate-btn {
-  flex: 1;
-  background: #e05a4e;
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s ease;
-}
-
-.shelter-navigate-btn:hover { background: #c04030; }
-
-.shelter-call-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: #1a2535;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 16px;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.shelter-call-btn:hover { background: #2a3a50; }
-
-/* ── FOOD & NGO MODAL ── */
-.food-search-wrap {
-  position: relative;
-  margin-bottom: 14px;
-}
-
-.food-search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #4a6080;
-  font-size: 14px;
-}
-
-.food-search-input {
-  width: 100%;
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 13px 16px 13px 40px;
-  color: #ffffff;
-  font-size: 13px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.food-search-input::placeholder { color: #4a6080; }
-.food-search-input:focus { border-color: #2a3a50; }
-
-.food-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.food-card {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 16px;
-  overflow: hidden;
-  animation: fadeIn 0.3s ease;
-}
-
-.food-img-wrap {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  background: #0d1117;
-}
-
-.food-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.food-stock-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  letter-spacing: 1px;
-}
-
-.food-stock-badge.high  { background: rgba(0,0,0,0.7); color: #4ade80; border: 1px solid #4ade8055; }
-.food-stock-badge.low   { background: rgba(0,0,0,0.7); color: #facc15; border: 1px solid #facc1555; }
-.food-stock-badge.empty { background: rgba(0,0,0,0.7); color: #f87171; border: 1px solid #f8717155; }
-
-.food-stock-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: pulse 1.5s infinite;
-}
-
-.food-body {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.food-top-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.food-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.food-dist {
-  font-size: 12px;
-  color: #4a6080;
-  flex-shrink: 0;
-}
-
-.food-supply {
-  font-size: 12px;
-  color: #8a9bb0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.food-supply i { color: #4a6080; font-size: 11px; }
-
-.food-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.food-type-tag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-}
-
-.food-type-tag.foodbank { background: #2a1f00; color: #facc15; }
-.food-type-tag.water    { background: #0d1f2e; color: #93c5fd; }
-.food-type-tag.ngo      { background: #1a1a2e; color: #c4b5fd; }
-
-.food-navigate-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #e05a4e, #ff7b6b);
-  color: #ffffff;
-  border-radius: 50px;
-  padding: 14px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: opacity 0.2s ease;
-}
-
-.food-navigate-btn:hover { opacity: 0.9; }
-.food-navigate-btn.disabled {
-  background: #1a2535;
-  color: #4a6080;
-  pointer-events: none;
-}
-
-/* ── FULL SITUATION REPORT MODAL ── */
-.report-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.report-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #4a6080;
-}
-
-.report-meta-item i { color: #e05a4e; font-size: 11px; }
-
-.report-threat {
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.report-threat.safe     { background: #0d2010; border: 1px solid #1a4a2a; }
-.report-threat.moderate { background: #2a1f00; border: 1px solid #4a3500; }
-.report-threat.severe   { background: #2a1010; border: 1px solid #4a2020; }
-
-.report-threat-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #8a9bb0;
-}
-
-.report-threat-value {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.report-threat.safe     .report-threat-value { color: #4ade80; }
-.report-threat.moderate .report-threat-value { color: #facc15; }
-.report-threat.severe   .report-threat-value { color: #f87171; }
-
-.report-stats-row {
-  display: flex;
-  gap: 0;
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 14px 0;
-  margin-bottom: 16px;
-  justify-content: space-around;
-}
-
-.report-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.report-stat i { font-size: 16px; color: #4a6080; }
-
-.report-stat-value {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.report-stat-label {
-  font-size: 10px;
-  color: #4a6080;
-  letter-spacing: 0.5px;
-}
-
-.report-body {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 13.5px;
-  color: #94a3b8;
-  line-height: 1.8;
-  margin-bottom: 16px;
-}
-
-.report-sections {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.report-section {
-  background: #111822;
-  border: 1px solid #1a2535;
-  border-radius: 12px;
-  padding: 14px 16px;
-}
-
-.report-section-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.report-section-body {
-  font-size: 12.5px;
-  color: #8a9bb0;
-  line-height: 1.7;
-}
-
-.report-section-body ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.report-section-body ul li::before {
-  content: '→ ';
-  color: #e05a4e;
-  font-weight: 700;
-}
-
-.report-generated {
-  font-size: 10px;
-  color: #2a3a50;
-  text-align: center;
-  letter-spacing: 0.5px;
-}
-
-/* ── SOS MODAL ── */
-.sos-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 200;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.sos-modal.open {
-  display: flex;
-}
-
-.sos-modal-box {
-  width: 100%;
-  max-width: 480px;
-  background: #0d1117;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 24px 50px;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
-}
-
-.sos-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 36px;
-}
-
-.sos-modal-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.sos-live-dot {
-  width: 9px;
-  height: 9px;
-  background: #e05a4e;
-  border-radius: 50%;
-  animation: pulse 1.2s infinite;
-  flex-shrink: 0;
-}
-
-.sos-modal-close {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1e2535;
-  border: none;
-  color: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sos-modal-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-}
-
-.sos-mic-outer {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(220, 60, 50, 0.3) 0%, transparent 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: sos-glow 2s ease-in-out infinite;
-}
-
-.sos-mic-outer.listening {
-  animation: mic-pulse 0.8s ease-in-out infinite;
-}
-
-@keyframes mic-pulse {
-  0%, 100% { box-shadow: 0 0 30px rgba(220, 60, 50, 0.4); transform: scale(1); }
-  50%       { box-shadow: 0 0 70px rgba(220, 60, 50, 0.75); transform: scale(1.04); }
-}
-
-.sos-mic-btn {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #e85040, #c02020);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 30px rgba(180, 0, 0, 0.5);
-  transition: transform 0.15s ease;
-}
-
-.sos-mic-btn i {
-  font-size: 52px;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.sos-mic-btn:active { transform: scale(0.95); }
-
-.sos-listening-text {
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-}
-
-.sos-response-text {
-  font-size: 14px;
-  color: #00e676;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  min-height: 20px;
-  text-align: center;
-}
-
-.sos-transcript-wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.sos-transcript-label {
-  font-size: 13px;
-  color: #8a9bb0;
-  text-align: center;
-  line-height: 1.5;
-}
-
-.sos-transcript-box {
-  width: 100%;
-  background: #1a2030;
-  border-radius: 14px;
-  padding: 20px;
-  font-size: 22px;
-  color: #cccccc;
-  text-align: center;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-.sos-transcript-box .keyword {
-  background: #7a1010;
-  color: #ff4444;
-  font-weight: 700;
-  border-radius: 6px;
-  padding: 2px 8px;
-}
-
-.dispatch-card {
-  width: 100%;
-  background: #111822;
-  border: 1px solid #2a3a50;
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.dispatch-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #c0200e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.dispatch-icon i {
-  font-size: 22px;
-  color: #ffffff;
-}
-
-.dispatch-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-}
-
-.dispatch-tag {
-  font-size: 10px;
-  font-weight: 700;
-  color: #e05a4e;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.dispatch-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.3;
-}
-
-.dispatch-distance {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  flex-shrink: 0;
-}
-
-.dispatch-dist-label {
-  font-size: 10px;
-  color: #4a6080;
-  font-weight: 500;
-}
-
-.dispatch-dist-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-/* ── BOTTOM NAVIGATION ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: #0d1117;
-  border-top: 1px solid #1a2535;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0 16px;
-  z-index: 100;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: #4a5568;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 6px 10px;
-  border: 1px dashed transparent;
-  border-radius: 8px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.nav-item i { font-size: 18px; }
-.nav-item:hover  { color: #94a3b8; border-color: #2a3a50; }
-.nav-item.active { color: #e05a4e; border-color: #e05a4e55; }
-.nav-sos:hover   { color: #e05a4e; border-color: #e05a4e55; }
-
-
-/* ═══════════════════════════════════════════════ */
-/*  ADMIN NEXUS PORTAL  — NEW STYLES               */
-/* ═══════════════════════════════════════════════ */
-
-@keyframes adminScan {
-  0%   { top: -2px; }
-  100% { top: 100%; }
-}
-
-@keyframes adminFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes adminShake {
-  0%, 100% { transform: translateX(0); }
-  20%       { transform: translateX(-8px); }
-  40%       { transform: translateX(8px); }
-  60%       { transform: translateX(-5px); }
-  80%       { transform: translateX(5px); }
-}
-
-@keyframes adminBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
-}
-
-@keyframes adminPulseGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(224,48,48,0); }
-  50%       { box-shadow: 0 0 0 6px rgba(224,48,48,0.15); }
-}
-
-/* Full-screen overlay */
-.admin-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: #0a0a0a;
-  align-items: flex-start;
-  justify-content: center;
-  overflow-y: auto;
-}
-
-.admin-overlay.open {
-  display: flex;
-}
-
-/* Scan line */
-.admin-scanline {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(224,48,48,0.5), transparent);
-  animation: adminScan 5s linear infinite;
-  z-index: 501;
-  pointer-events: none;
-  top: -2px;
-}
-
-/* Grid bg */
-.admin-grid {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(224,48,48,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(224,48,48,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 501;
-}
-
-/* Main box */
-.admin-box {
-  position: relative;
-  z-index: 502;
-  width: 100%;
-  max-width: 420px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #0a0a0a;
-  animation: adminFadeIn 0.4s ease;
-}
-
-/* ── Top bar ── */
-.admin-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid #1e1e1e;
-}
-
-.admin-brand-block {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.admin-brand-icon {
-  width: 34px;
-  height: 34px;
-  background: #e03030;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.admin-brand-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-brand-name {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #e03030;
-  letter-spacing: 2.5px;
-  line-height: 1.1;
-}
-
-.admin-brand-sub {
-  font-size: 9px;
-  color: #555;
-  letter-spacing: 1.5px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.admin-status-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  background: rgba(0,200,81,0.06);
-  border: 1px solid rgba(0,200,81,0.2);
-  border-radius: 20px;
-}
-
-.admin-status-dot {
-  width: 7px;
-  height: 7px;
-  background: #00c851;
-  border-radius: 50%;
-  animation: adminBlink 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.admin-status-text {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: #00c851;
-  letter-spacing: 1.5px;
-  line-height: 1;
-}
-
-.admin-status-text span {
-  display: block;
-  font-size: 9px;
-  letter-spacing: 1px;
-  opacity: 0.75;
-}
-
-/* ── Main content ── */
-.admin-main {
-  flex: 1;
-  padding: 28px 20px 40px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Encrypted tag */
-.admin-enc-tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.admin-enc-bar {
-  width: 3px;
-  height: 14px;
-  background: #e03030;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.admin-enc-label {
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: 10px;
-  color: #e03030;
-  letter-spacing: 2px;
-}
-
-/* Portal title */
-.admin-portal-title {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 54px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 0.9;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-}
-
-.admin-portal-desc {
-  font-size: 13.5px;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 32px;
-  max-width: 290px;
-}
-
-/* ── Form ── */
-.admin-field-group {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.admin-field-label {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  color: #555;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-/* Role select */
-.admin-select-wrap {
-  position: relative;
-}
-
-.admin-select-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #444;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.admin-role-select {
-  width: 100%;
-  background: #111111;
-  border: 1px solid #222;
-  border-radius: 10px;
-  padding: 15px 46px 15px 46px;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 500;
-  font-family: 'Barlow', 'Segoe UI', sans-serif;
-  appearance: none;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-  outline: none;
-}
-
-.admin-role-select:focus { border-color: #e03030; }
-.admin-role-select option { background: #111111; }
-
-.admin-chevron {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #444;
-  font-size: 13px;
-  pointer-events: none;
-}
-
-/* Text inputs */
-.admin-input-wrap {
-  position: relative;
-}
-
-.admin-input-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #444;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.admin-input {
-  width: 100%;
-  background: #111111;
-  border: 1px solid #222;
-  border-radius: 10px;
-  padding: 15px 46px 15px 46px;
-  color: #ffffff;
-  font-size: 15px;
-  font-family: 'Barlow', 'Segoe UI', sans-serif;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.admin-input::placeholder { color: #333; }
-.admin-input:focus { border-color: #e03030; }
-
-.admin-eye-btn {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #444;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s ease;
-}
-
-.admin-eye-btn:hover { color: #888; }
-
-/* Error */
-.admin-error {
-  font-size: 12px;
-  color: #e05a4e;
-  letter-spacing: 0.5px;
-  min-height: 16px;
-  font-family: 'Share Tech Mono', monospace;
-}
-
-/* Login button */
-.admin-login-btn {
-  width: 100%;
-  background: #e03030;
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 17px 24px;
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: background 0.2s ease, transform 0.15s ease;
-  animation: adminPulseGlow 2.5s ease-in-out infinite;
-}
-
-.admin-login-btn:hover  { background: #c02020; transform: scale(1.01); }
-.admin-login-btn:active { transform: scale(0.98); }
-.admin-login-btn:disabled { background: #3a1010; color: #6a3030; cursor: not-allowed; transform: none; }
-
-.admin-login-btn.shake {
-  animation: adminShake 0.4s ease;
-}
-
-/* Footer links */
-.admin-footer-links {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.admin-footer-link {
-  font-size: 10px;
-  color: #444;
-  letter-spacing: 1.2px;
-  cursor: pointer;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-.admin-footer-link:hover { color: #888; }
-
-/* Version */
-.admin-version {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e1e1e;
-  text-align: right;
-  letter-spacing: 2px;
-  margin-bottom: 16px;
-}
-
-/* Protocol strip */
-.admin-proto-strip {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
-  color: #2a2a2a;
-  letter-spacing: 1px;
-  overflow: hidden;
-}
-
-/* ── ADMIN DASHBOARD (post-login) ── */
-.admin-dashboard {
-  display: none;
-  flex-direction: column;
-  gap: 0;
-}
-
-.admin-dashboard.open {
-  display: flex;
-}
-
-.admin-dash-header {
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid #1e1e1e;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.admin-dash-role-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.admin-dash-role-badge.hospital { background: #0d2b1a; color: #4ade80; border: 1px solid #4ade8044; }
-.admin-dash-role-badge.food     { background: #2a1f00; color: #facc15; border: 1px solid #facc1544; }
-.admin-dash-role-badge.police   { background: #2b1a1a; color: #f87171; border: 1px solid #f8717144; }
-.admin-dash-role-badge.shelter  { background: #1a1f2e; color: #93c5fd; border: 1px solid #93c5fd44; }
-
-.admin-logout-btn {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #666;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  cursor: pointer;
-  font-family: 'Rajdhani', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.admin-logout-btn:hover { border-color: #e03030; color: #e03030; }
-
-.admin-dash-body {
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.admin-dash-welcome {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.1;
-  margin-bottom: 4px;
-}
-
-.admin-dash-sub {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-/* Stats row */
-.admin-stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.admin-stat-card {
-  background: #111111;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.admin-stat-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-
-.admin-stat-value {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-}
-
-.admin-stat-label {
-  font-size: 10px;
-  color: #444;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-/* Action cards */
-.admin-action-card {
-  background: #111111;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.admin-action-card:hover {
-  background: #161616;
-  border-color: #2e2e2e;
-}
-
-.admin-action-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.admin-action-text { flex: 1; }
-
-.admin-action-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 3px;
-}
-
-.admin-action-sub {
-  font-size: 12px;
-  color: #444;
-}
-
-.admin-action-arrow {
-  color: #333;
-  font-size: 14px;
-}
-/* ══════════════════════════════════════════════════ */
-/*  ADMIN ACTION MODALS                               */
-/* ══════════════════════════════════════════════════ */
-
-@keyframes admSlideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.adm-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 700;
-  background: rgba(0,0,0,0.82);
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0;
-}
-
-.adm-modal.open {
-  display: flex;
-}
-
-.adm-modal-inner {
-  width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
-  background: #0d0d0d;
-  border-radius: 22px 22px 0 0;
-  border-top: 1px solid #1e1e1e;
-  display: flex;
-  flex-direction: column;
-  animation: admSlideUp 0.32s cubic-bezier(0.22,1,0.36,1);
-  overflow: hidden;
-}
-
-/* ── Top bar ── */
-.adm-modal-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 18px 14px;
-  border-bottom: 1px solid #1a1a1a;
-  flex-shrink: 0;
-}
-
-.adm-modal-title {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.adm-modal-title i {
-  font-size: 15px;
-  color: #e03030;
-}
-
-.adm-modal-close {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #666;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-}
-.adm-modal-close:hover { border-color: #e03030; color: #e03030; }
-
-/* ── Scrollable body ── */
-.adm-modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 18px 18px 36px;
-  scrollbar-width: none;
-}
-.adm-modal-body::-webkit-scrollbar { display: none; }
-
-.adm-modal-desc {
-  font-size: 12.5px;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-/* ── Section label ── */
-.adm-section-label {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  color: #444;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #161616;
-}
-
-/* ── Stat banner (3-col top row) ── */
-.adm-stat-banner {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 18px;
-}
-
-.adm-stat-b {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 10px;
-  padding: 12px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.adm-stat-big {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-}
-.adm-stat-big.green { color: #4ade80; }
-.adm-stat-big.red   { color: #f87171; }
-.adm-stat-big.amber { color: #facc15; }
-
-.adm-stat-lbl {
-  font-size: 9px;
-  font-weight: 700;
-  color: #444;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
-
-.adm-stat-trend {
-  font-size: 10px;
-  font-weight: 600;
-  color: #555;
-  margin-top: 2px;
-}
-.adm-stat-trend.green { color: #4ade80; }
-
-.adm-stat-alert {
-  font-size: 9px;
-  font-weight: 700;
-  color: #f87171;
-  letter-spacing: 0.8px;
-  margin-top: 2px;
-}
-
-/* ── Bed / ward list ── */
-.adm-bed-list,
-.adm-staff-list,
-.adm-intake-list,
-.adm-report-list,
-.adm-distro-list,
-.adm-supply-list,
-.adm-ngo-list,
-.adm-unit-list,
-.adm-capacity-list,
-.adm-zone-patrol-list,
-.adm-med-inc-list,
-.adm-incident-list,
-.adm-incident-feed,
-.adm-announce-list,
-.adm-ledger-list,
-.adm-inv-levels {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* Generic list row card */
-.adm-list-row {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 10px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  color: #8a9bb0;
-}
-
-.adm-list-row-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.adm-list-row-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.adm-list-row-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.adm-list-row-sub {
-  font-size: 11px;
-  color: #555;
-  line-height: 1.4;
-}
-
-.adm-list-row-badge {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.adm-badge-green  { background: #0d2010; color: #4ade80; border: 1px solid #4ade8044; }
-.adm-badge-red    { background: #2b1010; color: #f87171; border: 1px solid #f8717144; }
-.adm-badge-amber  { background: #2a1f00; color: #facc15; border: 1px solid #facc1544; }
-.adm-badge-blue   { background: #0d1f2e; color: #93c5fd; border: 1px solid #93c5fd44; }
-
-/* ── Live pill ── */
-.adm-live-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #4ade80;
-  letter-spacing: 1.5px;
-  background: #0d2010;
-  border: 1px solid #4ade8044;
-  border-radius: 20px;
-  padding: 5px 12px;
-  margin-bottom: 14px;
-}
-
-.adm-live-dot {
-  width: 6px;
-  height: 6px;
-  background: #4ade80;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  flex-shrink: 0;
-}
-
-/* ── Form group ── */
-.adm-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.adm-field-lbl {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  color: #444;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.adm-field-input {
-  width: 100%;
-  background: #0d0d0d;
-  border: 1px solid #1e1e1e;
-  border-radius: 8px;
-  padding: 12px 14px;
-  color: #ffffff;
-  font-size: 13px;
-  font-family: 'Barlow', 'Segoe UI', sans-serif;
-  outline: none;
-  transition: border-color 0.2s ease;
-  resize: vertical;
-}
-.adm-field-input::placeholder { color: #2e2e2e; }
-.adm-field-input:focus { border-color: #e03030; }
-.adm-field-input option { background: #111; }
-
-/* ── Commit button ── */
-.adm-commit-btn {
-  width: 100%;
-  background: #e03030;
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 15px 20px;
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  transition: background 0.2s ease, transform 0.1s ease;
-  margin-top: 4px;
-}
-.adm-commit-btn:hover  { background: #c02020; }
-.adm-commit-btn:active { transform: scale(0.97); }
-
-/* ── Archive / secondary button ── */
-.adm-archive-btn {
-  width: 100%;
-  background: #111;
-  border: 1px solid #2a2a2a;
-  color: #555;
-  border-radius: 10px;
-  padding: 13px 20px;
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-  margin-top: 8px;
-}
-.adm-archive-btn:hover { border-color: #3a3a3a; color: #888; }
-
-/* ── Inventory cards (stock update) ── */
-.adm-inv-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.adm-inv-card-item {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 12px;
-  padding: 14px;
-}
-
-.adm-inv-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.adm-inv-card-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.adm-inv-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  flex-shrink: 0;
-}
-
-.adm-inv-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
-}
-
-.adm-inv-sub {
-  font-size: 10px;
-  color: #555;
-  margin-top: 1px;
-}
-
-.adm-inv-status {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-  flex-shrink: 0;
-}
-
-.adm-inv-qty-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.adm-inv-qty-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #ffffff;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-  line-height: 1;
-}
-.adm-inv-qty-btn:hover { border-color: #e03030; background: #1e1010; }
-
-.adm-inv-qty-val {
-  flex: 1;
-  text-align: center;
-}
-
-.adm-inv-qty-num {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-  display: block;
-}
-
-.adm-inv-qty-unit {
-  font-size: 10px;
-  color: #444;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  display: block;
-  margin-top: 2px;
-}
-
-.adm-inv-progress {
-  height: 3px;
-  background: #1a1a1a;
-  border-radius: 4px;
-  margin-top: 10px;
-  overflow: hidden;
-}
-
-.adm-inv-progress-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.3s ease;
-}
-
-/* ── Manual entry overlay ── */
-.adm-manual-overlay {
-  background: #111;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 6px;
-}
-
-.adm-manual-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 2px;
-}
-.adm-manual-title i { color: #facc15; font-size: 13px; }
-
-.adm-clearance-note {
-  font-size: 9px;
-  color: #333;
-  letter-spacing: 0.8px;
-  text-align: center;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-/* ── Ledger log rows ── */
-.adm-ledger-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 9px 0;
-  border-bottom: 1px solid #141414;
-  font-size: 12px;
-  color: #555;
-}
-.adm-ledger-row:last-child { border-bottom: none; }
-
-.adm-ledger-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.adm-ledger-body { flex: 1; }
-
-.adm-ledger-who {
-  font-size: 11px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 1px;
-}
-
-.adm-ledger-time {
-  font-size: 10px;
-  color: #444;
-  float: right;
-  font-weight: 400;
-}
-
-/* ── Network status pill ── */
-.adm-net-status {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #4ade80;
-  letter-spacing: 1.2px;
-  margin-top: 14px;
-  padding: 10px 14px;
-  background: #0d2010;
-  border: 1px solid #4ade8033;
-  border-radius: 8px;
-}
-
-/* ── Strategic map block ── */
-.adm-strat-map {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 14px;
-  background: #0a0a0a;
-}
-
-.adm-map-inner {
-  width: 100%;
-  height: 100%;
-}
-
-.adm-map-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.adm-map-scan {
-  font-size: 10px;
-  font-weight: 700;
-  color: #f87171;
-  letter-spacing: 1px;
-}
-
-.adm-map-acc {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-.adm-map-acc.green { color: #4ade80; }
-
-/* ── Feed header ── */
-.adm-feed-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.adm-filter-btn-sm {
-  background: #1a1010;
-  border: 1px solid #e0303044;
-  color: #f87171;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  letter-spacing: 0.8px;
-  transition: all 0.2s ease;
-}
-.adm-filter-btn-sm:hover { background: #2a1010; }
-
-.adm-chron-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  font-weight: 700;
-  color: #444;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #161616;
-}
-
-/* ── Incident feed cards ── */
-.adm-feed-card {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 10px;
-}
-
-.adm-feed-card-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.adm-feed-card-head {
-  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.adm-feed-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.adm-feed-card-desc {
-  font-size: 12px;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 8px;
-}
-
-.adm-feed-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 11px;
-  color: #444;
-  margin-top: 6px;
-}
-
-.adm-feed-card-status {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.8px;
-}
-
-/* ── Filter buttons row ── */
-.adm-filter-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.adm-filter-btn {
-  padding: 7px 16px;
-  border-radius: 20px;
-  border: 1px solid #1e1e1e;
-  background: #111;
-  color: #555;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.adm-filter-btn:hover { border-color: #2e2e2e; color: #888; }
-.adm-filter-btn.active { background: #e03030; color: #fff; border-color: #e03030; }
-
-/* ── Commander notes ── */
-.adm-cmd-notes {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.adm-note-card {
-  border-left: 3px solid #e03030;
-  background: #0d0d0d;
-  border-radius: 0 8px 8px 0;
-  padding: 10px 14px;
-}
-
-.adm-note-tag {
-  font-size: 9px;
-  font-weight: 700;
-  color: #e03030;
-  letter-spacing: 1.5px;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-
-.adm-note-text {
-  font-size: 12px;
-  color: #8a9bb0;
-  font-style: italic;
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-
-.adm-note-time {
-  font-size: 10px;
-  color: #444;
-}
-
-/* ── Command action cards ── */
-.adm-cmd-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-
-.adm-cmd-primary {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #1a1010;
-  border: 1px solid #e0303055;
-  border-radius: 12px;
-  padding: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-.adm-cmd-primary:hover { background: #220e0e; }
-.adm-cmd-primary > i:first-child { font-size: 18px; color: #e03030; flex-shrink: 0; }
-.adm-cmd-primary > i:last-child  { font-size: 14px; color: #e03030; margin-left: auto; flex-shrink: 0; }
-
-.adm-cmd-secondary {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #111;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-.adm-cmd-secondary:hover { background: #161616; }
-.adm-cmd-secondary > i:first-child { font-size: 18px; color: #4ade80; flex-shrink: 0; }
-.adm-cmd-secondary > i:last-child  { font-size: 14px; color: #4ade80; margin-left: auto; flex-shrink: 0; }
-
-.adm-cmd-title { font-size: 14px; font-weight: 700; color: #ffffff; margin-bottom: 2px; }
-.adm-cmd-sub   { font-size: 11px; color: #555; line-height: 1.5; }
-
-/* ── Inventory level bars ── */
-.adm-inv-levels { margin-top: 4px; }
-
-.adm-inv-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: #555;
-  padding: 7px 0;
-  border-bottom: 1px solid #141414;
-}
-.adm-inv-row:last-child { border-bottom: none; }
-.adm-inv-row > span:first-child { min-width: 120px; }
-.adm-inv-row > span:last-child  { min-width: 36px; text-align: right; font-weight: 700; }
-.adm-inv-row span.green { color: #4ade80; }
-.adm-inv-row span.red   { color: #f87171; }
-.adm-inv-row span.amber { color: #facc15; }
-
-.adm-inv-bar-wrap {
-  flex: 1;
-  height: 5px;
-  background: #1a1a1a;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.adm-inv-bar {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.4s ease;
-}
-.adm-inv-bar.green { background: #4ade80; }
-.adm-inv-bar.amber { background: #facc15; }
-.adm-inv-bar.red   { background: #f87171; }
-
-/* ── Meta row + bar (for incident log stats) ── */
-.adm-meta-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #555;
-  margin-bottom: 6px;
-}
-.adm-meta-row .white { color: #ffffff; font-weight: 700; }
-
-.adm-meta-bar {
-  height: 3px;
-  background: #1a1a1a;
-  border-radius: 4px;
-  margin-bottom: 12px;
-  overflow: hidden;
-}
-.adm-meta-bar-fill { height: 100%; border-radius: 4px; }
-.adm-meta-bar-fill.red { background: #f87171; }
-
-/* ── Patrol zone list items ── */
-.adm-patrol-zone-row {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 10px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.adm-patrol-zone-left { display: flex; flex-direction: column; gap: 3px; }
-.adm-patrol-zone-name { font-size: 14px; font-weight: 700; color: #ffffff; }
-.adm-patrol-zone-sub  { font-size: 11px; color: #555; }
-
-/* ── Announce list ── */
-.adm-announce-card {
-  background: #111;
-  border: 1px solid #1a1a1a;
-  border-radius: 10px;
-  padding: 13px 14px;
-  margin-bottom: 8px;
-}
-
-.adm-announce-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
+// ── LOCATION DETECTION ──
+
+function detectLocation() {
+  const locationEl = document.getElementById('userLocation');
+  if (!navigator.geolocation) {
+    locationEl.textContent = 'Location unavailable';
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const { latitude, longitude } = pos.coords;
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+      );
+      const data = await res.json();
+      const addr = data.address;
+      const area =
+        addr.suburb || addr.neighbourhood || addr.village ||
+        addr.town || addr.city_district || addr.county || 'Your Area';
+
+      window._userLat = latitude;
+      window._userLon = longitude;
+
+      locationEl.textContent = `· ${area}`;
+      generateInsight(area, latitude, longitude);
+    } catch {
+      locationEl.textContent = '· Location found';
+      generateInsight('your area', latitude, longitude);
+    }
+  }, () => {
+    locationEl.textContent = '· Permission denied';
+  });
+}
+
+// ── DYNAMIC INSIGHT GENERATOR ──
+
+async function generateInsight(area, lat, lon) {
+  const titleEl = document.getElementById('insightTitle');
+  const descEl  = document.getElementById('insightDesc');
+  const mapImg  = document.getElementById('insightMapImg');
+
+  if (mapImg) {
+    mapImg.src = `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${lon},${lat},12,0/340x160?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw`;
+  }
+
+  try {
+    const weatherRes = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=precipitation_probability&timezone=auto`
+    );
+    const weatherData = await weatherRes.json();
+    const current     = weatherData.current_weather;
+    const temp        = current.temperature;
+    const windspeed   = current.windspeed;
+    const code        = current.weathercode;
+
+    const weatherDesc = getWeatherDescription(code);
+    const isSevere = code >= 55 || windspeed > 60;
+
+    if (isSevere) {
+      titleEl.textContent = `Severe weather detected in ${area}.`;
+      descEl.textContent  = `${weatherDesc}. Wind speeds at ${windspeed} km/h. Stay indoors and avoid travel. Monitor alerts closely.`;
+    } else {
+      titleEl.textContent = `All clear in ${area}.`;
+      descEl.textContent  = `${weatherDesc}. Temperature is ${temp}°C with wind at ${windspeed} km/h. No active disaster alerts at this time. Stay safe.`;
+    }
+
+  } catch {
+    titleEl.textContent = `Monitoring ${area}.`;
+    descEl.textContent  = `Unable to fetch live conditions. No active alerts reported. Stay alert and check back shortly.`;
+  }
+}
+
+// ── WEATHER CODE TO DESCRIPTION ──
+
+function getWeatherDescription(code) {
+  if (code === 0)               return 'Clear skies';
+  if (code <= 2)                return 'Partly cloudy';
+  if (code === 3)               return 'Overcast skies';
+  if (code <= 49)               return 'Foggy conditions';
+  if (code <= 57)               return 'Drizzle in the area';
+  if (code <= 67)               return 'Rain expected';
+  if (code <= 77)               return 'Snowfall reported';
+  if (code <= 82)               return 'Rain showers ongoing';
+  if (code <= 86)               return 'Heavy snow showers';
+  if (code <= 99)               return 'Thunderstorm active nearby';
+  return 'Conditions unclear';
+}
+
+detectLocation();
+
+// ── FULL SITUATION REPORT MODAL ──
+
+function openReportModal() {
+  document.getElementById('reportModal').classList.add('open');
+  generateFullReport();
+}
+
+function closeReportModal() {
+  document.getElementById('reportModal').classList.remove('open');
+}
 
-.adm-announce-title { font-size: 14px; font-weight: 700; color: #ffffff; }
-.adm-announce-time  { font-size: 10px; color: #444; }
-.adm-announce-msg   { font-size: 12px; color: #555; line-height: 1.6; }
-
-/* ── Utility color helpers used inline ── */
-.red   { color: #f87171; }
-.green { color: #4ade80; }
-.amber { color: #facc15; }
-.white { color: #ffffff; }
+async function generateFullReport() {
+  const area = document.getElementById('userLocation')?.textContent.replace('· ', '') || 'your area';
+  const now  = new Date();
+
+  document.getElementById('reportLocation').textContent = area;
+  document.getElementById('reportTime').textContent     = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('reportBody').innerHTML       = '<div class="zone-loading">Generating report...</div>';
+  document.getElementById('reportSections').style.display = 'none';
+  document.getElementById('reportStatsRow').style.display = 'none';
+
+  if (!window._userLat || !window._userLon) {
+    document.getElementById('reportBody').innerHTML = '<div class="zone-loading">Enable location to generate report.</div>';
+    return;
+  }
+
+  try {
+    const res     = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${window._userLat}&longitude=${window._userLon}&current_weather=true&hourly=precipitation_probability,relativehumidity_2m&timezone=auto`);
+    const data    = await res.json();
+    const w       = data.current_weather;
+    const code    = w.weathercode;
+    const temp    = w.temperature;
+    const wind    = w.windspeed;
+    const desc    = getWeatherDesc(code);
+    const humidity = data.hourly?.relativehumidity_2m?.[0] || '--';
+    const precip   = data.hourly?.precipitation_probability?.[0] || 0;
+
+    let threatLevel, threatClass, threatText;
+    if (code >= 80 || wind > 60) {
+      threatLevel = 'SEVERE'; threatClass = 'severe';
+      threatText  = '⚠ HIGH RISK — Take immediate precautions';
+    } else if (code >= 51 || wind > 35 || precip > 60) {
+      threatLevel = 'MODERATE'; threatClass = 'moderate';
+      threatText  = 'ELEVATED CONDITIONS — Stay alert';
+    } else {
+      threatLevel = 'ALL CLEAR'; threatClass = 'safe';
+      threatText  = 'CONDITIONS NORMAL — No immediate threats';
+    }
+
+    const threatEl = document.getElementById('reportThreat');
+    threatEl.className = `report-threat ${threatClass}`;
+    document.getElementById('reportThreatLabel').textContent = 'THREAT LEVEL';
+    document.getElementById('reportThreatValue').textContent = threatLevel;
+
+    document.getElementById('rTemp').textContent      = `${temp}°C`;
+    document.getElementById('rWind').textContent      = `${wind}km/h`;
+    document.getElementById('rCondition').textContent = desc;
+    document.getElementById('reportStatsRow').style.display = 'flex';
+
+    const report = generateReportText(area, temp, wind, desc, code, humidity, precip, threatLevel);
+    document.getElementById('reportBody').innerHTML = report;
+
+    const { warnings, recommendations } = getWarningsAndRecs(code, wind, temp, precip);
+    document.getElementById('reportWarnings').innerHTML       = `<ul>${warnings.map(w => `<li>${w}</li>`).join('')}</ul>`;
+    document.getElementById('reportRecommendations').innerHTML = `<ul>${recommendations.map(r => `<li>${r}</li>`).join('')}</ul>`;
+    document.getElementById('reportSections').style.display  = 'flex';
+
+    document.getElementById('reportGenerated').textContent =
+      `Report generated on ${now.toLocaleDateString()} at ${now.toLocaleTimeString()}`;
+
+  } catch {
+    document.getElementById('reportBody').innerHTML = '<div class="zone-loading">Could not fetch live data. Try again.</div>';
+  }
+}
+
+function generateReportText(area, temp, wind, desc, code, humidity, precip, threatLevel) {
+  const timeOfDay = new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening';
+
+  const opening = `This situational report covers the current environmental and emergency conditions for <strong style="color:#ffffff">${area}</strong> as of this ${timeOfDay}. `;
+
+  const weatherSummary = `Current atmospheric conditions indicate <strong style="color:#ffffff">${desc.toLowerCase()}</strong> with a recorded temperature of <strong style="color:#ffffff">${temp}°C</strong> and wind speeds measuring <strong style="color:#ffffff">${wind} km/h</strong>. Relative humidity levels are at approximately <strong style="color:#ffffff">${humidity}%</strong>, and the probability of precipitation in the coming hours stands at <strong style="color:#ffffff">${precip}%</strong>. `;
+
+  const threatSummary = threatLevel === 'SEVERE'
+    ? `Based on current data, the area is classified under a <strong style="color:#f87171">SEVERE threat level</strong>. Residents are strongly advised to avoid outdoor activity, secure loose objects, and follow instructions from local emergency authorities. Emergency services are on high alert and response times may be elevated due to increased demand across the district. `
+    : threatLevel === 'MODERATE'
+    ? `The area is currently under a <strong style="color:#facc15">MODERATE threat level</strong>. While conditions are not immediately dangerous, residents should remain vigilant and monitor updates regularly. Outdoor activities should be limited, particularly for vulnerable populations including the elderly and children. Emergency services are standing by and are fully operational. `
+    : `The area is currently under an <strong style="color:#4ade80">ALL CLEAR status</strong>. No significant weather events or environmental hazards have been detected at this time. Emergency services are fully operational and available. Residents may carry out normal daily activities while continuing to monitor CrisisSync for any changes in conditions. `;
+
+  const closing = `CrisisSync continues to monitor live data feeds and will update this report as conditions evolve. All nearby emergency facilities — including hospitals, police stations, and relief centers — have been notified of current conditions and are prepared to respond accordingly.`;
+
+  return opening + weatherSummary + threatSummary + closing;
+}
+
+function getWarningsAndRecs(code, wind, temp, precip) {
+  const warnings = [];
+  const recommendations = [];
+
+  if (code >= 95)  warnings.push('Active thunderstorm detected in the region');
+  if (code >= 80)  warnings.push('Heavy rainfall or snowfall conditions active');
+  if (wind > 60)   warnings.push('Dangerously high wind speeds recorded');
+  if (wind > 35)   warnings.push('Strong winds — secure outdoor objects');
+  if (precip > 70) warnings.push('High precipitation probability in coming hours');
+  if (temp > 40)   warnings.push('Extreme heat advisory in effect');
+  if (temp < 5)    warnings.push('Near-freezing temperatures — cold wave alert');
+  if (warnings.length === 0) warnings.push('No active weather warnings at this time');
+
+  if (code >= 80)  recommendations.push('Stay indoors and away from flood-prone areas');
+  if (wind > 35)   recommendations.push('Avoid driving on elevated roads or bridges');
+  if (precip > 50) recommendations.push('Keep emergency supplies and dry clothing ready');
+  if (temp > 38)   recommendations.push('Stay hydrated and avoid direct sun exposure');
+  recommendations.push('Keep your phone charged and location enabled');
+  recommendations.push('Save emergency contacts — Police: 100, Ambulance: 108, Fire: 101');
+  recommendations.push('Check on elderly neighbours and vulnerable family members');
+
+  return { warnings, recommendations };
+}
+
+// ── FOOD & NGO MODAL ──
+
+const foodData = [
+  {
+    name: 'Metro Food Bank',
+    dist: '0.8 miles',
+    supply: '500+ Meal Kits Available',
+    stock: 'high',
+    type: ['foodbank'],
+    img: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400&q=60',
+    phone: 'tel:+911234567810'
+  },
+  {
+    name: 'Clean Water Station',
+    dist: '1.2 km',
+    supply: '200L Water Packs · Purification Tablets',
+    stock: 'high',
+    type: ['water'],
+    img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=60',
+    phone: 'tel:+911234567811'
+  },
+  {
+    name: 'UNICEF Relief Hub',
+    dist: '2.0 km',
+    supply: 'Dry Rations · Baby Food · Medical Kits',
+    stock: 'low',
+    type: ['ngo', 'foodbank'],
+    img: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&q=60',
+    phone: 'tel:+911234567812'
+  },
+  {
+    name: 'Community Kitchen',
+    dist: '2.5 km',
+    supply: 'Hot Meals Served 3x Daily',
+    stock: 'high',
+    type: ['foodbank', 'ngo'],
+    img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=60',
+    phone: 'tel:+911234567813'
+  },
+  {
+    name: 'Emergency Water Depot',
+    dist: '3.1 km',
+    supply: 'Currently Out of Stock',
+    stock: 'empty',
+    type: ['water'],
+    img: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=400&q=60',
+    phone: 'tel:+911234567814'
+  },
+];
+
+function getFoodData() {
+  return Array.isArray(window._liveFoodData) && window._liveFoodData.length ? window._liveFoodData : foodData;
+}
+
+let activeFoodFilter = 'all';
+
+function openFoodModal() {
+  document.getElementById('foodModal').classList.add('open');
+  document.getElementById('foodSearchInput').value = '';
+  filterFood('all', document.querySelector('#foodModal .filter-tab'));
+}
+
+function closeFoodModal() {
+  document.getElementById('foodModal').classList.remove('open');
+}
+
+function filterFood(type, btn) {
+  document.querySelectorAll('#foodModal .filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  activeFoodFilter = type;
+
+  const list = type === 'all'
+    ? getFoodData()
+    : getFoodData().filter(f => f.type.includes(type));
+
+  renderFood(list);
+}
+
+function searchFood(query) {
+  const q    = query.toLowerCase();
+  const base = activeFoodFilter === 'all' ? getFoodData() : getFoodData().filter(f => f.type.includes(activeFoodFilter));
+  const list = q
+    ? base.filter(f => f.name.toLowerCase().includes(q) || f.supply.toLowerCase().includes(q))
+    : base;
+  renderFood(list);
+}
+
+function renderFood(list) {
+  const container  = document.getElementById('foodList');
+  const navigateBase = `https://www.google.com/maps/search/food+bank/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No results found.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(f => {
+    const stockLabel = f.stock === 'high' ? 'HIGH STOCK' : f.stock === 'low' ? 'LOW STOCK' : 'OUT OF STOCK';
+    const tagHtml    = f.type.map(t => `<span class="food-type-tag ${t}">${t.toUpperCase()}</span>`).join('');
+    const isEmpty    = f.stock === 'empty';
+
+    return `
+    <div class="food-card">
+      <div class="food-img-wrap">
+        <img src="${f.img}" alt="${f.name}" class="food-img">
+        <div class="food-stock-badge ${f.stock}">
+          <span class="food-stock-dot"></span>
+          ${stockLabel}
+        </div>
+      </div>
+      <div class="food-body">
+        <div class="food-top-row">
+          <span class="food-name">${f.name}</span>
+          <span class="food-dist">${f.dist}</span>
+        </div>
+        <div class="food-supply">
+          <i class="fa-solid fa-box-open"></i>
+          ${f.supply}
+        </div>
+        <div class="food-tags">${tagHtml}</div>
+        <a href="${isEmpty ? '#' : navigateBase}" target="${isEmpty ? '' : '_blank'}"
+           class="food-navigate-btn ${isEmpty ? 'disabled' : ''}">
+          <i class="fa-solid fa-paper-plane"></i>
+          ${isEmpty ? 'Currently Unavailable' : 'Navigate'}
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SHELTER MODAL ──
+
+const shelterData = [
+  {
+    name: 'Red Cross Metro Hub',
+    address: '1422 Sentinel Ave, Sector 4',
+    dist: '0.8 MILES',
+    capacity: 80,
+    type: ['shelter', 'medical', 'food'],
+    img: 'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=400&q=60',
+    phone: 'tel:+911234567800'
+  },
+  {
+    name: 'City Relief Shelter',
+    address: '88 North Relief Rd, Block B',
+    dist: '1.4 KM',
+    capacity: 45,
+    type: ['shelter', 'food'],
+    img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=60',
+    phone: 'tel:+911234567801'
+  },
+  {
+    name: 'NGO Supply Depot',
+    address: '34 Central Park Lane, Zone 2',
+    dist: '2.1 KM',
+    capacity: 60,
+    type: ['supply', 'food'],
+    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=60',
+    phone: 'tel:+911234567802'
+  },
+  {
+    name: 'District Medical Camp',
+    address: 'Govt School Ground, Sector 9',
+    dist: '3.0 KM',
+    capacity: 30,
+    type: ['medical', 'shelter'],
+    img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=60',
+    phone: 'tel:+911234567803'
+  },
+];
+
+function getShelterData() {
+  return Array.isArray(window._liveShelters) && window._liveShelters.length ? window._liveShelters : shelterData;
+}
+
+function openShelterModal() {
+  document.getElementById('shelterModal').classList.add('open');
+  filterShelters('all', document.querySelector('#shelterModal .filter-tab'));
+}
+
+function closeShelterModal() {
+  document.getElementById('shelterModal').classList.remove('open');
+}
+
+function filterShelters(type, btn) {
+  document.querySelectorAll('#shelterModal .filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const list = type === 'all'
+    ? getShelterData()
+    : getShelterData().filter(s => s.type.includes(type));
+
+  renderShelters(list);
+}
+
+function renderShelters(list) {
+  const container = document.getElementById('shelterList');
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No centers found in this category.</div>';
+    return;
+  }
+
+  const navigateBase = `https://www.google.com/maps/search/shelter/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+  container.innerHTML = list.map(s => {
+    const capColor = s.capacity > 60 ? '#4ade80' : s.capacity > 30 ? '#facc15' : '#f87171';
+    const tagHtml  = s.type.map(t => `<span class="shelter-tag ${t}">${t.toUpperCase()}</span>`).join('');
+
+    return `
+    <div class="shelter-card">
+      <div class="shelter-img-wrap">
+        <img src="${s.img}" alt="${s.name}" class="shelter-img">
+        <div class="shelter-verified">
+          <i class="fa-solid fa-circle-check"></i> VERIFIED
+        </div>
+        <div class="shelter-dist-badge">${s.dist}</div>
+      </div>
+      <div class="shelter-body">
+        <div class="shelter-name">${s.name}</div>
+        <div class="shelter-address">
+          <i class="fa-solid fa-location-dot" style="color:#facc15; font-size:11px;"></i>
+          ${s.address}
+        </div>
+        <div class="shelter-tags">${tagHtml}</div>
+        <div class="shelter-capacity">
+          <span class="shelter-cap-text">Capacity: ${s.capacity}%</span>
+          <div class="shelter-cap-bar-wrap">
+            <div class="shelter-cap-bar" style="width:${s.capacity}%; background:${capColor};"></div>
+          </div>
+        </div>
+        <div class="shelter-actions">
+          <a href="${navigateBase}" target="_blank" class="shelter-navigate-btn">
+            <i class="fa-solid fa-paper-plane"></i> Navigate
+          </a>
+          <a href="${s.phone}" class="shelter-call-btn">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── POLICE MODAL ──
+
+const policeData = [
+  { name: 'District 7 Precinct',    sub: 'Primary Response Unit • West Sector',  dist: 0.8, units: 5,  status: 'active',  phone: 'tel:100' },
+  { name: 'Metro Security Hub',     sub: 'Central Intelligence & Operations',     dist: 1.5, units: 3,  status: 'alert',   phone: 'tel:100' },
+  { name: 'North Zone Police Post', sub: 'Community Patrol • North Sector',       dist: 2.3, units: 8,  status: 'active',  phone: 'tel:100' },
+  { name: 'East Border Outpost',    sub: 'Traffic & Border Control',              dist: 3.7, units: 0,  status: 'offline', phone: 'tel:100' },
+  { name: 'Central Command Unit',   sub: 'Emergency Response • City Center',      dist: 4.1, units: 12, status: 'active',  phone: 'tel:100' },
+];
+
+function openPoliceModal() {
+  document.getElementById('policeModal').classList.add('open');
+  filterPolice('nearest', document.querySelector('.police-tab'));
+}
+
+function closePoliceModal() {
+  document.getElementById('policeModal').classList.remove('open');
+}
+
+function filterPolice(type, btn) {
+  document.querySelectorAll('.police-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  let list = [...getPoliceData()];
+  if (type === 'nearest') list.sort((a, b) => a.dist - b.dist);
+  if (type === 'active')  list = list.filter(p => p.status === 'active').sort((a, b) => b.units - a.units);
+  if (type === 'alert')   list = list.filter(p => p.status === 'alert');
+
+  renderPolice(list);
+}
+
+function renderPolice(list) {
+  const container = document.getElementById('policeList');
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No stations found.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(p => {
+    const badgeLabel = p.status === 'active' ? 'ACTIVE' : p.status === 'alert' ? 'HIGH ALERT' : 'OFFLINE';
+    const badgeClass = p.status === 'active' ? 'active' : p.status === 'alert' ? 'alert' : 'offline';
+    const unitsText  = p.units > 0 ? `${p.units} Active` : 'Unavailable';
+    const navigateUrl = `https://www.google.com/maps/search/police+station/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+    return `
+    <div class="police-card ${p.status === 'alert' ? 'alert-card' : ''}">
+      <div class="police-top">
+        <div class="police-name-block">
+          <div class="police-name">${p.name}</div>
+          <div class="police-sub">${p.sub}</div>
+        </div>
+        <div class="police-badge ${badgeClass}">
+          <span class="police-badge-dot"></span>
+          ${badgeLabel}
+        </div>
+      </div>
+      <div class="police-stats">
+        <div class="police-stat">
+          <span class="police-stat-label">DISTANCE</span>
+          <span class="police-stat-value">${p.dist}km</span>
+        </div>
+        <div class="police-stat">
+          <span class="police-stat-label">UNITS AVAILABLE</span>
+          <span class="police-stat-value" style="color:${p.units > 0 ? '#ffffff' : '#f87171'}">${unitsText}</span>
+        </div>
+      </div>
+      ${p.status !== 'offline' ? `
+      <div class="police-actions">
+        <button class="police-assist-btn" onclick="window.location.href='${p.phone}'">
+          REQUEST ASSISTANCE
+        </button>
+        <a href="${navigateUrl}" target="_blank" class="police-nav-btn">
+          <i class="fa-solid fa-diamond-turn-right"></i>
+        </a>
+      </div>` : `<div class="hosp-full-msg">This station is currently offline.</div>`}
+    </div>`;
+  }).join('');
+}
+
+// ── HOSPITAL MODAL ──
+
+const hospitalData = [
+  { name: 'City Central Hospital',     dist: 1.2, beds: 14, waitTime: 12, critical: 3,  status: 'available', phone: 'tel:+911234567890' },
+  { name: 'St. Jude Medical',          dist: 2.8, beds: 6,  waitTime: 25, critical: 7,  status: 'busy',      phone: 'tel:+911234567891' },
+  { name: 'Apollo Emergency Care',     dist: 3.1, beds: 3,  waitTime: 40, critical: 12, status: 'busy',      phone: 'tel:+911234567892' },
+  { name: 'Sunrise District Hospital', dist: 4.5, beds: 0,  waitTime: 0,  critical: 0,  status: 'full',      phone: 'tel:+911234567893' },
+  { name: 'National Trauma Center',    dist: 5.0, beds: 31, waitTime: 8,  critical: 2,  status: 'available', phone: 'tel:+911234567894' },
+];
+
+function getHospitalData() {
+  return Array.isArray(window._liveHospitals) && window._liveHospitals.length ? window._liveHospitals : hospitalData;
+}
+
+let currentHospitals = [...hospitalData];
+
+function openHospitalModal() {
+  document.getElementById('hospitalModal').classList.add('open');
+  filterHospitals('recommended', document.querySelector('.filter-tab.active') || document.querySelector('.filter-tab'));
+}
+
+function closeHospitalModal() {
+  document.getElementById('hospitalModal').classList.remove('open');
+}
+
+function filterHospitals(type, btn) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  let sorted = [...getHospitalData()];
+
+  if (type === 'nearest')   sorted.sort((a, b) => a.dist - b.dist);
+  if (type === 'maxbeds')   sorted.sort((a, b) => b.beds - a.beds);
+  if (type === 'available') sorted = sorted.filter(h => h.status === 'available');
+  if (type === 'recommended') {
+    sorted.sort((a, b) => {
+      if (a.status === 'full' && b.status !== 'full') return 1;
+      if (b.status === 'full' && a.status !== 'full') return -1;
+      const scoreA = (a.beds * 2) - (a.dist * 3) - (a.critical * 1.5) - (a.waitTime * 0.5);
+      const scoreB = (b.beds * 2) - (b.dist * 3) - (b.critical * 1.5) - (b.waitTime * 0.5);
+      return scoreB - scoreA;
+    });
+  }
+
+  currentHospitals = sorted;
+  renderHospitals(sorted);
+  updateStatusOverview(sorted);
+}
+
+function updateStatusOverview(list) {
+  const area = document.getElementById('userLocation')?.textContent.replace('· ', '') || 'your area';
+  document.getElementById('statusSubtitle').textContent  = `Emergency response readiness in ${area}`;
+  document.getElementById('totalBeds').textContent       = list.reduce((s, h) => s + h.beds, 0);
+  document.getElementById('criticalWait').textContent    = list.reduce((s, h) => s + h.critical, 0);
+  document.getElementById('totalFacilities').textContent = list.length;
+}
+
+function renderHospitals(list) {
+  const container = document.getElementById('hospitalList');
+  if (!list.length) {
+    container.innerHTML = '<div class="zone-loading">No hospitals found.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map((h, i) => {
+    const isBest       = i === 0 && h.status !== 'full';
+    const statusColor  = h.status === 'available' ? '#4ade80' : h.status === 'busy' ? '#facc15' : '#f87171';
+    const bedsColor    = h.beds > 10 ? '#4ade80' : h.beds > 0 ? '#facc15' : '#f87171';
+    const statusLabel  = h.status === 'available' ? 'Available' : h.status === 'busy' ? 'Limited Space' : 'Full';
+    const navigateUrl  = `https://www.google.com/maps/search/hospital/@${window._userLat || 19.076},${window._userLon || 72.877},14z`;
+
+    return `
+    <div class="hospital-card ${isBest ? 'best' : ''}">
+      <div class="hosp-top-row">
+        <div class="hosp-icon-big">
+          <i class="fa-solid fa-star-of-life"></i>
+        </div>
+        <div class="hosp-info">
+          <div class="hosp-name">${h.name}</div>
+          <div class="hosp-status-row">
+            <span class="hosp-status-dot" style="background:${statusColor};"></span>
+            <span class="hosp-status-text" style="color:${statusColor};">${statusLabel}</span>
+          </div>
+          ${isBest ? '<span class="best-badge">★ RECOMMENDED</span>' : ''}
+        </div>
+        <div class="hosp-dist-block">
+          <span class="hosp-dist-num">${h.dist}km</span>
+          <span class="hosp-dist-label">away</span>
+        </div>
+      </div>
+      <div class="hosp-stats-row">
+        <div class="hosp-stat-box">
+          <span class="hosp-stat-label">TOTAL</span>
+          <span class="hosp-stat-value">${h.total || 0}</span>
+        </div>
+        <div class="hosp-stat-box">
+          <span class="hosp-stat-label">FREE</span>
+          <span class="hosp-stat-value" style="color:${bedsColor};">${h.beds || 0}</span>
+        </div>
+        <div class="hosp-stat-box">
+          <span class="hosp-stat-label">SCHEDULED</span>
+          <span class="hosp-stat-value" style="color:#facc15;">${h.scheduled || 0}</span>
+        </div>
+      </div>
+      <div class="hosp-progress-row">
+        <div class="hosp-progress-label">${h.fillPct || 0}% FULL</div>
+        <div class="hosp-progress-bar"><div class="hosp-progress-fill" style="width:${h.fillPct || 0}%;background:${statusColor};"></div></div>
+      </div>
+      <div class="hosp-actions">
+        <a href="${navigateUrl}" target="_blank" class="hosp-navigate-btn">
+          <i class="fa-solid fa-paper-plane"></i> Navigate
+        </a>
+        <a href="${h.phone}" class="hosp-call-btn">
+          <i class="fa-solid fa-phone"></i>
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── MAP MODAL ──
+
+function openMapModal() {
+  document.getElementById('mapModal').classList.add('open');
+  loadMapZones();
+}
+
+function closeMapModal() {
+  document.getElementById('mapModal').classList.remove('open');
+}
+
+async function loadMapZones() {
+  const zoneList  = document.getElementById('zoneList');
+  const nearbyVal = document.getElementById('nearbyValue');
+  const safeCard  = document.getElementById('safeCard');
+  const safeDesc  = document.getElementById('safeDesc');
+  const weatherStrip = document.getElementById('weatherStrip');
+
+  zoneList.innerHTML = '<div class="zone-loading">Analyzing your location...</div>';
+  safeCard.style.display = 'none';
+  weatherStrip.style.display = 'none';
+
+  if (!window._userLat || !window._userLon) {
+    zoneList.innerHTML = '<div class="zone-loading">Enable location to view zone status.</div>';
+    return;
+  }
+
+  try {
+    const res     = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${window._userLat}&longitude=${window._userLon}&current_weather=true&timezone=auto`);
+    const data    = await res.json();
+    const weather = data.current_weather;
+    const area    = document.getElementById('userLocation').textContent.replace('· ', '') || 'Your Area';
+
+    const zones = [];
+    const code  = weather.weathercode;
+    const wind  = weather.windspeed;
+
+    if (code >= 95)                          zones.push({ type: 'CRITICAL ZONE',     name: `${area} — Thunderstorm Active`,  color: 'red'    });
+    if (code >= 80 && code < 95)             zones.push({ type: 'CRITICAL ZONE',     name: `${area} — Severe Rain/Snow`,     color: 'red'    });
+    if ((code >= 63 && code < 80) || wind > 50) zones.push({ type: 'RESTRICTED ACCESS', name: `${area} — Adverse Conditions`,  color: 'yellow' });
+    if (code >= 51 && code < 63)             zones.push({ type: 'CAUTION ZONE',      name: `${area} — Light Rain/Drizzle`,   color: 'yellow' });
+
+    if (zones.length === 0) {
+      zoneList.innerHTML = `
+        <div class="zone-row">
+          <div class="zone-row-left">
+            <div class="zone-bar green"></div>
+            <div class="zone-info">
+              <span class="zone-type green">SAFE ZONE</span>
+              <span class="zone-name">${area}</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right zone-chevron green"></i>
+        </div>`;
+
+      nearbyVal.textContent = 'No active hazards detected';
+      nearbyVal.style.color = '#00e676';
+      document.querySelector('.nearby-icon').style.background = '#0d2010';
+      document.querySelector('.nearby-icon i').style.color    = '#00e676';
+
+      safeCard.style.display = 'flex';
+      safeDesc.textContent   = `${area} is currently safe. No weather hazards or emergency alerts reported.`;
+    } else {
+      zoneList.innerHTML = zones.map(z => `
+        <div class="zone-row">
+          <div class="zone-row-left">
+            <div class="zone-bar ${z.color}"></div>
+            <div class="zone-info">
+              <span class="zone-type ${z.color}">${z.type}</span>
+              <span class="zone-name">${z.name}</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right zone-chevron ${z.color}"></i>
+        </div>`).join('');
+
+      nearbyVal.textContent = `${zones.length} active hazard${zones.length > 1 ? 's' : ''} identified`;
+      nearbyVal.style.color = '#e05a4e';
+      document.querySelector('.nearby-icon').style.background = '#2a1010';
+      document.querySelector('.nearby-icon i').style.color    = '#e05a4e';
+      safeCard.style.display = 'none';
+    }
+
+    const desc = getWeatherDesc(code);
+    document.getElementById('weatherTemp').innerHTML      = `<span>${weather.temperature}°C</span><span>Temperature</span>`;
+    document.getElementById('weatherWind').innerHTML      = `<span>${wind} km/h</span><span>Wind</span>`;
+    document.getElementById('weatherCondition').innerHTML = `<span style="font-size:12px">${desc}</span><span>Condition</span>`;
+    weatherStrip.style.display = 'flex';
+
+  } catch {
+    zoneList.innerHTML = '<div class="zone-loading">Could not fetch zone data.</div>';
+  }
+}
+
+function getWeatherDesc(code) {
+  if (code === 0)      return 'Clear skies';
+  if (code <= 2)       return 'Partly cloudy';
+  if (code === 3)      return 'Overcast';
+  if (code <= 49)      return 'Foggy';
+  if (code <= 57)      return 'Drizzle';
+  if (code <= 67)      return 'Rainy';
+  if (code <= 77)      return 'Snowfall';
+  if (code <= 82)      return 'Rain showers';
+  if (code <= 86)      return 'Heavy snow';
+  if (code <= 99)      return 'Thunderstorm';
+  return 'Unknown';
+}
+
+// ── SOS MODAL ──
+
+function openSOSModal() {
+  document.getElementById('sosModal').classList.add('open');
+  document.getElementById('sosListeningText').textContent = 'Tap mic to speak';
+  document.getElementById('sosResponseText').textContent = '';
+  document.getElementById('sosMicOuter').classList.remove('listening');
+  document.getElementById('sosTranscriptWrap').style.display = 'none';
+  document.getElementById('sosTranscriptBox').innerHTML = '';
+  document.getElementById('dispatchCard').style.display = 'none';
+}
+
+// ── FETCH NEAREST PLACE BASED ON KEYWORD ──
+
+async function fetchNearestPlace(speech) {
+  const card     = document.getElementById('dispatchCard');
+  const nameEl   = document.getElementById('dispatchName');
+  const distEl   = document.getElementById('dispatchDist');
+  const iconEl   = document.getElementById('dispatchIcon');
+  const tagEl    = document.getElementById('dispatchTag');
+
+  let amenity = 'hospital';
+  let iconClass = 'fa-solid fa-plus';
+  let iconBg = '#c0200e';
+
+  if (['attack','robbery','threat','gun','knife','police','thief'].some(k => speech.includes(k))) {
+    amenity = 'police'; iconClass = 'fa-solid fa-shield-halved'; iconBg = '#1a3a6e';
+  } else if (['fire','burning','smoke','flames'].some(k => speech.includes(k))) {
+    amenity = 'fire_station'; iconClass = 'fa-solid fa-fire'; iconBg = '#8a3000';
+  } else if (['shelter','flood','earthquake','trapped','collapse'].some(k => speech.includes(k))) {
+    amenity = 'shelter'; iconClass = 'fa-solid fa-house'; iconBg = '#1a5a2e';
+  }
+
+  card.style.display = 'flex';
+  nameEl.textContent = 'Finding nearest...';
+  distEl.textContent = '--';
+  iconEl.innerHTML = `<i class="${iconClass}"></i>`;
+  iconEl.style.background = iconBg;
+
+  if (!window._userLat || !window._userLon) {
+    nameEl.textContent = 'Enable location for dispatch';
+    distEl.textContent = '--';
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${amenity}&lat=${window._userLat}&lon=${window._userLon}&format=json&limit=1&bounded=0`
+    );
+    const results = await res.json();
+
+    if (results && results.length > 0) {
+      const place = results[0];
+      const dist  = getDistanceKm(window._userLat, window._userLon, place.lat, place.lon);
+      const distText = dist < 1 ? `${Math.round(dist * 1000)}m` : `${dist.toFixed(1)}km`;
+      nameEl.textContent = place.display_name.split(',')[0];
+      distEl.textContent = distText;
+      tagEl.textContent  = 'PRIORITY DISPATCH';
+    } else {
+      nameEl.textContent = 'No nearby location found';
+      distEl.textContent = '--';
+    }
+  } catch {
+    nameEl.textContent = 'Location lookup failed';
+    distEl.textContent = '--';
+  }
+}
+
+// ── HAVERSINE DISTANCE ──
+
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ── KEYWORD HIGHLIGHTER ──
+
+function highlightKeywords(speech) {
+  const allKeywords = [
+    'accident', 'crash', 'injured', 'hurt', 'bleeding', 'ambulance',
+    'fire', 'burning', 'smoke', 'flames',
+    'attack', 'robbery', 'threat', 'gun', 'knife', 'thief',
+    'flood', 'water', 'drowning', 'rising',
+    'earthquake', 'collapse', 'trapped',
+    'help', 'emergency', 'sos'
+  ];
+
+  let result = speech;
+  allKeywords.forEach(kw => {
+    const regex = new RegExp(`(${kw})`, 'gi');
+    result = result.replace(regex, `<span class="keyword">$1</span>`);
+  });
+
+  return `"${result}"`;
+}
+
+function closeSOSModal() {
+  document.getElementById('sosModal').classList.remove('open');
+}
+
+// ── SOS MICROPHONE LOGIC ──
+
+function startMic() {
+  const listeningText = document.getElementById('sosListeningText');
+  const responseText  = document.getElementById('sosResponseText');
+  const micOuter      = document.getElementById('sosMicOuter');
+  const oldStatus     = document.getElementById('micStatus');
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    if (listeningText) listeningText.textContent = '⚠ Not supported';
+    if (oldStatus)     oldStatus.textContent = '⚠ Voice not supported in this browser.';
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  if (listeningText) listeningText.textContent = 'Listening...';
+  if (micOuter)      micOuter.classList.add('listening');
+  if (oldStatus)     oldStatus.textContent = '🎙 Listening...';
+
+  recognition.start();
+
+  recognition.onresult = function (event) {
+    const speech = event.results[0][0].transcript;
+    const speechLower = speech.toLowerCase();
+    if (listeningText) listeningText.textContent = '';
+    if (micOuter)      micOuter.classList.remove('listening');
+
+    const transcriptWrap = document.getElementById('sosTranscriptWrap');
+    const transcriptBox  = document.getElementById('sosTranscriptBox');
+    if (transcriptWrap && transcriptBox) {
+      transcriptWrap.style.display = 'flex';
+      transcriptBox.innerHTML = highlightKeywords(speech);
+    }
+
+    const response = analyzeAndRespond(speechLower);
+    if (responseText) responseText.textContent = response;
+    if (oldStatus)    oldStatus.textContent = response;
+
+    fetchNearestPlace(speechLower);
+  };
+
+  recognition.onerror = function () {
+    if (listeningText) listeningText.textContent = '⚠ Could not hear you';
+    if (micOuter)      micOuter.classList.remove('listening');
+    if (oldStatus)     oldStatus.textContent = '⚠ Could not hear you. Try again.';
+  };
+
+  recognition.onend = function () {
+    if (micOuter) micOuter.classList.remove('listening');
+  };
+}
+
+// ── AI-LIKE RESPONSE LOGIC ──
+
+function analyzeAndRespond(speech) {
+  const rules = [
+    { keywords: ['accident', 'crash', 'injured', 'hurt', 'bleeding', 'ambulance'], response: '🚑 Calling nearest hospital...' },
+    { keywords: ['fire', 'burning', 'smoke', 'flames'],                            response: '🚒 Alerting fire department...' },
+    { keywords: ['attack', 'robbery', 'threat', 'gun', 'knife', 'police', 'thief'], response: '🚔 Alerting police...' },
+    { keywords: ['flood', 'water', 'drowning', 'rising'],                          response: '🆘 Contacting disaster relief...' },
+    { keywords: ['earthquake', 'building', 'collapse', 'trapped'],                 response: '🆘 Alerting rescue teams...' },
+    { keywords: ['help', 'emergency', 'sos'],                                      response: '📡 Broadcasting SOS signal...' },
+  ];
+
+  for (const rule of rules) {
+    if (rule.keywords.some(k => speech.includes(k))) return rule.response;
+  }
+  return '📡 Emergency signal sent. Stay calm.';
+}
+
+
+// ═══════════════════════════════════════════════════════
+//  ADMIN NEXUS PORTAL  — NEW CODE
+// ═══════════════════════════════════════════════════════
+
+// ── Credentials (simple hardcoded for now) ──
+const ADMIN_CREDENTIALS = {
+  hospital: { user: 'admin.hospital',  pass: 'hosp@2024' },
+  food:     { user: 'admin.food',      pass: 'food@2024' },
+  police:   { user: 'admin.police',    pass: 'police@2024' },
+  shelter:  { user: 'admin.shelter',   pass: 'shelter@2024' },
+};
+
+// Role display config
+const ROLE_CONFIG = {
+  hospital: { label: 'Hospital Admin',  icon: 'fa-briefcase-medical', color: '#4ade80', stats: [{ val: '14', lbl: 'BEDS FREE', icon: 'fa-bed', bg: '#0d2b1a' }, { val: '3',  lbl: 'CRITICAL', icon: 'fa-heart-pulse', bg: '#2b1a1a' }, { val: '12', lbl: 'WAIT (MIN)', icon: 'fa-clock', bg: '#2b2200' }, { val: '5',  lbl: 'DOCTORS ON', icon: 'fa-user-doctor', bg: '#1a1f2e' }] },
+  food:     { label: 'Food/NGO Admin',  icon: 'fa-hand-holding-heart', color: '#facc15', stats: [{ val: '500+', lbl: 'MEAL KITS', icon: 'fa-box-open', bg: '#2a1f00' }, { val: '3',  lbl: 'STATIONS', icon: 'fa-location-dot', bg: '#0d2b1a' }, { val: '200L', lbl: 'WATER AVAIL', icon: 'fa-droplet', bg: '#1a1f2e' }, { val: '2',  lbl: 'LOW STOCK', icon: 'fa-triangle-exclamation', bg: '#2b1a1a' }] },
+  police:   { label: 'Police Admin',    icon: 'fa-shield-halved', color: '#f87171', stats: [{ val: '5',  lbl: 'STATIONS', icon: 'fa-building', bg: '#2b1a1a' }, { val: '28', lbl: 'UNITS OUT', icon: 'fa-car', bg: '#1a1f2e' }, { val: '1',  lbl: 'ON ALERT', icon: 'fa-bell', bg: '#2a1f00' }, { val: '4',  lbl: 'OFFLINE', icon: 'fa-circle-xmark', bg: '#0d2010' }] },
+  shelter:  { label: 'Shelter Admin',   icon: 'fa-location-dot', color: '#93c5fd', stats: [{ val: '4',  lbl: 'SHELTERS', icon: 'fa-house', bg: '#1a1f2e' }, { val: '215', lbl: 'CAPACITY', icon: 'fa-people-group', bg: '#0d2b1a' }, { val: '60%', lbl: 'AVG FILL', icon: 'fa-chart-bar', bg: '#2a1f00' }, { val: '2',  lbl: 'MEDICAL', icon: 'fa-kit-medical', bg: '#2b1a1a' }] },
+};
+
+// ── Open portal ──
+async function openAdminPortal() {
+  const overlay = document.getElementById('adminOverlay');
+  overlay.classList.add('open');
+  localStorage.setItem('adminOverlayOpen', 'true');
+
+  const role = localStorage.getItem('adminRole');
+  const loggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+  if (loggedIn && role) {
+    await showAdminDashboard(role);
+    return;
+  }
+
+  // Reset to login view
+  const loginForm = document.getElementById('adminLoginForm');
+  const dashboard = document.getElementById('adminDashboard');
+  if (loginForm)   loginForm.style.display = 'flex';
+  if (dashboard)   dashboard.classList.remove('open');
+
+  document.getElementById('adminUser').value  = '';
+  document.getElementById('adminPass').value  = '';
+  document.getElementById('adminError').textContent = '';
+  document.getElementById('adminBtnText').textContent = 'SECURE LOGIN';
+  document.getElementById('adminBtnIcon').style.display = '';
+  document.getElementById('adminBtnLoader').style.display = 'none';
+  document.querySelector('.admin-login-btn').disabled = false;
+
+  // Update placeholder on load
+  updateAdminPlaceholder();
+}
+
+function closeAdminPortal() {
+  document.getElementById('adminOverlay').classList.remove('open');
+  localStorage.setItem('adminOverlayOpen', 'false');
+}
+
+// ── Update placeholder based on selected role ──
+function updateAdminPlaceholder() {
+  const role = document.getElementById('adminRole').value;
+  const cred = ADMIN_CREDENTIALS[role];
+  if (cred) {
+    document.getElementById('adminUser').placeholder = cred.user;
+  }
+}
+
+// ── Toggle password visibility ──
+function toggleAdminPass(btn) {
+  const input = document.getElementById('adminPass');
+  const icon  = btn.querySelector('i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'fa-solid fa-eye-slash';
+  } else {
+    input.type = 'password';
+    icon.className = 'fa-solid fa-eye';
+  }
+}
+
+// ── Handle login ──
+async function handleAdminLogin() {
+  const role = document.getElementById('adminRole').value;
+  const user = document.getElementById('adminUser').value.trim();
+  const pass = document.getElementById('adminPass').value.trim();
+  const errEl = document.getElementById('adminError');
+  const btn   = document.querySelector('.admin-login-btn');
+  const btnTxt  = document.getElementById('adminBtnText');
+  const btnIcon = document.getElementById('adminBtnIcon');
+  const btnLoader = document.getElementById('adminBtnLoader');
+
+  errEl.textContent = '';
+
+  if (!user || !pass) {
+    errEl.textContent = '⚠ CREDENTIALS REQUIRED';
+    shakeLoginBtn();
+    return;
+  }
+
+  const cred = ADMIN_CREDENTIALS[role];
+  if (user !== cred.user || pass !== cred.pass) {
+    errEl.textContent = '✕ ACCESS DENIED — INVALID CREDENTIALS';
+    shakeLoginBtn();
+    document.getElementById('adminPass').value = '';
+    return;
+  }
+
+  localStorage.setItem('adminLoggedIn', 'true');
+  localStorage.setItem('adminRole', role);
+  localStorage.setItem('adminOverlayOpen', 'true');
+
+  // Show dashboard immediately — no artificial delay
+  await showAdminDashboard(role);
+}
+
+function shakeLoginBtn() {
+  const btn = document.querySelector('.admin-login-btn');
+  btn.classList.remove('shake');
+  void btn.offsetWidth; // reflow to restart animation
+  btn.classList.add('shake');
+  setTimeout(() => btn.classList.remove('shake'), 400);
+}
+
+// ── Render dashboard ──
+async function showAdminDashboard(role) {
+  const existing = document.getElementById('adminDashboard');
+  if (existing) existing.remove();
+
+  const cfg = ROLE_CONFIG[role];
+
+  if (role === 'hospital' && window.FB) {
+    try {
+      const wards = await window.FB.getWards();
+      const staff = await window.FB.getStaff();
+      const bedsFree = wards.reduce((s, w) => s + (w.available || 0), 0);
+      const critical = wards.reduce((s, w) => s + Math.max(0, (w.total || 0) - (w.available || 0)), 0);
+      const doctorsOn = staff.filter(s => s.status === 'on').length;
+      cfg.stats[0].val = bedsFree.toString();
+      cfg.stats[1].val = critical.toString();
+      cfg.stats[2].val = '12'; // default wait time
+      cfg.stats[3].val = doctorsOn.toString();
+    } catch (e) {
+      console.warn('Failed to fetch hospital stats', e);
+    }
+  }
+
+  // Hide login form
+  document.getElementById('adminLoginForm').style.display = 'none';
+
+  // Hide portal title & desc & enc tag
+  document.querySelector('.admin-enc-tag').style.display = 'none';
+  document.querySelector('.admin-portal-title').style.display = 'none';
+  document.querySelector('.admin-portal-desc').style.display = 'none';
+  document.querySelector('.admin-footer-links').style.display = 'none';
+  document.querySelector('.admin-version').style.display = 'none';
+  document.querySelectorAll('.admin-proto-strip').forEach(el => el.style.display = 'none');
+
+  // Build dashboard HTML
+  const statsHtml = cfg.stats.map(s => `
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon" style="background:${s.bg};">
+        <i class="fa-solid ${s.icon}" style="color:${cfg.color};"></i>
+      </div>
+      <div class="admin-stat-value">${s.val}</div>
+      <div class="admin-stat-label">${s.lbl}</div>
+    </div>`).join('');
+
+  const actionsHtml = getAdminActions(role, cfg);
+
+  const dashHtml = `
+    <div id="adminDashboard" class="admin-dashboard open">
+      <div class="admin-dash-header">
+        <div class="admin-dash-role-badge ${role}">
+          <i class="fa-solid ${cfg.icon}"></i>
+          ${cfg.label}
+        </div>
+        <button class="admin-logout-btn" onclick="adminLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> LOGOUT
+        </button>
+      </div>
+      <div class="admin-dash-body">
+        <div class="admin-dash-welcome">WELCOME,<br>ADMIN</div>
+        <div class="admin-dash-sub">You are logged in as <strong>${cfg.label}</strong>. Manage your sector below.</div>
+        <div class="admin-stats-row">${statsHtml}</div>
+        ${actionsHtml}
+      </div>
+    </div>`;
+
+  document.getElementById('adminMain').insertAdjacentHTML('beforeend', dashHtml);
+}
+
+function getAdminActions(role, cfg) {
+  const actions = {
+    hospital: [
+      { icon: 'fa-bed',           bg: '#0d2b1a', color: '#4ade80', title: 'Bed Management',     sub: 'Update ICU & ward availability' },
+      { icon: 'fa-user-doctor',   bg: '#1a1f2e', color: '#93c5fd', title: 'Staff On Duty',       sub: 'View and manage active staff' },
+      { icon: 'fa-ambulance',     bg: '#2b1a1a', color: '#f87171', title: 'Emergency Intake',    sub: 'Log incoming emergency cases' },
+      { icon: 'fa-file-medical',  bg: '#2a1f00', color: '#facc15', title: 'Incident Reports',    sub: 'Submit and review reports' },
+    ],
+    food: [
+      { icon: 'fa-box-open',      bg: '#2a1f00', color: '#facc15', title: 'Stock Update',        sub: 'Update food & water inventory' },
+      { icon: 'fa-location-dot',  bg: '#0d2b1a', color: '#4ade80', title: 'Distribution Points', sub: 'Manage active stations' },
+      { icon: 'fa-truck',         bg: '#1a1f2e', color: '#93c5fd', title: 'Incoming Supply',     sub: 'Log incoming deliveries' },
+      { icon: 'fa-clipboard-list',bg: '#2b1a1a', color: '#f87171', title: 'NGO Coordination',    sub: 'Coordinate with partner NGOs' },
+    ],
+    police: [
+      { icon: 'fa-car',           bg: '#2b1a1a', color: '#f87171', title: 'Unit Deployment',     sub: 'Manage active field units' },
+      { icon: 'fa-bell',          bg: '#2a1f00', color: '#facc15', title: 'Alert Broadcast',      sub: 'Send area-wide alerts' },
+      { icon: 'fa-map-location',  bg: '#0d2b1a', color: '#4ade80', title: 'Patrol Zones',        sub: 'View and assign patrol areas' },
+      { icon: 'fa-file-shield',   bg: '#1a1f2e', color: '#93c5fd', title: 'Incident Log',        sub: 'Review filed incidents' },
+    ],
+    shelter: [
+      { icon: 'fa-people-group',  bg: '#1a1f2e', color: '#93c5fd', title: 'Capacity Status',     sub: 'Update shelter occupancy' },
+      { icon: 'fa-kit-medical',   bg: '#2b1a1a', color: '#f87171', title: 'Medical Services',    sub: 'Track on-site medical support' },
+      { icon: 'fa-boxes-stacked', bg: '#2a1f00', color: '#facc15', title: 'Supply Inventory',    sub: 'Manage food, water, blankets' },
+      { icon: 'fa-bullhorn',      bg: '#0d2b1a', color: '#4ade80', title: 'Announcements',       sub: 'Post updates to residents' },
+    ],
+  };
+
+  return actions[role].map(a => `
+    <div class="admin-action-card">
+      <div class="admin-action-icon" style="background:${a.bg};">
+        <i class="fa-solid ${a.icon}" style="color:${a.color}; font-size:18px;"></i>
+      </div>
+      <div class="admin-action-text">
+        <div class="admin-action-title">${a.title}</div>
+        <div class="admin-action-sub">${a.sub}</div>
+      </div>
+      <i class="fa-solid fa-chevron-right admin-action-arrow"></i>
+    </div>`).join('');
+}
+
+// ── Logout ──
+function adminLogout() {
+  // Remove injected dashboard
+  const dash = document.getElementById('adminDashboard');
+  if (dash) dash.remove();
+
+  // Re-show login elements
+  document.getElementById('adminLoginForm').style.display = 'flex';
+  document.querySelector('.admin-enc-tag').style.display = '';
+  document.querySelector('.admin-portal-title').style.display = '';
+  document.querySelector('.admin-portal-desc').style.display = '';
+  document.querySelector('.admin-footer-links').style.display = '';
+  document.querySelector('.admin-version').style.display = '';
+  document.querySelectorAll('.admin-proto-strip').forEach(el => el.style.display = '');
+
+  localStorage.removeItem('adminLoggedIn');
+  localStorage.removeItem('adminRole');
+  localStorage.removeItem('adminOverlayOpen');
+
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminError').textContent = '';
+}
+
+async function restoreAdminSession() {
+  const role = localStorage.getItem('adminRole');
+  const loggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+  const overlayOpen = localStorage.getItem('adminOverlayOpen') === 'true';
+  if (!loggedIn || !role || !overlayOpen) return;
+
+  const overlay = document.getElementById('adminOverlay');
+  if (overlay) overlay.classList.add('open');
+  await showAdminDashboard(role);
+}
+
+document.addEventListener('DOMContentLoaded', restoreAdminSession);
