@@ -246,6 +246,7 @@
         <i class="fa-solid fa-magnifying-glass food-search-icon"></i>
         <input type="text" class="food-search-input" id="foodSearchInput" placeholder="Search water, meal kits, supplies..." oninput="searchFood(this.value)">
       </div>
+      <div class="nearest-summary-card" id="foodNearest"></div>
       <div class="filter-tabs">
         <button class="filter-tab active" onclick="filterFood('all', this)">All</button>
         <button class="filter-tab" onclick="filterFood('foodbank', this)">Food Banks</button>
@@ -266,6 +267,7 @@
       <div class="shelter-live-tag"><span class="shelter-live-dot"></span>LIVE NETWORK STATUS</div>
       <h2 class="shelter-heading">Relief Centers</h2>
       <p class="shelter-subtext">Verified emergency shelters and NGO hubs currently operating in your sector.</p>
+      <div class="nearest-summary-card" id="shelterNearest"></div>
       <div class="filter-tabs" style="margin-top:16px;">
         <button class="filter-tab active" onclick="filterShelters('all', this)">All Centers</button>
         <button class="filter-tab" onclick="filterShelters('shelter', this)">Shelters</button>
@@ -288,6 +290,7 @@
         <button class="police-tab" onclick="filterPolice('active', this)"><i class="fa-solid fa-shield-halved"></i> ACTIVE UNITS</button>
         <button class="police-tab" onclick="filterPolice('alert', this)"><i class="fa-solid fa-shield-halved"></i> ON ALERT</button>
       </div>
+      <div class="nearest-summary-card" id="policeNearest"></div>
       <div class="police-list" id="policeList"></div>
     </div>
   </div>
@@ -304,6 +307,10 @@
         <button class="filter-tab" onclick="filterHospitals('nearest', this)">Nearest</button>
         <button class="filter-tab" onclick="filterHospitals('maxbeds', this)">Max Beds</button>
         <button class="filter-tab" onclick="filterHospitals('available', this)">Available</button>
+      </div>
+      <div class="hospital-highlight-grid">
+        <div class="hospital-highlight-card verified" id="hospitalVerifiedCard"></div>
+        <div class="hospital-highlight-card nearest" id="hospitalNearestCard"></div>
       </div>
       <div class="status-overview">
         <h2 class="status-title">Status Overview</h2>
@@ -354,7 +361,7 @@
             <div class="admin-field-label">AUTHENTICATION ROLE</div>
             <div class="admin-select-wrap">
               <i class="fa-solid fa-lock admin-select-icon"></i>
-              <select class="admin-role-select" id="adminRole" onchange="updateAdminPlaceholder()">
+              <select class="admin-role-select" id="adminRole">
                 <option value="hospital">Hospital</option>
                 <option value="food">Food / NGO</option>
                 <option value="police">Police</option>
@@ -364,10 +371,10 @@
             </div>
           </div>
           <div>
-            <div class="admin-field-label">USER IDENTIFIER</div>
+            <div class="admin-field-label">EMAIL</div>
             <div class="admin-input-wrap">
-              <i class="fa-solid fa-fingerprint admin-input-icon"></i>
-              <input type="text" class="admin-input" id="adminUser" placeholder="admin.crisis.sync" autocomplete="off">
+              <i class="fa-solid fa-envelope admin-input-icon"></i>
+              <input type="email" class="admin-input" id="adminEmail" placeholder="institution@email.com" autocomplete="off">
             </div>
           </div>
           <div>
@@ -379,15 +386,16 @@
             </div>
           </div>
           <p class="admin-error" id="adminError"></p>
-          <button class="admin-login-btn" onclick="handleAdminLogin()">
+          <button class="admin-login-btn" onclick="handleAdminAuth('login')">
             <span id="adminBtnText">SECURE LOGIN</span>
             <i class="fa-solid fa-arrow-right" id="adminBtnIcon"></i>
             <span class="admin-btn-loader" id="adminBtnLoader" style="display:none;"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
           </button>
-        </div>
-        <div class="admin-footer-links">
-          <span class="admin-footer-link">FORGOT CLEARANCE?</span>
-          <span class="admin-footer-link">REQUEST ACCESS</span>
+          <div style="display:flex;justify-content:center;gap:12px;margin-top:14px;flex-wrap:wrap;">
+            <button class="admin-footer-link" onclick="switchAuthMode('signup')" style="background:none;border:none;color:#e03030;font-size:12px;font-weight:700;cursor:pointer;">SIGN UP</button>
+            <span class="admin-footer-link">FORGOT CLEARANCE?</span>
+            <span class="admin-footer-link">REQUEST ACCESS</span>
+          </div>
         </div>
         <div class="admin-version">V4.2</div>
         <div class="admin-proto-strip">
@@ -572,6 +580,8 @@
         <button class="adm-modal-close" onclick="closeAdmModal('modal-unit-deployment')">✕</button>
       </div>
       <div class="adm-modal-body">
+        <div class="adm-section-label">🚨 INCOMING SOS ALERTS</div>
+        <div id="sosAlertsList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
         <div class="adm-section-label">DEPLOYED UNITS</div>
         <div id="unitList"></div>
         <div class="adm-section-label" style="margin-top:18px;">DEPLOY NEW UNIT</div>
@@ -749,6 +759,20 @@
     </div>
   </div>
 
+  <!-- SOS ALERTS MODAL -->
+  <div class="adm-modal" id="modal-sos-alerts">
+    <div class="adm-modal-inner">
+      <div class="adm-modal-topbar">
+        <div class="adm-modal-title"><i class="fa-solid fa-triangle-exclamation"></i> INCOMING SOS ALERTS</div>
+        <button class="adm-modal-close" onclick="closeAdmModal('modal-sos-alerts')">✕</button>
+      </div>
+      <div class="adm-modal-body">
+        <div class="adm-section-label">EMERGENCY ALERTS FROM VICTIMS</div>
+        <div id="sosAlertsList" style="max-height:500px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase Compat SDK (must load before firebase-config.js) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -758,5 +782,81 @@
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
   <script src="admin-modals.js"></script>
+  <script src="agent.js"></script>
+
+<!-- ================================================== -->
+<!--  STEP 2 — Copy this ENTIRE block into index.html   -->
+<!--  Paste it just BEFORE the closing </body> tag      -->
+<!--  (after the existing admin overlay div)            -->
+<!-- ================================================== -->
+
+<!-- ── AI CRISIS AGENT FAB BUTTON ── -->
+<button class="agent-fab-btn" onclick="openAgentModal()" title="AI Crisis Agent">
+  <span class="agent-fab-icon">🤖</span>
+  <span class="agent-fab-label">AI Agent</span>
+</button>
+
+<!-- ── AI CRISIS AGENT MODAL ── -->
+<div class="agent-overlay" id="agentOverlay">
+  <div class="agent-modal-box">
+
+    <div class="agent-modal-header">
+      <div class="agent-header-left">
+        <div class="agent-brain-icon">🤖</div>
+        <div>
+          <div class="agent-modal-title">AI CRISIS AGENT</div>
+          <div class="agent-modal-sub">
+            <span class="agent-live-dot"></span>
+            GEMINI POWERED · LIVE ANALYSIS
+          </div>
+        </div>
+      </div>
+      <button class="agent-close-btn" onclick="closeAgentModal()">✕</button>
+    </div>
+
+    <!-- Context strip (auto-populated from your app data) -->
+    <div class="agent-context-strip" id="agentContextStrip">
+      <span class="agent-ctx-item" id="agentCtxLocation">📍 Detecting...</span>
+      <span class="agent-ctx-item" id="agentCtxWeather">🌤 Loading...</span>
+      <span class="agent-ctx-item" id="agentCtxThreat">🛡 Assessing...</span>
+    </div>
+
+    <!-- Chat messages area -->
+    <div class="agent-chat-wrap" id="agentChatWrap">
+      <div class="agent-welcome-msg">
+        <div class="agent-welcome-icon">🌐</div>
+        <div class="agent-welcome-text">
+          I'm your AI Crisis Agent. Tell me your emergency or ask about nearby hospitals,
+          shelters, police, or food aid — I'll find the best help for you right now.
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick prompt buttons -->
+    <div class="agent-quick-prompts" id="agentQuickPrompts">
+      <button class="agent-quick-btn" onclick="agentQuickSend('Find nearest hospital with available beds')">🏥 Nearest hospital</button>
+      <button class="agent-quick-btn" onclick="agentQuickSend('Where is the nearest flood shelter?')">🏠 Flood shelter</button>
+      <button class="agent-quick-btn" onclick="agentQuickSend('I need food and water supplies urgently')">🥗 Food & water</button>
+      <button class="agent-quick-btn" onclick="agentQuickSend('There is a crime happening near me, I need police')">🚔 Police help</button>
+    </div>
+
+    <!-- SOS Dispatch Confirmation Card -->
+    <div id="dispatchConfirmCard" style="display:none;padding:12px;margin:0 12px 12px 12px;"></div>
+
+    <!-- Input row -->
+    <div class="agent-input-row">
+      <button class="agent-mic-btn" id="agentMicBtn" onclick="agentStartMic()" title="Speak">🎙</button>
+      <input
+        type="text"
+        class="agent-text-input"
+        id="agentTextInput"
+        placeholder="Describe your emergency..."
+        onkeydown="if(event.key==='Enter') agentSendMessage()"
+      >
+      <button class="agent-send-btn" onclick="agentSendMessage()">➤</button>
+    </div>
+
+  </div>    
+</div>
 </body>
 </html>
