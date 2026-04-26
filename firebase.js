@@ -322,7 +322,9 @@ const firebaseConfig = {
           const active = units.filter(u => u.status==='active'||u.status==='on-call');
           out.push({
             id: d.id, name: info.name||'Police Station',
-            sub: info.sub||'Emergency Response', dist: info.dist||0,
+            sub: info.sub||'Emergency Response',
+            address: info.address || info.loc || '--',
+            dist: info.dist||0,
             units: active.length, status: info.status||'active',
             phone: info.phone||'tel:100',
           });
