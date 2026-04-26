@@ -515,6 +515,8 @@
     showAdminDashboard(role);
   }
 
+  window.switchAuthMode = switchAuthMode;
+  window.handleAdminAuth = handleAdminAuth;
   window.handleAdminLogin = function() { handleAdminAuth('login'); };
 
   function toggleAdminPass(btn) {
@@ -522,6 +524,7 @@
     input.type = input.type === 'password' ? 'text' : 'password';
     btn.querySelector('i').className = input.type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
   }
+  window.toggleAdminPass = toggleAdminPass;
 
   // ══════════════════════════════════════════════════════════════
   //  DASHBOARD
@@ -624,6 +627,7 @@
     document.getElementById('adminOverlay').classList.remove('open');
     localStorage.setItem('adminOverlayOpen', 'false');
   }
+  window.closeAdminPortal = closeAdminPortal;
 
   // ══════════════════════════════════════════════════════════════
   //  H1 — BED MANAGEMENT
