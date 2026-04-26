@@ -1,23 +1,4 @@
-// ══════════════════════════════════════════════════════════════
-//  CRISISSYNC — firebase-config.js
-//
-//  ✏️  YOUR CONFIG IS ALREADY FILLED IN BELOW.
-//
-//  FIRESTORE RULES — paste this in Firebase Console →
-//  Firestore → Rules → Publish:
-//
-//  rules_version = '2';
-//  service cloud.firestore {
-//    match /databases/{database}/documents {
-//      match /{document=**} {
-//        allow read, write: if true;
-//      }
-//    }
-//  }
-//
-//  AUTH — Enable in Firebase Console →
-//  Authentication → Sign-in method → Email/Password → Enable
-// ══════════════════════════════════════════════════════════════
+
 
 const firebaseConfig = {
   apiKey:            "AIzaSyAZcnLi9D-sW7qjzdTpFv9q-Cgw_ORFoiQ",
@@ -161,9 +142,9 @@ const firebaseConfig = {
         let q = _col(colPath);
         if (field) { try { q = q.orderBy(field, dir||'asc'); } catch {} }
         const snap = await q.get();
-        return snap.docs.map(d => ({ id:d.id, ...d.data() }));
+        return snap.docs.map(d => ({ ...d.data(), id:d.id }));
       } catch {
-        try { return (await _col(colPath).get()).docs.map(d => ({ id:d.id, ...d.data() })); }
+        try { return (await _col(colPath).get()).docs.map(d => ({ ...d.data(), id:d.id })); }
         catch { return []; }
       }
     }
@@ -226,9 +207,9 @@ const firebaseConfig = {
     const getUnits             = ()      => myId() ? _list(`police/${myId()}/units`,    'createdAt', 'desc') : Promise.resolve([]);
     const addUnit              = u       => myId() ? _add(`police/${myId()}/units`, u)                        : Promise.resolve(null);
     const deleteUnit           = id      => _del(`police/${myId()}/units/${id}`);
-    const getIncidents         = ()      => myId() ? _list(`police/${myId()}/incidents`,'createdAt', 'desc') : Promise.resolve([]);
-    const addIncident          = i       => myId() ? _add(`police/${myId()}/incidents`, i)                    : Promise.resolve(null);
-    const updateIncidentStatus = (id,st) => myId() ? _update(`police/${myId()}/incidents/${id}`, { status:st }) : Promise.resolve(false);
+    const getIncidents         = ()      => _list('incidents','createdAt', 'desc');
+    const addIncident          = i       => _add('incidents', i);
+    const updateIncidentStatus = (id,st) => _update(`incidents/${id}`, { status:st });
     const getZones             = ()      => myId() ? _list(`police/${myId()}/zones`,    'createdAt') : Promise.resolve([]);
     const addZone              = z       => myId() ? _add(`police/${myId()}/zones`, z)                : Promise.resolve(null);
     const updateZone           = (id, d) => myId() ? _update(`police/${myId()}/zones/${id}`, d)      : Promise.resolve(false);
