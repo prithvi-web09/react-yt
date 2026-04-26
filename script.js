@@ -616,6 +616,10 @@ const policeData = [
   { name: 'Central Command Unit',   sub: 'Emergency Response • City Center',      address: '1 Command Center, City Core',    dist: 4.1, units: 12, status: 'active',  phone: 'tel:100' },
 ];
 
+function getPoliceData() {
+  return Array.isArray(window._livePolice) && window._livePolice.length ? window._livePolice : policeData;
+}
+
 function openPoliceModal() {
   document.getElementById('policeModal').classList.add('open');
   filterPolice('nearest', document.querySelector('.police-tab'));
@@ -684,6 +688,33 @@ function renderPolice(list) {
     </div>`;
   }).join('');
 }
+
+async function loadPublicInstitutionData() {
+  if (!window.FB) return;
+
+  try {
+    const [hospitals, police, shelters, food] = await Promise.all([
+      typeof window.FB.getAllHospitals === 'function' ? window.FB.getAllHospitals() : Promise.resolve([]),
+      typeof window.FB.getAllPolice === 'function' ? window.FB.getAllPolice() : Promise.resolve([]),
+      typeof window.FB.getAllShelters === 'function' ? window.FB.getAllShelters() : Promise.resolve([]),
+      typeof window.FB.getAllFoodPoints === 'function' ? window.FB.getAllFoodPoints() : Promise.resolve([])
+    ]);
+
+    if (Array.isArray(hospitals) && hospitals.length) window._liveHospitals = hospitals;
+    if (Array.isArray(police) && police.length) window._livePolice = police;
+    if (Array.isArray(shelters) && shelters.length) window._liveShelters = shelters;
+    if (Array.isArray(food) && food.length) window._liveFoodData = food;
+
+    updateNearestResources();
+  } catch (error) {
+    console.warn('loadPublicInstitutionData', error.message);
+  }
+}
+
+document.addEventListener('fbReady', loadPublicInstitutionData);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window._fbReady && window.FB) loadPublicInstitutionData();
+});
 
 // ── HOSPITAL MODAL ──
 
