@@ -1,9 +1,16 @@
 // ── LOCATION DETECTION ──
 
+function buildPreciseLocationText(latitude, longitude, displayName) {
+  const coordsText = `${Number(latitude).toFixed(6)}, ${Number(longitude).toFixed(6)}`;
+  if (displayName) return `${displayName} | GPS: ${coordsText}`;
+  return `GPS: ${coordsText}`;
+}
+
 function detectLocation() {
   const locationEl = document.getElementById('userLocation');
   if (!navigator.geolocation) {
     locationEl.textContent = 'Location unavailable';
+    updateNearestResources();
     return;
   }
 
@@ -21,15 +28,22 @@ function detectLocation() {
 
       window._userLat = latitude;
       window._userLon = longitude;
+      window._userExactLocation = buildPreciseLocationText(latitude, longitude, data.display_name || area);
 
       locationEl.textContent = `· ${area}`;
       generateInsight(area, latitude, longitude);
+      updateNearestResources();
     } catch {
+      window._userLat = latitude;
+      window._userLon = longitude;
+      window._userExactLocation = buildPreciseLocationText(latitude, longitude, '');
       locationEl.textContent = '· Location found';
       generateInsight('your area', latitude, longitude);
+      updateNearestResources();
     }
   }, () => {
     locationEl.textContent = '· Permission denied';
+    updateNearestResources();
   });
 }
 
@@ -85,6 +99,144 @@ function getWeatherDescription(code) {
   if (code <= 86)               return 'Heavy snow showers';
   if (code <= 99)               return 'Thunderstorm active nearby';
   return 'Conditions unclear';
+}
+
+function parseDistance(dist) {
+  if (typeof dist === 'number') return dist;
+  if (!dist) return Infinity;
+
+  const normalized = dist.toString().toLowerCase().trim();
+  const match = normalized.match(/([\d.]+)\s*(km|kilometers|mi|miles|m)?/);
+  if (!match) return Infinity;
+
+  const value = parseFloat(match[1]);
+  const unit = match[2] || 'km';
+
+  if (unit === 'mi' || unit === 'miles') return value * 1.60934;
+  if (unit === 'm' && normalized.includes('miles') === false) return value / 1000;
+  return value;
+}
+
+function getNearestByDistance(list) {
+  return list.reduce((best, item) => {
+    if (!item) return best;
+    const current = parseDistance(item.dist);
+    const bestDist = best ? parseDistance(best.dist) : Infinity;
+    return current < bestDist ? item : best;
+  }, null);
+}
+
+function renderNearestSummary(containerId, label, item, noLocationText) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (!item) {
+    container.innerHTML = `
+      <div class="nearest-card-empty">
+        <div class="nearest-title">${label}</div>
+        <div class="nearest-message">${noLocationText}</div>
+      </div>`;
+    return;
+  }
+
+  const address = item.address || item.sub || item.location || item.dist || 'Unknown location';
+  const phone = item.phone || '#';
+  const distanceText = item.dist ? ` · ${item.dist}` : '';
+
+  container.innerHTML = `
+    <div class="nearest-card-top">
+      <div>
+        <div class="nearest-title">${label}</div>
+        <div class="nearest-name">${item.name}${distanceText}</div>
+      </div>
+      <a class="nearest-call-btn" href="${phone}"><i class="fa-solid fa-phone"></i></a>
+    </div>
+    <div class="nearest-desc">${address}</div>
+    <div class="nearest-footnote">Tap the call icon for fast contact.</div>`;
+}
+
+function getHospitalMapLink(name) {
+  const query = encodeURIComponent(`${name} hospital`);
+  const lat = window._userLat || 19.076;
+  const lon = window._userLon || 72.877;
+  return `https://www.google.com/maps/search/${query}/@${lat},${lon},14z`;
+}
+
+function selectVerifiedHospital(list) {
+  if (!Array.isArray(list) || !list.length) return null;
+
+  return list
+    .map(h => {
+      const availability = h.status === 'available' ? 1 : h.status === 'busy' ? 0.6 : 0.2;
+      const bedScore = Math.min((h.beds || 0) / 24, 1);
+      const waitScore = 1 - Math.min((h.waitTime || 0) / 60, 1);
+      const criticalScore = 1 - Math.min((h.critical || 0) / 20, 1);
+      const distanceScore = 1 - Math.min(parseDistance(h.dist) / 10, 1);
+      const score = availability * 3 + bedScore * 2 + waitScore + criticalScore + distanceScore;
+      return { hospital: h, score };
+    })
+    .sort((a, b) => b.score - a.score)[0]?.hospital || null;
+}
+
+function renderHospitalHighlightCards() {
+  const verified = selectVerifiedHospital(getHospitalData());
+  const nearest = getNearestByDistance(getHospitalData());
+  const verifiedContainer = document.getElementById('hospitalVerifiedCard');
+  const nearestContainer = document.getElementById('hospitalNearestCard');
+
+  if (verifiedContainer) {
+    if (!verified) {
+      verifiedContainer.innerHTML = `
+        <div class="hospital-highlight-card verified">
+          <div class="highlight-label">Verified Institution</div>
+          <div class="highlight-message">No verified hospital available.</div>
+        </div>`;
+    } else {
+      verifiedContainer.innerHTML = `
+        <div class="hospital-highlight-card verified">
+          <div class="highlight-label">AI-verified institution</div>
+          <div class="highlight-name">${verified.name}</div>
+          <div class="highlight-sub">${verified.address || `${verified.dist} away • ${verified.status}`}</div>
+          <div class="highlight-actions">
+            <a href="${getHospitalMapLink(verified.name)}" target="_blank" class="highlight-nav-btn"><i class="fa-solid fa-paper-plane"></i> Navigate</a>
+            <a href="${verified.phone}" class="highlight-phone-btn"><i class="fa-solid fa-phone"></i></a>
+          </div>
+        </div>`;
+    }
+  }
+
+  if (nearestContainer) {
+    if (!nearest) {
+      nearestContainer.innerHTML = `
+        <div class="hospital-highlight-card nearest">
+          <div class="highlight-label">Nearest Institution</div>
+          <div class="highlight-message">No nearby hospital found.</div>
+        </div>`;
+    } else {
+      nearestContainer.innerHTML = `
+        <div class="hospital-highlight-card nearest">
+          <div class="highlight-label">Nearest institution</div>
+          <div class="highlight-name">${nearest.name}</div>
+          <div class="highlight-sub">${nearest.address || `${nearest.dist} away`}</div>
+          <div class="highlight-actions">
+            <a href="${getHospitalMapLink(nearest.name)}" target="_blank" class="highlight-nav-btn"><i class="fa-solid fa-paper-plane"></i> Navigate</a>
+            <a href="${nearest.phone}" class="highlight-phone-btn"><i class="fa-solid fa-phone"></i></a>
+          </div>
+        </div>`;
+    }
+  }
+}
+
+function updateNearestResources() {
+  const hospital = getNearestByDistance(getHospitalData());
+  const police   = getNearestByDistance(getPoliceData());
+  const shelter  = getNearestByDistance(getShelterData());
+  const food     = getNearestByDistance(getFoodData());
+
+  renderHospitalHighlightCards();
+  renderNearestSummary('policeNearest', 'Nearest Police Station', police, 'Enable location or wait for permission to show closest police stations.');
+  renderNearestSummary('shelterNearest', 'Nearest Relief Center', shelter, 'Enable location or wait for permission to show closest relief centers.');
+  renderNearestSummary('foodNearest', 'Nearest Food / NGO Hub', food, 'Enable location or wait for permission to show closest supply hubs.');
 }
 
 detectLocation();
@@ -211,6 +363,7 @@ function getWarningsAndRecs(code, wind, temp, precip) {
 const foodData = [
   {
     name: 'Metro Food Bank',
+    address: '74 Greenway Avenue, Sector 8',
     dist: '0.8 miles',
     supply: '500+ Meal Kits Available',
     stock: 'high',
@@ -220,6 +373,7 @@ const foodData = [
   },
   {
     name: 'Clean Water Station',
+    address: '218 Harbour Road, Dockside',
     dist: '1.2 km',
     supply: '200L Water Packs · Purification Tablets',
     stock: 'high',
@@ -229,6 +383,7 @@ const foodData = [
   },
   {
     name: 'UNICEF Relief Hub',
+    address: '52 Riverfront Blvd, Zone 3',
     dist: '2.0 km',
     supply: 'Dry Rations · Baby Food · Medical Kits',
     stock: 'low',
@@ -238,6 +393,7 @@ const foodData = [
   },
   {
     name: 'Community Kitchen',
+    address: '19 Old Market Street, Downtown',
     dist: '2.5 km',
     supply: 'Hot Meals Served 3x Daily',
     stock: 'high',
@@ -247,6 +403,7 @@ const foodData = [
   },
   {
     name: 'Emergency Water Depot',
+    address: '312 Supply Lane, Uptown Sector',
     dist: '3.1 km',
     supply: 'Currently Out of Stock',
     stock: 'empty',
@@ -452,11 +609,11 @@ function renderShelters(list) {
 // ── POLICE MODAL ──
 
 const policeData = [
-  { name: 'District 7 Precinct',    sub: 'Primary Response Unit • West Sector',  dist: 0.8, units: 5,  status: 'active',  phone: 'tel:100' },
-  { name: 'Metro Security Hub',     sub: 'Central Intelligence & Operations',     dist: 1.5, units: 3,  status: 'alert',   phone: 'tel:100' },
-  { name: 'North Zone Police Post', sub: 'Community Patrol • North Sector',       dist: 2.3, units: 8,  status: 'active',  phone: 'tel:100' },
-  { name: 'East Border Outpost',    sub: 'Traffic & Border Control',              dist: 3.7, units: 0,  status: 'offline', phone: 'tel:100' },
-  { name: 'Central Command Unit',   sub: 'Emergency Response • City Center',      dist: 4.1, units: 12, status: 'active',  phone: 'tel:100' },
+  { name: 'District 7 Precinct',    sub: 'Primary Response Unit • West Sector',  address: '14 River Avenue, West Sector', dist: 0.8, units: 5,  status: 'active',  phone: 'tel:100' },
+  { name: 'Metro Security Hub',     sub: 'Central Intelligence & Operations',     address: '98 Central Plaza, Downtown',     dist: 1.5, units: 3,  status: 'alert',   phone: 'tel:100' },
+  { name: 'North Zone Police Post', sub: 'Community Patrol • North Sector',       address: '22 North Street, North Sector',   dist: 2.3, units: 8,  status: 'active',  phone: 'tel:100' },
+  { name: 'East Border Outpost',    sub: 'Traffic & Border Control',              address: '4 Border Road, East Gate',        dist: 3.7, units: 0,  status: 'offline', phone: 'tel:100' },
+  { name: 'Central Command Unit',   sub: 'Emergency Response • City Center',      address: '1 Command Center, City Core',    dist: 4.1, units: 12, status: 'active',  phone: 'tel:100' },
 ];
 
 function openPoliceModal() {
@@ -531,11 +688,11 @@ function renderPolice(list) {
 // ── HOSPITAL MODAL ──
 
 const hospitalData = [
-  { name: 'City Central Hospital',     dist: 1.2, beds: 14, waitTime: 12, critical: 3,  status: 'available', phone: 'tel:+911234567890' },
-  { name: 'St. Jude Medical',          dist: 2.8, beds: 6,  waitTime: 25, critical: 7,  status: 'busy',      phone: 'tel:+911234567891' },
-  { name: 'Apollo Emergency Care',     dist: 3.1, beds: 3,  waitTime: 40, critical: 12, status: 'busy',      phone: 'tel:+911234567892' },
-  { name: 'Sunrise District Hospital', dist: 4.5, beds: 0,  waitTime: 0,  critical: 0,  status: 'full',      phone: 'tel:+911234567893' },
-  { name: 'National Trauma Center',    dist: 5.0, beds: 31, waitTime: 8,  critical: 2,  status: 'available', phone: 'tel:+911234567894' },
+  { name: 'City Central Hospital',     address: '190 Main Street, Central District', dist: 1.2, beds: 14, waitTime: 12, critical: 3,  status: 'available', phone: 'tel:+911234567890' },
+  { name: 'St. Jude Medical',          address: '45 Chapel Road, North End',        dist: 2.8, beds: 6,  waitTime: 25, critical: 7,  status: 'busy',      phone: 'tel:+911234567891' },
+  { name: 'Apollo Emergency Care',     address: '78 Sunrise Boulevard, East Sector',dist: 3.1, beds: 3,  waitTime: 40, critical: 12, status: 'busy',      phone: 'tel:+911234567892' },
+  { name: 'Sunrise District Hospital', address: '22 Coastal Drive, South Sector',  dist: 4.5, beds: 0,  waitTime: 0,  critical: 0,  status: 'full',      phone: 'tel:+911234567893' },
+  { name: 'National Trauma Center',    address: '5 Trauma Plaza, City Core',        dist: 5.0, beds: 31, waitTime: 8,  critical: 2,  status: 'available', phone: 'tel:+911234567894' },
 ];
 
 function getHospitalData() {
@@ -546,7 +703,9 @@ let currentHospitals = [...hospitalData];
 
 function openHospitalModal() {
   document.getElementById('hospitalModal').classList.add('open');
-  filterHospitals('recommended', document.querySelector('.filter-tab.active') || document.querySelector('.filter-tab'));
+  updateNearestResources();
+  const nearestButton = document.querySelectorAll('#hospitalModal .filter-tab')[1] || document.querySelector('.filter-tab');
+  filterHospitals('nearest', nearestButton);
 }
 
 function closeHospitalModal() {
@@ -899,9 +1058,32 @@ function startMic() {
       transcriptBox.innerHTML = highlightKeywords(speech);
     }
 
-    const response = analyzeAndRespond(speechLower);
-    if (responseText) responseText.textContent = response;
-    if (oldStatus)    oldStatus.textContent = response;
+    const result = analyzeAndRespond(speechLower);
+    if (responseText) responseText.textContent = result.response;
+    if (oldStatus)    oldStatus.textContent = result.response;
+
+    if ((result.type === 'hospital' || result.type === 'police') && typeof openAgentModal === 'function') {
+      openAgentModal(false);
+
+      const immediateInstitution = typeof getFirebaseDispatchInstitution === 'function'
+        ? getFirebaseDispatchInstitution(result.type)
+        : null;
+      const nearestInstitution = immediateInstitution || (
+        result.type === 'hospital'
+          ? getNearestByDistance(getHospitalData())
+          : getNearestByDistance(getPoliceData())
+      );
+
+      if (nearestInstitution && typeof showDispatchConfirmation === 'function') {
+        showDispatchConfirmation(speech, speech, result.type, nearestInstitution);
+      }
+    }
+
+    // Send every SOS transcript to the AI agent for routing and dispatch.
+    if (typeof window.agentSendMessageFromText === 'function') {
+      openAgentModal(false); // Open the modal without auto-resending the same speech
+      window.agentSendMessageFromText(speech);
+    }
 
     fetchNearestPlace(speechLower);
   };
@@ -921,18 +1103,18 @@ function startMic() {
 
 function analyzeAndRespond(speech) {
   const rules = [
-    { keywords: ['accident', 'crash', 'injured', 'hurt', 'bleeding', 'ambulance'], response: '🚑 Calling nearest hospital...' },
-    { keywords: ['fire', 'burning', 'smoke', 'flames'],                            response: '🚒 Alerting fire department...' },
-    { keywords: ['attack', 'robbery', 'threat', 'gun', 'knife', 'police', 'thief'], response: '🚔 Alerting police...' },
-    { keywords: ['flood', 'water', 'drowning', 'rising'],                          response: '🆘 Contacting disaster relief...' },
-    { keywords: ['earthquake', 'building', 'collapse', 'trapped'],                 response: '🆘 Alerting rescue teams...' },
-    { keywords: ['help', 'emergency', 'sos'],                                      response: '📡 Broadcasting SOS signal...' },
+    { keywords: ['accident', 'crash', 'injured', 'hurt', 'bleeding', 'ambulance'], response: '🚑 Calling nearest hospital...', type: 'hospital' },
+    { keywords: ['fire', 'burning', 'smoke', 'flames'],                            response: '🚒 Alerting fire department...', type: 'fire' },
+    { keywords: ['attack', 'robbery', 'threat', 'gun', 'knife', 'police', 'thief'], response: '🚔 Alerting police...', type: 'police' },
+    { keywords: ['flood', 'water', 'drowning', 'rising'],                          response: '🆘 Contacting disaster relief...', type: 'disaster' },
+    { keywords: ['earthquake', 'building', 'collapse', 'trapped'],                 response: '🆘 Alerting rescue teams...', type: 'rescue' },
+    { keywords: ['help', 'emergency', 'sos'],                                      response: '📡 Broadcasting SOS signal...', type: 'general' },
   ];
 
   for (const rule of rules) {
-    if (rule.keywords.some(k => speech.includes(k))) return rule.response;
+    if (rule.keywords.some(k => speech.includes(k))) return { response: rule.response, type: rule.type };
   }
-  return '📡 Emergency signal sent. Stay calm.';
+  return { response: '📡 Emergency signal sent. Stay calm.', type: 'general' };
 }
 
 
@@ -940,15 +1122,7 @@ function analyzeAndRespond(speech) {
 //  ADMIN NEXUS PORTAL  — NEW CODE
 // ═══════════════════════════════════════════════════════
 
-// ── Credentials (simple hardcoded for now) ──
-const ADMIN_CREDENTIALS = {
-  hospital: { user: 'admin.hospital',  pass: 'hosp@2024' },
-  food:     { user: 'admin.food',      pass: 'food@2024' },
-  police:   { user: 'admin.police',    pass: 'police@2024' },
-  shelter:  { user: 'admin.shelter',   pass: 'shelter@2024' },
-};
-
-// Role display config
+// ── Role display config ──
 const ROLE_CONFIG = {
   hospital: { label: 'Hospital Admin',  icon: 'fa-briefcase-medical', color: '#4ade80', stats: [{ val: '14', lbl: 'BEDS FREE', icon: 'fa-bed', bg: '#0d2b1a' }, { val: '3',  lbl: 'CRITICAL', icon: 'fa-heart-pulse', bg: '#2b1a1a' }, { val: '12', lbl: 'WAIT (MIN)', icon: 'fa-clock', bg: '#2b2200' }, { val: '5',  lbl: 'DOCTORS ON', icon: 'fa-user-doctor', bg: '#1a1f2e' }] },
   food:     { label: 'Food/NGO Admin',  icon: 'fa-hand-holding-heart', color: '#facc15', stats: [{ val: '500+', lbl: 'MEAL KITS', icon: 'fa-box-open', bg: '#2a1f00' }, { val: '3',  lbl: 'STATIONS', icon: 'fa-location-dot', bg: '#0d2b1a' }, { val: '200L', lbl: 'WATER AVAIL', icon: 'fa-droplet', bg: '#1a1f2e' }, { val: '2',  lbl: 'LOW STOCK', icon: 'fa-triangle-exclamation', bg: '#2b1a1a' }] },
@@ -970,21 +1144,20 @@ async function openAdminPortal() {
   }
 
   // Reset to login view
-  const loginForm = document.getElementById('adminLoginForm');
+  if (typeof switchAuthMode === 'function') {
+    switchAuthMode('login');
+  }
   const dashboard = document.getElementById('adminDashboard');
-  if (loginForm)   loginForm.style.display = 'flex';
-  if (dashboard)   dashboard.classList.remove('open');
+  if (dashboard) dashboard.classList.remove('open');
 
-  document.getElementById('adminUser').value  = '';
+  const adminEmail = document.getElementById('adminEmail');
+  if (adminEmail) adminEmail.value = '';
   document.getElementById('adminPass').value  = '';
   document.getElementById('adminError').textContent = '';
   document.getElementById('adminBtnText').textContent = 'SECURE LOGIN';
   document.getElementById('adminBtnIcon').style.display = '';
   document.getElementById('adminBtnLoader').style.display = 'none';
   document.querySelector('.admin-login-btn').disabled = false;
-
-  // Update placeholder on load
-  updateAdminPlaceholder();
 }
 
 function closeAdminPortal() {
@@ -993,14 +1166,6 @@ function closeAdminPortal() {
 }
 
 // ── Update placeholder based on selected role ──
-function updateAdminPlaceholder() {
-  const role = document.getElementById('adminRole').value;
-  const cred = ADMIN_CREDENTIALS[role];
-  if (cred) {
-    document.getElementById('adminUser').placeholder = cred.user;
-  }
-}
-
 // ── Toggle password visibility ──
 function toggleAdminPass(btn) {
   const input = document.getElementById('adminPass');
@@ -1012,41 +1177,6 @@ function toggleAdminPass(btn) {
     input.type = 'password';
     icon.className = 'fa-solid fa-eye';
   }
-}
-
-// ── Handle login ──
-async function handleAdminLogin() {
-  const role = document.getElementById('adminRole').value;
-  const user = document.getElementById('adminUser').value.trim();
-  const pass = document.getElementById('adminPass').value.trim();
-  const errEl = document.getElementById('adminError');
-  const btn   = document.querySelector('.admin-login-btn');
-  const btnTxt  = document.getElementById('adminBtnText');
-  const btnIcon = document.getElementById('adminBtnIcon');
-  const btnLoader = document.getElementById('adminBtnLoader');
-
-  errEl.textContent = '';
-
-  if (!user || !pass) {
-    errEl.textContent = '⚠ CREDENTIALS REQUIRED';
-    shakeLoginBtn();
-    return;
-  }
-
-  const cred = ADMIN_CREDENTIALS[role];
-  if (user !== cred.user || pass !== cred.pass) {
-    errEl.textContent = '✕ ACCESS DENIED — INVALID CREDENTIALS';
-    shakeLoginBtn();
-    document.getElementById('adminPass').value = '';
-    return;
-  }
-
-  localStorage.setItem('adminLoggedIn', 'true');
-  localStorage.setItem('adminRole', role);
-  localStorage.setItem('adminOverlayOpen', 'true');
-
-  // Show dashboard immediately — no artificial delay
-  await showAdminDashboard(role);
 }
 
 function shakeLoginBtn() {
@@ -1185,7 +1315,8 @@ function adminLogout() {
   localStorage.removeItem('adminRole');
   localStorage.removeItem('adminOverlayOpen');
 
-  document.getElementById('adminUser').value = '';
+  const adminEmail = document.getElementById('adminEmail');
+  if (adminEmail) adminEmail.value = '';
   document.getElementById('adminPass').value = '';
   document.getElementById('adminError').textContent = '';
 }
